@@ -1,0 +1,12 @@
+.div-img{
+    height: 150vh;
+    padding-top: 80px;
+   /* clip-path: polygon(100% 0%, 75% 50%, 75% 50%, 50% 100%, 0 100%, 0 1%);*/
+}
+
+@media(max-width:768px){
+    .div-img{
+        display: none;
+        background-color: red;
+    }
+}
