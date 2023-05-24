@@ -15,5 +15,6 @@ namespace ApiRest.Data
 
 
         public DbSet<Nutricionista> Nutricionistas => Set<Nutricionista>();
+        public DbSet<Cliente> Clientes => Set<Cliente>();
     }
 }

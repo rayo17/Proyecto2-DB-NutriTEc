@@ -3,6 +3,7 @@ using System;
 using ApiRest.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApiRest.Migrations
 {
     [DbContext(typeof(NutriTecDB))]
-    partial class NutriTecDBModelSnapshot : ModelSnapshot
+    [Migration("20230524071145_secondmigration")]
+    partial class secondmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,65 +24,6 @@ namespace ApiRest.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("ApiRest.Models.Cliente", b =>
-                {
-                    b.Property<string>("correo")
-                        .HasColumnType("text");
-
-                    b.Property<string>("apellido1")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("apellido2")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("caderas")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("cintura")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("consumo_diario_c")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("contrasena")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("cuello")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("edad")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("fecha_medicion")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("fecha_nacimiento")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("imc")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("nombre")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("peso")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("pgrasa")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("pmuslos")
-                        .HasColumnType("integer");
-
-                    b.HasKey("correo");
-
-                    b.ToTable("Clientes");
-                });
 
             modelBuilder.Entity("ApiRest.Models.Nutricionista", b =>
                 {
