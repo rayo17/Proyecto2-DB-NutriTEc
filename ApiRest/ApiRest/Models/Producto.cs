@@ -24,5 +24,6 @@ namespace ApiRest.Models
         [MaxLength(150)]
         public string vitaminas { get; set; }
         public int carbohidratos { get; set; }
+        public ICollection<EstadoProducto> EstadosProducto { get; set; }
     }
 }

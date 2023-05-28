@@ -8,14 +8,21 @@ namespace ApiRest.Models
     {
         [Column(TypeName = "varchar")]
         [MaxLength(50)]
+        [ForeignKey("Nutricionista")]
         public string id_nutricionista { get; set; }
-        public int cod_barras_nutri { get; set; }
+        
         [Key]
         [Column(TypeName = "varchar")]
         [MaxLength(50)]
+        [ForeignKey("Cliente")]
         public string correo_cliente { get; set; }
         public DateTime fecha_i { get; set; }
         public DateTime fecha_f { get; set; }
-
+        
+        
+        
+        public Cliente Cliente { get; set; }
+        
+        public Nutricionista Nutricionista { get; set; }
     }
 }

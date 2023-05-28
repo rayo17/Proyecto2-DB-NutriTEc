@@ -18,6 +18,11 @@ namespace ApiRest.Models
         public string correo { get; set; }
         public int imc { get; set; }
         public int peso { get; set; }
-    
+
+        public ICollection<TipoCobro> TipoCobros { get; set; }  // Propiedad de navegación
+        public ICollection<Cobro> Cobros { get; set; }  // Propiedad de navegación
+        public ICollection<nutricionista_asigna_cliente> NutricionistasAsignados { get; set; }
     }
+
 }
+

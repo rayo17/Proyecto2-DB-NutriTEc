@@ -21,5 +21,8 @@ namespace ApiRest.Models
         public int pgrasa { get; set; }
         public int consumo_diario_c { get; set;}
         public DateTime fecha_medicion { get; set; }
+
+        public ICollection<Consumo> Consumos { get; set; }
+        public ICollection<nutricionista_asigna_cliente> NutricionistasAsignados { get; set; }
     }
 }

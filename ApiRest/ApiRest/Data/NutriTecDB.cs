@@ -24,5 +24,69 @@ namespace ApiRest.Data
         public DbSet<Plan> Planes => Set<Plan>();
         public DbSet<Producto> Productos => Set<Producto>();
         public DbSet<TipoCobro> TipoCobros => Set<TipoCobro>();
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TipoCobro>()
+                .HasKey(tc => new { tc.cedula});
+
+            modelBuilder.Entity<TipoCobro>()
+                .HasOne(tc => tc.Nutricionista)
+                .WithMany()
+                .HasForeignKey(tc => new { tc.cedula})
+                .HasPrincipalKey(n => new { n.cedula})
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Cobro>()
+                .HasKey(c => new { c.id_nutri});
+
+            modelBuilder.Entity<Cobro>()
+                .HasOne(c => c.Nutricionista)
+                .WithMany(n => n.Cobros)
+                .HasForeignKey(c => new { c.id_nutri})
+                .HasPrincipalKey(n => new { n.cedula})
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Consumo>()
+                .HasKey(c => c.correo_cliente);
+
+            modelBuilder.Entity<Consumo>()
+                .HasOne(c => c.Cliente)
+                .WithMany(c => c.Consumos)
+                .HasForeignKey(c => c.correo_cliente)
+                .HasPrincipalKey(c => c.correo)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EstadoProducto>()
+                .HasKey(ep => ep.codigo_barra);
+
+            modelBuilder.Entity<EstadoProducto>()
+                .HasOne(ep => ep.Producto)
+                .WithMany()
+                .HasForeignKey(ep => ep.codigo_barra)
+                .HasPrincipalKey(p => p.codigo_barra)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<nutricionista_asigna_cliente>()
+                .HasKey(nac => new { nac.id_nutricionista, nac.correo_cliente });
+
+            modelBuilder.Entity<nutricionista_asigna_cliente>()
+                .HasOne(nac => nac.Cliente)
+                .WithMany()
+                .HasForeignKey(nac => nac.correo_cliente)
+                .HasPrincipalKey(c => c.correo)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<nutricionista_asigna_cliente>()
+                .HasOne(nac => nac.Nutricionista)
+                .WithMany()
+                .HasForeignKey(nac => new { nac.id_nutricionista})
+                .HasPrincipalKey(n => new { n.cedula})
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Resto de configuraciones y definiciones de entidades
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

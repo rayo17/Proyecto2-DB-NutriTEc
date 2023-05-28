@@ -28,5 +28,8 @@ namespace ApiRest.Models
         [MaxLength(255)]
         public string cena { get; set; }
 
+        [ForeignKey("correo_cliente")]
+        public Cliente Cliente { get; set; }
+
     }
 }

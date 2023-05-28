@@ -8,10 +8,13 @@ namespace ApiRest.Models
         [Key]
         [Column(TypeName = "varchar")]
         [MaxLength(20)]
+        [ForeignKey("Nutricionista")]
         public string cedula { get; set; }
-        public int cod_barras_nutri { get; set; }
+        
         [Column(TypeName = "varchar")]
         [MaxLength(100)]
         public string tipo_cobro { get; set; }
+
+        public Nutricionista Nutricionista { get; set; }
     }
 }
