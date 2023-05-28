@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Registro(){
+function RegistroClient(){
     return(
         <div>
 
@@ -81,4 +81,4 @@ function Registro(){
     )
 }
 
-export default Registro;
+export default RegistroClient;

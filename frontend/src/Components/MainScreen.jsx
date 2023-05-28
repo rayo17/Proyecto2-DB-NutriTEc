@@ -1,21 +1,51 @@
 import React from 'react';
 import BarraNav from './Barra';
-import imagenPortada from './assets/imagenPortada.jpg'
 import '../styleCss/MainScreen.css'
+import imagenI from './assets/imageninfo.jpg'
+import CardP from './Vista_Cliente/Card';
+import imagenI2 from './assets/imageninfo2.jpg'
 
 function MainScreen(){
     return(
-        <div>
+        <div className='div-MainScreen'>
             <header>
-                <BarraNav/>    
+            <BarraNav/>
             </header>
+            
             <div className='div-img'>
-                <img src={imagenPortada} alt='imagen' width={'100%'} height={'50%'}></img>
+                <div>
+                  <h2 className='titulo'>Construye tu cuerpo con una sana dieta, alimentacion y trabajo</h2>
+                </div>
             </div>
-            <div className='H'>
-                FJAOSDFJSFOWOFWOEFWEFOWJEFOJWEFWE
-                <h1>NUTRITEC</h1>
+           <section className='info'>
+
+            <div>
+                <div class="titulo-central">
+                    BETTER RESULTS IN LESS TIME
+                </div>
+        
             </div>
+            <div className='Cards'>
+
+               <div className='card-hijo'>    
+                  <CardP imagen={imagenI}/>
+               </div>
+               <div className='card-hijo'>
+                    <CardP imagen={imagenI2}/>
+               </div>
+               <div className='card-hijo'>
+                    <CardP imagen={imagenI}/> 
+               </div>
+            </div>
+             
+           </section>
+          <footer className='footer-icon'>
+                   <i class="fa-brands fa-instagram"></i>
+                   <i class="fa-brands fa-facebook facebook"></i>
+                   <i class="fa-brands fa-twitter"></i>
+
+          </footer>
+       
         </div>
     )
 }

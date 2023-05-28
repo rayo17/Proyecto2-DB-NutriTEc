@@ -15,11 +15,11 @@ function BarraNav(){
                 <h2><a href='/'>Menu</a><span>NutriTEc</span> </h2>
                 <ul className={`ul-nav-div ${click? 'active': ""}`}>
                     <li> <a href="/Administrador"> Administrador</a></li>
-                    <li><a href="/Nutricionista">Nutricionista</a></li>
+                    <li><a href="/LogNutri">Nutricionista</a></li>
                     <li><a href="/cliente">Usuario</a></li>
                 </ul>
                 <div className='button-bar'>
-                    <Buttonbar clicked={click} handlerClick={handlerClick} />
+|                    <Buttonbar clicked={click} handlerClick={handlerClick} />
                 </div>
                 <div className={`inicio ${click? 'inicio_active ':''}` }>
                 </div>
