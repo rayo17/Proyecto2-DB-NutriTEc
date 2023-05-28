@@ -3,6 +3,7 @@ using System;
 using ApiRest.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApiRest.Migrations
 {
     [DbContext(typeof(NutriTecDB))]
-    partial class NutriTecDBModelSnapshot : ModelSnapshot
+    [Migration("20230525164201_7thmigration")]
+    partial class _7thmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,24 +161,6 @@ namespace ApiRest.Migrations
                     b.ToTable("Consumos");
                 });
 
-            modelBuilder.Entity("ApiRest.Models.EstadoProducto", b =>
-                {
-                    b.Property<int>("codigo_barra")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("codigo_barra"));
-
-                    b.Property<string>("estado")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar");
-
-                    b.HasKey("codigo_barra");
-
-                    b.ToTable("EstadoProductos");
-                });
-
             modelBuilder.Entity("ApiRest.Models.Nutricionista", b =>
                 {
                     b.Property<string>("cedula")
@@ -225,138 +210,6 @@ namespace ApiRest.Migrations
                     b.HasKey("cedula");
 
                     b.ToTable("Nutricionistas");
-                });
-
-            modelBuilder.Entity("ApiRest.Models.Plan", b =>
-                {
-                    b.Property<string>("nombre_plan")
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar");
-
-                    b.Property<string>("almuerzo")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar");
-
-                    b.Property<string>("cena")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar");
-
-                    b.Property<string>("desayuno")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar");
-
-                    b.Property<string>("merienda_m")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar");
-
-                    b.Property<string>("merienda_t")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar");
-
-                    b.HasKey("nombre_plan");
-
-                    b.ToTable("Planes");
-                });
-
-            modelBuilder.Entity("ApiRest.Models.Producto", b =>
-                {
-                    b.Property<int>("codigo_barra")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("codigo_barra"));
-
-                    b.Property<int>("calcio")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("carbohidratos")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("descripcion")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar");
-
-                    b.Property<int>("energia")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("grasa")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("hierro")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("nombre")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar");
-
-                    b.Property<int>("proteina")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("sodio")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("taman_porcion")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("vitaminas")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar");
-
-                    b.HasKey("codigo_barra");
-
-                    b.ToTable("Productos");
-                });
-
-            modelBuilder.Entity("ApiRest.Models.TipoCobro", b =>
-                {
-                    b.Property<string>("cedula")
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar");
-
-                    b.Property<int>("cod_barras_nutri")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("tipo_cobro")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar");
-
-                    b.HasKey("cedula");
-
-                    b.ToTable("TipoCobros");
-                });
-
-            modelBuilder.Entity("ApiRest.Models.nutricionista_asigna_cliente", b =>
-                {
-                    b.Property<string>("correo_cliente")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar");
-
-                    b.Property<int>("cod_barras_nutri")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("fecha_f")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("fecha_i")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("id_nutricionista")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar");
-
-                    b.HasKey("correo_cliente");
-
-                    b.ToTable("nutricionista_asigna_clientes");
                 });
 #pragma warning restore 612, 618
         }
