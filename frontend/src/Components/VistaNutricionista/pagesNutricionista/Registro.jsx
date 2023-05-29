@@ -3,12 +3,10 @@ import axios from 'axios'
 import {useForm} from 'react-hook-form'
 import '../../../styleCss/Nutricionista/Registro.css'
 import BarraNav from '../../Barra'
-    
- 
+
 function VistaRegistro(){
     const {
         register,
-        errors,
         handleSubmit,
       } = useForm();
     const sendRegister= async (event)=>{
@@ -37,14 +35,13 @@ function VistaRegistro(){
             nombre:"",
             apellido1:"",
             apellido2:"",
-            codeNutri:"",
-            edad:"",
+            codeNutri:0,
+            edad:0,
             fecha:"",
-            peso:"",
-            imc:"",
+            peso:0,
+            imc:0,
             direccion:"",
             foto:"",
-            numero:"",
             tarejetaC:"",
             tipoCobro:"",
             correo:"",
@@ -109,19 +106,15 @@ function VistaRegistro(){
                
               
                 <label>Numero de tarjeta</label>
-                    <input type="number" name='numero' className="cedula-input" onChange={handlerData}/>
+                    <input type="number" name='tarjetaC' className="cedula-input" onChange={handlerData}/>
               
                 
-                <label>apellido2</label>
-                    <input type="text" name='tarjetaC' className="cedula-input" onChange={handlerData}/>
+                <label>Tipo de cobro</label>
+                    <input type="text" name='tipoCobro' className="cedula-input" onChange={handlerData}/>
              
-                <label>apellido2</label>
-                    <input type="select" name='tipoCobro' className="cedula-input" onChange={handlerData}/>
-                
-              
-                <label>apellido2</label>
-                    <input type="gmail" name='correo' className="cedula-input"  onchange={handlerData}/>
-              
+                   <label>Correo</label>
+                    <input type="gmail" name='correo' className="cedula-input"  onChange={handlerData}/>                
+             
                 <label>Password</label>
                     <input type="password" name='password' className="cedula-input"  onChange={handlerData}/>
 

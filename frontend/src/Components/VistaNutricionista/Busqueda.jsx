@@ -32,7 +32,6 @@ function Buscador(){
         {clientes.map((index)=>{
             <Client/>
         })}
-
    </div>
    
 

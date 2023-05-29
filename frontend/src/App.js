@@ -1,12 +1,12 @@
 import { Routes, Route, BrowserRouter as BR } from 'react-router-dom'
 import './App.css';
 import MainScreen from './Components/MainScreen';
-import Login from './Components/Vista_Cliente/Login';
+import Login from './Components/Vista_Cliente/pages/Login';
 import Producto from './Components/vistaPaciente/Productos';
 import LoginAdmin from './Components/Vista_Admin/pages/LogAdmin';
 import loginImg from './Components/assets/login.png'
 import VistaRegistro from './Components/VistaNutricionista/pagesNutricionista/Registro';
-import RegistroClient from './Components/Vista_Cliente/Registro';
+import RegistroClient from './Components/Vista_Cliente/pages/Registro';
 import AgregaClient from './Components/VistaNutricionista/pagesNutricionista/AgregaClient';
 
 function App() {

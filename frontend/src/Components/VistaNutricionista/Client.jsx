@@ -2,12 +2,11 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
-function Client({foto, nombre, apellido1, apellido2})
+function Client({nombre, apellido1, apellido2})
 {
 
   return (
     <Card style={{ width: '18rem' }}>
-       <Card.Img variant="top" src={foto} />
        <Card.Body>
         <ListGroup variant="flush">
         <ListGroup.Item>Nombre:{nombre}</ListGroup.Item>
