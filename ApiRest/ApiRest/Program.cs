@@ -62,6 +62,7 @@ app.MapPut("/Nutricionistas/{cedula:length(1,20)}", async (string cedula, Nutric
     nutricionista.contrasena = n.contrasena;
     nutricionista.imc = n.imc;
     nutricionista.peso = n.peso;
+    nutricionista.direccion = n.direccion;
 
     await db.SaveChangesAsync();
 
@@ -116,6 +117,7 @@ app.MapPut("/Clientes/{correo:length(1,20)}", async (string correo, Cliente c, N
     cliente.contrasena = c.contrasena;
     cliente.fecha_nacimiento = c.fecha_nacimiento;
     cliente.edad = c.edad;
+    cliente.paisresidencia = c.paisresidencia;
     cliente.peso = c.peso;
     cliente.imc = c.imc;
     cliente.cintura = c.cintura;

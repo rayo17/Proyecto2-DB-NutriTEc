@@ -1,17 +1,32 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiRest.Models
 {
     public class Cliente
     {
         [Key]
+        [Column(TypeName = "varchar")]
+        [MaxLength(100)]
         public string correo { get; set; }
+        [Column(TypeName = "varchar")]
+        [MaxLength(50)]
         public string nombre { get; set; }
+        [Column(TypeName = "varchar")]
+        [MaxLength(50)]
         public string apellido1 { get; set; }
+        [Column(TypeName = "varchar")]
+        [MaxLength(50)]
         public string apellido2 { get; set; }
+        [Column(TypeName = "varchar")]
+        [MaxLength(50)]
         public string contrasena { get; set; }
         public DateTime fecha_nacimiento { get; set; }
         public int edad { get; set; }
+        [Column(TypeName = "varchar")]
+        [MaxLength(50)]
+        public string paisresidencia { get; set; }
         public int peso { get; set; }
         public int imc { get; set; }
         public int cintura { get; set; }

@@ -3,6 +3,7 @@ using System;
 using ApiRest.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApiRest.Migrations
 {
     [DbContext(typeof(NutriTecDB))]
-    partial class NutriTecDBModelSnapshot : ModelSnapshot
+    [Migration("20230528212934_11thmigration")]
+    partial class _11thmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,13 +28,11 @@ namespace ApiRest.Migrations
             modelBuilder.Entity("ApiRest.Models.Administrador", b =>
                 {
                     b.Property<string>("correo")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar");
+                        .HasColumnType("text");
 
                     b.Property<string>("contrasena")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar");
+                        .HasColumnType("text");
 
                     b.HasKey("correo");
 
@@ -41,18 +42,15 @@ namespace ApiRest.Migrations
             modelBuilder.Entity("ApiRest.Models.Cliente", b =>
                 {
                     b.Property<string>("correo")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar");
+                        .HasColumnType("text");
 
                     b.Property<string>("apellido1")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar");
+                        .HasColumnType("text");
 
                     b.Property<string>("apellido2")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar");
+                        .HasColumnType("text");
 
                     b.Property<int>("caderas")
                         .HasColumnType("integer");
@@ -65,8 +63,7 @@ namespace ApiRest.Migrations
 
                     b.Property<string>("contrasena")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar");
+                        .HasColumnType("text");
 
                     b.Property<int>("cuello")
                         .HasColumnType("integer");
@@ -85,13 +82,7 @@ namespace ApiRest.Migrations
 
                     b.Property<string>("nombre")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar");
-
-                    b.Property<string>("paisresidencia")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar");
+                        .HasColumnType("text");
 
                     b.Property<int>("peso")
                         .HasColumnType("integer");
@@ -371,7 +362,7 @@ namespace ApiRest.Migrations
                         .HasColumnType("varchar");
 
                     b.Property<string>("Clientecorreo")
-                        .HasColumnType("varchar");
+                        .HasColumnType("text");
 
                     b.Property<string>("Nutricionistacedula")
                         .HasColumnType("varchar");
