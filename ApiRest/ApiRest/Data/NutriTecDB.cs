@@ -6,13 +6,16 @@ namespace ApiRest.Data
     public class NutriTecDB : DbContext
     {
 
+        private readonly IConfiguration configuration;
 
-        public NutriTecDB(DbContextOptions<NutriTecDB> options) : base(options) 
-        { 
-            
-
+        public NutriTecDB(DbContextOptions<NutriTecDB> options, IConfiguration configuration) : base(options)
+        {
+            this.configuration = configuration;
         }
-
+        public string GetApiBaseUrl()
+        {
+            return configuration["AppSettings:ApiBaseUrl"];
+        }
 
         public DbSet<Nutricionista> Nutricionistas => Set<Nutricionista>();
         public DbSet<Cliente> Clientes => Set<Cliente>();
@@ -87,6 +90,8 @@ namespace ApiRest.Data
             // Resto de configuraciones y definiciones de entidades
 
             base.OnModelCreating(modelBuilder);
+
+            
         }
     }
 }
