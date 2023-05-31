@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ApiRest.Models
 {
@@ -38,8 +39,11 @@ namespace ApiRest.Models
         [MaxLength(50)]
         public string direccion { get; set; }
 
+        [JsonIgnore]
         public ICollection<TipoCobro> TipoCobros { get; set; }  // Propiedad de navegación
+        [JsonIgnore]
         public ICollection<Cobro> Cobros { get; set; }  // Propiedad de navegación
+        [JsonIgnore]
         public ICollection<nutricionista_asigna_cliente> NutricionistasAsignados { get; set; }
     }
 

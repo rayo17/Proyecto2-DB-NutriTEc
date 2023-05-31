@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ApiRest.Models
 {
@@ -12,6 +13,7 @@ namespace ApiRest.Models
         [Column(TypeName = "varchar")]
         [MaxLength(50)]
         public string estado { get; set; }
+        [JsonIgnore]
         public Producto Producto { get; set; }
 
     }

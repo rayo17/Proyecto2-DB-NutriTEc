@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ApiRest.Models
 {
@@ -19,7 +20,8 @@ namespace ApiRest.Models
         public int monto_t { get; set; }
         
         public int descuento { get; set; }
-        
+
+        [JsonIgnore]
         public Nutricionista Nutricionista { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ApiRest.Models
 {
@@ -18,11 +19,11 @@ namespace ApiRest.Models
         public string correo_cliente { get; set; }
         public DateTime fecha_i { get; set; }
         public DateTime fecha_f { get; set; }
-        
-        
-        
+
+
+        [JsonIgnore]
         public Cliente Cliente { get; set; }
-        
+        [JsonIgnore]
         public Nutricionista Nutricionista { get; set; }
     }
 }

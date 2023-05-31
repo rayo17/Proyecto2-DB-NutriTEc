@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ApiRest.Models
 {
@@ -15,6 +16,8 @@ namespace ApiRest.Models
         [MaxLength(100)]
         public string tipo_cobro { get; set; }
 
+
+        [JsonIgnore]
         public Nutricionista Nutricionista { get; set; }
     }
 }

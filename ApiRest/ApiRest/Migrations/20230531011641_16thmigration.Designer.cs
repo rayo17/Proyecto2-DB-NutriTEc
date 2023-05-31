@@ -3,6 +3,7 @@ using System;
 using ApiRest.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApiRest.Migrations
 {
     [DbContext(typeof(NutriTecDB))]
-    partial class NutriTecDBModelSnapshot : ModelSnapshot
+    [Migration("20230531011641_16thmigration")]
+    partial class _16thmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,12 +175,17 @@ namespace ApiRest.Migrations
                     b.Property<int>("codigo_barra")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("Productocodigo_barra")
+                        .HasColumnType("integer");
+
                     b.Property<string>("estado")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar");
 
                     b.HasKey("codigo_barra");
+
+                    b.HasIndex("Productocodigo_barra");
 
                     b.ToTable("EstadoProductos");
                 });
@@ -340,12 +348,17 @@ namespace ApiRest.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("varchar");
 
+                    b.Property<string>("Nutricionistacedula")
+                        .HasColumnType("varchar");
+
                     b.Property<string>("tipo_cobro")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar");
 
                     b.HasKey("cedula");
+
+                    b.HasIndex("Nutricionistacedula");
 
                     b.ToTable("TipoCobros");
                 });
@@ -360,6 +373,12 @@ namespace ApiRest.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar");
 
+                    b.Property<string>("Clientecorreo")
+                        .HasColumnType("varchar");
+
+                    b.Property<string>("Nutricionistacedula")
+                        .HasColumnType("varchar");
+
                     b.Property<DateTime>("fecha_f")
                         .HasColumnType("timestamp with time zone");
 
@@ -367,6 +386,10 @@ namespace ApiRest.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("id_nutricionista", "correo_cliente");
+
+                    b.HasIndex("Clientecorreo");
+
+                    b.HasIndex("Nutricionistacedula");
 
                     b.HasIndex("correo_cliente");
 
@@ -376,9 +399,9 @@ namespace ApiRest.Migrations
             modelBuilder.Entity("ApiRest.Models.Cobro", b =>
                 {
                     b.HasOne("ApiRest.Models.Nutricionista", "Nutricionista")
-                        .WithMany()
+                        .WithMany("Cobros")
                         .HasForeignKey("id_nutri")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Nutricionista");
@@ -387,9 +410,9 @@ namespace ApiRest.Migrations
             modelBuilder.Entity("ApiRest.Models.Consumo", b =>
                 {
                     b.HasOne("ApiRest.Models.Cliente", "Cliente")
-                        .WithMany()
+                        .WithMany("Consumos")
                         .HasForeignKey("correo_cliente")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cliente");
@@ -397,6 +420,10 @@ namespace ApiRest.Migrations
 
             modelBuilder.Entity("ApiRest.Models.EstadoProducto", b =>
                 {
+                    b.HasOne("ApiRest.Models.Producto", null)
+                        .WithMany("EstadosProducto")
+                        .HasForeignKey("Productocodigo_barra");
+
                     b.HasOne("ApiRest.Models.Producto", "Producto")
                         .WithMany()
                         .HasForeignKey("codigo_barra")
@@ -408,6 +435,10 @@ namespace ApiRest.Migrations
 
             modelBuilder.Entity("ApiRest.Models.TipoCobro", b =>
                 {
+                    b.HasOne("ApiRest.Models.Nutricionista", null)
+                        .WithMany("TipoCobros")
+                        .HasForeignKey("Nutricionistacedula");
+
                     b.HasOne("ApiRest.Models.Nutricionista", "Nutricionista")
                         .WithMany()
                         .HasForeignKey("cedula")
@@ -419,6 +450,14 @@ namespace ApiRest.Migrations
 
             modelBuilder.Entity("ApiRest.Models.nutricionista_asigna_cliente", b =>
                 {
+                    b.HasOne("ApiRest.Models.Cliente", null)
+                        .WithMany("NutricionistasAsignados")
+                        .HasForeignKey("Clientecorreo");
+
+                    b.HasOne("ApiRest.Models.Nutricionista", null)
+                        .WithMany("NutricionistasAsignados")
+                        .HasForeignKey("Nutricionistacedula");
+
                     b.HasOne("ApiRest.Models.Cliente", "Cliente")
                         .WithMany()
                         .HasForeignKey("correo_cliente")
@@ -434,6 +473,27 @@ namespace ApiRest.Migrations
                     b.Navigation("Cliente");
 
                     b.Navigation("Nutricionista");
+                });
+
+            modelBuilder.Entity("ApiRest.Models.Cliente", b =>
+                {
+                    b.Navigation("Consumos");
+
+                    b.Navigation("NutricionistasAsignados");
+                });
+
+            modelBuilder.Entity("ApiRest.Models.Nutricionista", b =>
+                {
+                    b.Navigation("Cobros");
+
+                    b.Navigation("NutricionistasAsignados");
+
+                    b.Navigation("TipoCobros");
+                });
+
+            modelBuilder.Entity("ApiRest.Models.Producto", b =>
+                {
+                    b.Navigation("EstadosProducto");
                 });
 #pragma warning restore 612, 618
         }

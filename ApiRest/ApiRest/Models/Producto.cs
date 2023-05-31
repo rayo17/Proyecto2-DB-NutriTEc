@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ApiRest.Models
 {
@@ -24,6 +25,8 @@ namespace ApiRest.Models
         [MaxLength(150)]
         public string vitaminas { get; set; }
         public int carbohidratos { get; set; }
+
+        [JsonIgnore]
         public ICollection<EstadoProducto> EstadosProducto { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ApiRest.Models
 {
@@ -37,7 +38,10 @@ namespace ApiRest.Models
         public int consumo_diario_c { get; set;}
         public DateTime fecha_medicion { get; set; }
 
+
+        [JsonIgnore]
         public ICollection<Consumo> Consumos { get; set; }
+        [JsonIgnore]
         public ICollection<nutricionista_asigna_cliente> NutricionistasAsignados { get; set; }
     }
 }

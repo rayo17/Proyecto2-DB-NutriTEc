@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ApiRest.Models
 {
@@ -29,6 +30,7 @@ namespace ApiRest.Models
         public string cena { get; set; }
 
         [ForeignKey("correo_cliente")]
+        [JsonIgnore]
         public Cliente Cliente { get; set; }
 
     }

@@ -87,6 +87,25 @@ namespace ApiRest.Data
                 .HasPrincipalKey(n => new { n.cedula})
                 .OnDelete(DeleteBehavior.Restrict);
 
+            
+            modelBuilder.Entity<Nutricionista>()
+                .Ignore(n => n.TipoCobros);
+
+            modelBuilder.Entity<Nutricionista>()
+                .Ignore(n => n.Cobros);
+
+            modelBuilder.Entity<Nutricionista>()
+                .Ignore(n => n.NutricionistasAsignados);
+
+            modelBuilder.Entity<Cliente>()
+                .Ignore(n => n.Consumos);
+
+            modelBuilder.Entity<Cliente>()
+                .Ignore(n => n.NutricionistasAsignados);
+
+            modelBuilder.Entity<Producto>()
+                .Ignore(n => n.EstadosProducto);
+
             // Resto de configuraciones y definiciones de entidades
 
             base.OnModelCreating(modelBuilder);
