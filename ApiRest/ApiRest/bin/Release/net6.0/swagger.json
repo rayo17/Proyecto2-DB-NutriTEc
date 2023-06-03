@@ -1,0 +1,1456 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "version": "1.0"
+  },
+  "paths": {
+    "/Nutricionistas/": {
+      "post": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Nutricionista"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Nutricionista"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Nutricionistas/{cedula}": {
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Nutricionista"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Clientes/": {
+      "post": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Cliente"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Cliente"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Clientes/{correo}": {
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "correo",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "correo",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Cliente"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "correo",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Administradores/": {
+      "post": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Administrador"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Administrador"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Administradores/{correo}": {
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "correo",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "correo",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Administrador"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "correo",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Cobros/": {
+      "post": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Cobro"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Cobro"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Cobros/{id_nutri}": {
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id_nutri",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id_nutri",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Cobro"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id_nutri",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Consumos/": {
+      "post": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Consumo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Consumo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Consumos/{correo_cliente}": {
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "correo_cliente",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "correo_cliente",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Consumo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "correo_cliente",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/EstadoProductos/": {
+      "post": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EstadoProducto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EstadoProducto"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/EstadoProductos/{codigo_barra}": {
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "codigo_barra",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "codigo_barra",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EstadoProducto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "codigo_barra",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/nutricionista_asigna_clientes/": {
+      "post": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/nutricionista_asigna_cliente"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/nutricionista_asigna_cliente"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nutricionista_asigna_clientes/{correo_cliente}": {
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "correo_cliente",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "correo_cliente",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/nutricionista_asigna_cliente"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "correo_cliente",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Planes/": {
+      "post": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Plan"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Plan"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Planes/{nombre_plan}": {
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "nombre_plan",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "nombre_plan",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Plan"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "nombre_plan",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Productos/": {
+      "post": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Producto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Producto"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Productos/{codigo_barra}": {
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "codigo_barra",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "codigo_barra",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Producto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "codigo_barra",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/TipoCobros/": {
+      "post": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TipoCobro"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TipoCobro"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/TipoCobros/{cedula}": {
+      "get": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TipoCobro"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ApiRest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cedula",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Administrador": {
+      "type": "object",
+      "properties": {
+        "correo": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "contrasena": {
+          "maxLength": 50,
+          "type": "string"
+        }
+      }
+    },
+    "Cliente": {
+      "type": "object",
+      "properties": {
+        "correo": {
+          "maxLength": 100,
+          "type": "string"
+        },
+        "nombre": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "apellido1": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "apellido2": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "contrasena": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "fecha_nacimiento": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "edad": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "paisresidencia": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "peso": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "imc": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "cintura": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pmuslos": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "cuello": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "caderas": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pgrasa": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "consumo_diario_c": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "fecha_medicion": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "Cobro": {
+      "type": "object",
+      "properties": {
+        "id_nutri": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "plan": {
+          "type": "string"
+        },
+        "monto_t": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "descuento": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "Consumo": {
+      "type": "object",
+      "properties": {
+        "correo_cliente": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "fecha": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "desayuno": {
+          "maxLength": 255,
+          "type": "string"
+        },
+        "merienda_m": {
+          "maxLength": 255,
+          "type": "string"
+        },
+        "almuerzo": {
+          "maxLength": 255,
+          "type": "string"
+        },
+        "merienda_t": {
+          "maxLength": 255,
+          "type": "string"
+        },
+        "cena": {
+          "maxLength": 255,
+          "type": "string"
+        }
+      }
+    },
+    "EstadoProducto": {
+      "type": "object",
+      "properties": {
+        "codigo_barra": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "estado": {
+          "maxLength": 50,
+          "type": "string"
+        }
+      }
+    },
+    "Nutricionista": {
+      "type": "object",
+      "properties": {
+        "cedula": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "cod_barras": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombre": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "apellido1": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "apellido2": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "foto": {
+          "format": "byte",
+          "type": "string"
+        },
+        "num_tarj_credi": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "edad": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "fecha_nacimiento": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "contrasena": {
+          "maxLength": 100,
+          "type": "string"
+        },
+        "correo": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "imc": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "peso": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "direccion": {
+          "maxLength": 50,
+          "type": "string"
+        }
+      }
+    },
+    "nutricionista_asigna_cliente": {
+      "type": "object",
+      "properties": {
+        "id_nutricionista": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "correo_cliente": {
+          "maxLength": 50,
+          "type": "string"
+        },
+        "fecha_i": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "fecha_f": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "Plan": {
+      "type": "object",
+      "properties": {
+        "nombre_plan": {
+          "maxLength": 200,
+          "type": "string"
+        },
+        "desayuno": {
+          "maxLength": 255,
+          "type": "string"
+        },
+        "merienda_m": {
+          "maxLength": 255,
+          "type": "string"
+        },
+        "almuerzo": {
+          "maxLength": 255,
+          "type": "string"
+        },
+        "merienda_t": {
+          "maxLength": 255,
+          "type": "string"
+        },
+        "cena": {
+          "maxLength": 255,
+          "type": "string"
+        }
+      }
+    },
+    "Producto": {
+      "type": "object",
+      "properties": {
+        "codigo_barra": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nombre": {
+          "maxLength": 20,
+          "type": "string"
+        },
+        "grasa": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "taman_porcion": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "energia": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "descripcion": {
+          "maxLength": 200,
+          "type": "string"
+        },
+        "proteina": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "sodio": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "hierro": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "calcio": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "vitaminas": {
+          "maxLength": 150,
+          "type": "string"
+        },
+        "carbohidratos": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "TipoCobro": {
+      "type": "object",
+      "properties": {
+        "cedula": {
+          "maxLength": 20,
+          "type": "string"
+        },
+        "tipo_cobro": {
+          "maxLength": 100,
+          "type": "string"
+        }
+      }
+    }
+  }
+}
