@@ -3,12 +3,17 @@ import axios from 'axios'
 import {useForm} from 'react-hook-form'
 import '../../../styleCss/Nutricionista/Registro.css'
 import BarraNav from '../../Barra'
+import { useNavigate } from 'react-router-dom'
 
 function VistaRegistro(){
     const {
         register,
         handleSubmit,
       } = useForm();
+
+      const navigate=useNavigate()
+
+      
     const sendRegister= async (event)=>{
         event.preventDefault();
       
@@ -29,6 +34,8 @@ function VistaRegistro(){
             TipoCobro:datos.tipoCobro,
             Correo:datos.correo,
             Password:datos.password})
+           // navigate('/nutricionista/login')
+            
     }
     const dataInit={
             cedula:"",
@@ -110,7 +117,7 @@ function VistaRegistro(){
               
                 
                 <label>Tipo de cobro</label>
-                    <input type="text" name='tipoCobro' className="cedula-input" onChange={handlerData}/>
+                    <input type="select" name='tipoCobro' className="cedula-input" onChange={handlerData}/>
              
                    <label>Correo</label>
                     <input type="gmail" name='correo' className="cedula-input"  onChange={handlerData}/>                

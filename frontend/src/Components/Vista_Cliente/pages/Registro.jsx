@@ -8,23 +8,24 @@ function RegistroClient(){
         nombre:"",
         apellido1:"",
         apellido2:"",
-        edad:"",
+        edad:0,
         fecha:"",
-        peso:"",
-        imc:"",
+        peso:0,
+        imc:0,
         pais:"",
-        cuello:"",
-        cadera:"",
-        musculo:"",
-        grasa:"",
-        calorias:"",
-        pesoActual:"",
+        cuello:0,
+        cadera:0,
+        musculo:0,
+        grasa:0,
+        calorias:0,
+        pesoActual:0,
         correo:"",
         password:""
     }
-    const sendInformation=async()=>{
-        const url=""
-        const response=await axios.put(url,{
+    const sendInformation=async(event)=>{
+        event.preventDefault()
+        const url="http://localhost:5000/Clientes"
+        const response=await axios.post(url,{
             Nombre:data.nombre,
             Apellido1:data.apellido1,
             Apellido2:data.apellido2,
@@ -80,22 +81,22 @@ function RegistroClient(){
                     <input name='pais'  onChange={handlerData}/>
                 
                     <label htmlFor="" className="label-pesoActual">Peso Actual</label>                      
-                    <input type='text' name='pesoActual' onChange={handlerData}/>
+                    <input type='number' name='pesoActual' onChange={handlerData}/>
                     
                     <label htmlFor="" className="label-cuello">Medida de Cuello</label>
-                    <input type="text" name='cuello' onChange={handlerData}/>
+                    <input type="number" name='cuello' onChange={handlerData}/>
                      
                     <label htmlFor="" className="">Medida de Cadera</label>
-                    <input type="text" name='cadera' onChange={handlerData}/>
+                    <input type="number" name='cadera' onChange={handlerData}/>
                         
                     <label htmlFor="" className="label-grasa">%Grasa</label>
-                    <input type="text" name='grasa'onChange={handlerData}/>
+                    <input type="number" name='grasa'onChange={handlerData}/>
 
                     <label htmlFor="" className="label-grasa">%Musculo</label>
-                    <input type="text" name='musculo'onChange={handlerData}/>
+                    <input type="number" name='musculo'onChange={handlerData}/>
                         
                     <label htmlFor="" className="label-consum-diario">Consumo de Calorias</label>
-                    <input type="text" name='calorias' onChange={handlerData}/>
+                    <input type="number" name='calorias' onChange={handlerData}/>
                     
                     <label>Gmail</label>                    
                     <input type="gmail" name='correo' onChange={handlerData}/>

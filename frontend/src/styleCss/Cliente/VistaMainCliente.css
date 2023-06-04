@@ -1,0 +1,6 @@
+.VistaMainCliente{
+    display: grid;
+    grid-template-rows: repeat(2, 250px);
+    grid-template-columns: repeat(4,500px);
+    grid-row-gap: 150px;
+}

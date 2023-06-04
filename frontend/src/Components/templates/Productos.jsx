@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import '../../styleCss/Producto.css'
+import '../../styleCss/Templates/Producto.css'
+import { Button } from 'react-bootstrap'
 function Producto(){
     const dataInit={
       codigoB:"",
@@ -20,10 +21,11 @@ function Producto(){
     const handlerData=(event)=>{
       setData({...data,[event.target.name]:event.target.value})
     }
-    const sendInfo=async()=>{
+    const sendInfo=async(event)=>{
+      event.prevenDefault()
       const url=""
      const response= await axios.put(url,{
-
+    
       CodigoB:data.codigoB,
       Tamano:data.tamano,
       Energia:data.energia,
@@ -75,11 +77,13 @@ function Producto(){
               <input type='text' name='hierro' onChange={handlerData}/>
            
             <div className="boton-agregar">
-                <button className='boto-agregar' onClick={sendInfo}>Agregar</button>
+              <Button variant="success" onClick={sendInfo}>Añadir</Button>
             </div>
-
-
+            <div>
+             <Button variant="warning"> <a href="/nutricionista/productos">Atras</a></Button>
+          </div>
           </form>
+          
              
         </div>
     )

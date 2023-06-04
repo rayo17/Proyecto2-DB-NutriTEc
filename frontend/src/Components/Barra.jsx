@@ -14,8 +14,8 @@ function BarraNav(){
             <nav className='nav-div'>
                 <h2><a href='/'>Menu</a><span>NutriTEc</span> </h2>
                 <ul className={`ul-nav-div ${click? 'active': ""}`}>
-                    <li> <a href="/Administrador"> Administrador</a></li>
-                    <li><a href="/LogNutri">Nutricionista</a></li>
+                    <li> <a href="/administrador"> Administrador</a></li>
+                    <li><a href="/nutricionista">Nutricionista</a></li>
                     <li><a href="/cliente">Usuario</a></li>
                 </ul>
                 <div className='button-bar'>

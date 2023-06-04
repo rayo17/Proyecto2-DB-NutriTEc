@@ -6,7 +6,7 @@ import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
 function Buscador(){
 
    const [cliente,setcliente]=useState("")
-   const[clientes,setClientes]=useState([1,2,3])
+   const[clientes,setClientes]=useState([])
    useEffect(()=>{
     handlerClients()
    },[]) 
@@ -30,11 +30,9 @@ function Buscador(){
    </nav>
    <div className='clientes'>
         {clientes.map((index)=>{
-            <Client/>
+           return <Client/>
         })}
    </div>
-   
-
 
 
    </div>
