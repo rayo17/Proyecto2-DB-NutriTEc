@@ -37,12 +37,17 @@ namespace APIWEBAPP.Models
         [Column(TypeName = "varchar")]
         [MaxLength(50)]
         public string Contrasena { get; set; }
-       
+        [ForeignKey("Nutricionista")]
+        [Column(TypeName = "varchar")]
+        [MaxLength(12)]
+        public string NutricionistaID { get; set; }
 
 
 
 
         [JsonIgnore]
         public Cliente Cliente { get; set; }
+        [JsonIgnore]
+        public Nutricionista Nutricionista { get; set;}
     }
 }

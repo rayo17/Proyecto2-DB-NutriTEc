@@ -52,6 +52,12 @@ namespace APIWEBAPP.Data
                 .HasForeignKey(p => p.ClienteID)
                 .HasPrincipalKey(c => c.ID);
 
+            modelBuilder.Entity<Paciente>()
+                .HasOne(p => p.Nutricionista)
+                .WithMany()
+                .HasForeignKey(p => p.NutricionistaID)
+                .HasPrincipalKey(n => n.Cedula);
+
             modelBuilder.Entity<PlanAlimentacion>()
                 .HasOne(pa => pa.Nutricionista)
                 .WithMany()
@@ -126,6 +132,9 @@ namespace APIWEBAPP.Data
 
             modelBuilder.Entity<Nutricionista>()
                 .Ignore(n => n.Retroalimentaciones);
+
+            modelBuilder.Entity<Nutricionista>()
+                .Ignore(n => n.Pacientes);
 
             modelBuilder.Entity<Cliente>()
                 .Ignore(n => n.RegistrosDiarios);

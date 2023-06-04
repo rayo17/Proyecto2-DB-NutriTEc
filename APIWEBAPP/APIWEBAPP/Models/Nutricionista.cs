@@ -54,5 +54,7 @@ namespace APIWEBAPP.Models
         
         [JsonIgnore]
         public ICollection<Retroalimentacion> Retroalimentaciones { get; set; } // Propiedad de navegación
+        [JsonIgnore]
+        public ICollection<Paciente> Pacientes { get; set; } // Propiedad de navegación
     }
 }
