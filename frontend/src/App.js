@@ -18,6 +18,8 @@ import ProductApproval from './Components/Vista_Admin/pages/pages/ProductAccept'
 import RegistroDiarioDeConsumo from './Components/Vista_Cliente/pages/RegistroDiarioConsumo';
 import PlanGestionComponent from './Components/VistaNutricionista/Plan';
 import AsignacionPlan from './Components/VistaNutricionista/AsignarPlan';
+import VistaSecundariaNutri from './Components/VistaNutricionista/pagesNutricionista/VistaSecundariaNutri';
+import VistaSecundariaCliente from './Components/Vista_Cliente/pages/VistaSecundariaCliente';
 
 function App() {
   return (
@@ -35,6 +37,7 @@ function App() {
         <Route path='/cliente/receta' element={<Receta/>}/>
         <Route path='/cliente/consumo' element={<RegistroDiarioDeConsumo/>}/>
         <Route path='/cliente/productos' element={<GestionProducto/>}/>
+        <Route path='/cliente/vistasecundaria' element={<VistaSecundariaCliente/>}/>
         
 
 
@@ -55,6 +58,7 @@ function App() {
         <Route path='/nutricionista/listapaciente' element={<ListaPaciente/>}/>
         <Route path='/nutricionista/planes' element={<PlanGestionComponent/>}/>
         <Route path='/nutricionista/asignarplan' element={<AsignacionPlan/>}/>
+        <Route path='/nutricionista/vistasecundaria' element={<VistaSecundariaNutri/>}/>
    
        
        
