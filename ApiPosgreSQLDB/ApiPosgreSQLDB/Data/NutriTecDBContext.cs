@@ -37,6 +37,18 @@ namespace ApiPosgreSQLDB.Data
         public DbSet<TiempoComida> tiempocomida { get; set; }
         public DbSet<TipoCobro> tipocobro { get; set; }
 
+        
+        
+        [DbFunction("public", "registrar_cliente")]
+        public virtual int RegistrarCliente(string nombre, string apellido1, string apellido2, int edad, DateTime fechaNacimiento, int peso, int imc, string paisResidencia, int pesoActual, int cintura, int porcentajeMusculos, int cuello, int caderas, int porcentajeGrasa, int consumoDiarioCalorias, string correoElectronico, string contrasena)
+        {
+            var result = this.Database.ExecuteSqlRaw("SELECT public.registrar_cliente({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17})",
+                nombre, apellido1, apellido2, edad, fechaNacimiento, peso, imc, paisResidencia, pesoActual, cintura, porcentajeMusculos, cuello,
+                caderas, porcentajeGrasa, consumoDiarioCalorias, correoElectronico, contrasena);
+
+            return result;
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configuraciones de entidades y relaciones
@@ -68,6 +80,7 @@ namespace ApiPosgreSQLDB.Data
                 .HasKey(t => t.id);
             modelBuilder.Entity<TipoCobro>()
                 .HasKey(t => t.id);
+            
         }
     }
 }

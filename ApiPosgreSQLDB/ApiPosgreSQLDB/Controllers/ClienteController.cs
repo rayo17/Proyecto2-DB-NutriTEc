@@ -8,6 +8,7 @@ using ApiPosgreSQLDB.Data;
 using System.Data;
 using Npgsql;
 using NpgsqlTypes;
+using Microsoft.Extensions.Logging;
 
 namespace ApiPosgreSQLDB.Controllers
 {
@@ -16,72 +17,46 @@ namespace ApiPosgreSQLDB.Controllers
     public class ClienteController : ControllerBase
     {
         private readonly NutriTecDBContext _context;
+        private readonly ILogger<ClienteController> _logger;
 
-        public ClienteController(NutriTecDBContext context)
+        public ClienteController(NutriTecDBContext context, ILogger<ClienteController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
-        [HttpPost]
-        public IActionResult RegistrarCliente([FromBody] Cliente c)
+        [HttpPost("registrarcliente")]
+        public async Task RegistrarCliente(int id, string nombre, string apellido1, string apellido2, int edad, DateTime fechaNacimiento, int peso, int imc, string paisResidencia, int pesoActual, int cintura, int porcentajeMusculos, int cuello, int caderas, int porcentajeGrasa, int consumoDiarioCalorias, string correoElectronico, string contrasena)
         {
-            
-            try
+            var parameters = new[]
             {
-                var parameters = new NpgsqlParameter[]
-                    {
-                        new NpgsqlParameter("p_Nombre", NpgsqlDbType.Varchar) { Value = c.nombre },
-                        new NpgsqlParameter("p_Apellido1", NpgsqlDbType.Varchar) { Value = c.apellido1 },
-                        new NpgsqlParameter("p_Apellido2", NpgsqlDbType.Varchar) { Value = c.apellido2 },
-                        new NpgsqlParameter("p_Edad", NpgsqlDbType.Integer) { Value = c.edad },
-                        new NpgsqlParameter("p_FechaNacimiento", NpgsqlDbType.Date) { Value = c.fechanacimiento },
-                        new NpgsqlParameter("p_Peso", NpgsqlDbType.Integer) { Value = c.peso },
-                        new NpgsqlParameter("p_IMC", NpgsqlDbType.Integer) { Value = c.imc },
-                        new NpgsqlParameter("p_PaisResidencia", NpgsqlDbType.Varchar) { Value = c.paisresidencia },
-                        new NpgsqlParameter("p_PesoActual", NpgsqlDbType.Integer) { Value = c.pesoactual },
-                        new NpgsqlParameter("p_Cintura", NpgsqlDbType.Integer) { Value = c.cintura },
-                        new NpgsqlParameter("p_PorcentajeMusculos", NpgsqlDbType.Integer) { Value = c.porcentajemusculos },
-                        new NpgsqlParameter("p_Cuello", NpgsqlDbType.Integer) { Value = c.cuello },
-                        new NpgsqlParameter("p_Caderas", NpgsqlDbType.Integer) { Value = c.caderas },
-                        new NpgsqlParameter("p_PorcentajeGrasa", NpgsqlDbType.Integer) { Value = c.porcentajegrasa },
-                        new NpgsqlParameter("p_ConsumoDiarioCalorias", NpgsqlDbType.Integer) { Value = c.consumodiariocalorias },
-                        new NpgsqlParameter("p_CorreoElectronico", NpgsqlDbType.Varchar) { Value = c.correoelectronico },
-                        new NpgsqlParameter("p_Contrasena", NpgsqlDbType.Varchar) { Value = c.contrasena }
-                    };
-                // Lógica para validar y procesar los datos recibidos del cliente
+        new NpgsqlParameter("@p_ID", NpgsqlDbType.Integer) { Value = id },
+        new NpgsqlParameter("@p_Nombre", NpgsqlDbType.Varchar) { Value = nombre },
+        new NpgsqlParameter("@p_Apellido1", NpgsqlDbType.Varchar) { Value = apellido1 },
+        new NpgsqlParameter("@p_Apellido2", NpgsqlDbType.Varchar) { Value = apellido2 },
+        new NpgsqlParameter("@p_Edad", NpgsqlDbType.Integer) { Value = edad },
+        new NpgsqlParameter("@p_FechaNacimiento", NpgsqlDbType.Date) { Value = fechaNacimiento },
+        new NpgsqlParameter("@p_Peso", NpgsqlDbType.Integer) { Value = peso },
+        new NpgsqlParameter("@p_IMC", NpgsqlDbType.Integer) { Value = imc },
+        new NpgsqlParameter("@p_PaisResidencia", NpgsqlDbType.Varchar) { Value = paisResidencia },
+        new NpgsqlParameter("@p_PesoActual", NpgsqlDbType.Integer) { Value = pesoActual },
+        new NpgsqlParameter("@p_Cintura", NpgsqlDbType.Integer) { Value = cintura },
+        new NpgsqlParameter("@p_PorcentajeMusculos", NpgsqlDbType.Integer) { Value = porcentajeMusculos },
+        new NpgsqlParameter("@p_Cuello", NpgsqlDbType.Integer) { Value = cuello },
+        new NpgsqlParameter("@p_Caderas", NpgsqlDbType.Integer) { Value = caderas },
+        new NpgsqlParameter("@p_PorcentajeGrasa", NpgsqlDbType.Integer) { Value = porcentajeGrasa },
+        new NpgsqlParameter("@p_ConsumoDiarioCalorias", NpgsqlDbType.Integer) { Value = consumoDiarioCalorias },
+        new NpgsqlParameter("@p_CorreoElectronico", NpgsqlDbType.Varchar) { Value = correoElectronico },
+        new NpgsqlParameter("@p_Contrasena", NpgsqlDbType.Varchar) { Value = contrasena }
+    };
 
-                // Llamar al procedimiento almacenado para registrar el cliente
-                NpgsqlConnection connection = new NpgsqlConnection("PostgreSQLConnection");
-                NpgsqlCommand cmd = new NpgsqlCommand();
-                cmd.CommandText = "registrarcliente";
-                cmd.Parameters.AddWithValue(parameters);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = connection;
-                cmd.ExecuteNonQuery();
-                //var result = _context.Database.ExecuteSqlInterpolated($"CALL public.registrarcliente({cliente.id}, {cliente.nombre}, {cliente.apellido1}, {cliente.apellido2}, {cliente.edad}, {cliente.fechanacimiento}, {cliente.peso}, {cliente.imc}, {cliente.paisresidencia}, {cliente.pesoactual}, {cliente.cintura}, {cliente.porcentajemusculos}, {cliente.cuello}, {cliente.caderas}, {cliente.porcentajegrasa}, {cliente.consumodiariocalorias}, {cliente.correoelectronico}, {cliente.contrasena})");
-
-                // Si es necesario, generar una respuesta adecuada
-                var response = new
-                {
-                    Message = "Cliente registrado exitosamente",
-                    Cliente = c,
-                    //Result = result
-                };
-
-                // Devolver una respuesta HTTP exitosa (código 200) con la información de respuesta
-                return Ok(response);
-
-            }
-            catch (Exception ex)
-            {
-                // Manejo de errores aquí
-               
-
-                // Devolver una respuesta de error con detalles
-                return Results.Problem(detail: ex.Message, title: "Error al registrar el cliente") as IActionResult;
-
-            }
-            
+            await _context.Database.ExecuteSqlRawAsync("SELECT registrar_cliente(@p_ID, @p_Nombre, @p_Apellido1, @p_Apellido2, @p_Edad, @p_FechaNacimiento, @p_Peso, @p_IMC, @p_PaisResidencia, @p_PesoActual, @p_Cintura, @p_PorcentajeMusculos, @p_Cuello, @p_Caderas, @p_PorcentajeGrasa, @p_ConsumoDiarioCalorias, @p_CorreoElectronico, @p_Contrasena)", parameters);
         }
+
+
+
+
+
+
     }
 }
