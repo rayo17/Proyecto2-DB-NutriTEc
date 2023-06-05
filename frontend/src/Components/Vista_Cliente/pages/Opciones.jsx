@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Tabla from '../../VistaNutricionista/Tabla'
-function Opciones(){
+function Opciones({timeName}){
     const [alimentos,setAlimentos]=useState([])
     const [search,setSearch]=useState('')
 
@@ -25,7 +25,7 @@ function Opciones(){
                 result=alimentos
             }else{
                 result=alimentos.filter((dato)=>
-                      dato.C.toLowerCase().includes(search.toLocaleLowerCase())
+                      dato.Codigo.toLowerCase().includes(search.toLocaleLowerCase())
                 )
             }
             
@@ -42,6 +42,20 @@ function Opciones(){
         }
         ).catch(error=>console.log(error))},[])
 
+    const addAlimento=()=>{
+
+    }
+    const deleteAlimento=(idproducto)=>{
+        
+    }
+
+    const sendInformation=async()=>{
+        const url=''
+        const response=axios.post(url,{
+
+            timeName:timeName 
+        })
+    }
     return(
         <div>
             <nav class="navbar navbar-light bg-light">

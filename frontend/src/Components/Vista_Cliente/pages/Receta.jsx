@@ -6,9 +6,7 @@ const RecipeManagement = () => {
   const [recipeName, setRecipeName] = useState('');
   const [recipeIngredients, setRecipeIngredients] = useState([]);
   const [product,setProducts]=useState([])
-  const [recipeTotalCalories, setRecipeTotalCalories] = useState(0);
-  // Agrega más estados para las otras propiedades de la receta (carbohidratos, azúcares, vitaminas, etc)
-
+ 
   const handleRecipeNameChange = (event) => {
     setRecipeName(event.target.value);
   };
@@ -18,16 +16,18 @@ const RecipeManagement = () => {
     updatedIngredients[index] = event.target.value;
     setRecipeIngredients(updatedIngredients);
   };*/
+  
+  const handleAddIngredient = (product) => {
+    setRecipeIngredients(prevProductos => [...prevProductos, product]);
 
-  const handleAddIngredient = () => {
-    setRecipeIngredients([...recipeIngredients, '']);
   };
 
-  const handleRemoveIngredient = (index) => {
-    const updatedIngredients = [...recipeIngredients];
-    updatedIngredients.splice(index, 1);
-    setRecipeIngredients(updatedIngredients);
+  const handleRemoveIngredient = (product) => {
+    setRecipeIngredients(prevProductos =>
+      prevProductos.filter(p => p.id !== product.id)
+    );
   };
+
 
 //function request
 const getProduct=async()=>{
@@ -40,17 +40,10 @@ const getProduct=async()=>{
 //Function request
   const handleRecipeSubmit = async(event) => {
     event.preventDefault();
-    
-    // Aquí puedes realizar la lógica para calcular las propiedades totales de la receta (calorías, carbohidratos, azúcares, vitaminas, etc)
-    let totalCalories = 0;
-    // Realiza los cálculos necesarios utilizando los ingredientes y sus porciones
-    // Actualiza los estados correspondientes, por ejemplo:
-    setRecipeTotalCalories(totalCalories);
-    //url to send information
     const url=''
     //send post request 
     const response=await axios.put(url,{
-        nombre:"hola"
+        
     })
     console.log(response)
     // Aquí puedes realizar la lógica para guardar la receta en la base de datos o en algún otro lugar adecuado
@@ -58,39 +51,28 @@ const getProduct=async()=>{
     // Reinicia los estados o realiza alguna otra acción necesaria después de guardar la receta
     setRecipeName('');
     setRecipeIngredients([]);
-    setRecipeTotalCalories(0);
+  
   };
 
-  const request=async()=>{
-
-    const url="http://localhost:2000/alimento"
-    try{
-      const response=await axios.get(url)
-      const data=response.data
-      setRecipeIngredients(data)
-     
-    }
-    catch(error){
-      console.log(error)
-    }}
+  
  
-  useEffect(
+  /*useEffect(
     ()=>{
-        request()
+        getProduct()
     },[]
 
-  )
+  )*/
   return (
     <div>
-      <h2>Create Recipe</h2>
+      <h2>Crea tu Receta</h2>
       <form onSubmit={handleRecipeSubmit}>
         <label>
-          Recipe Name:
+          colocale un nombre a tu receta
           <input type="text" value={recipeName} onChange={handleRecipeNameChange} />
         </label>
         <br />
-        <label>Ingredients:</label>
-    <Table striped bordered hover size="sm">
+        <label>Ingredientes Agregados:</label>
+      <Table striped bordered hover size="sm">
       <thead>
         <tr>
           <th>#</th>
@@ -105,9 +87,7 @@ const getProduct=async()=>{
           <th>Vitaminas</th>
           <th>Calcio</th>
           <th>Hierro</th>
-          <th>Eliminar</th>
-          
-       
+          <th>Eliminar</th> 
           
         </tr>
       </thead>
@@ -131,7 +111,7 @@ const getProduct=async()=>{
                <td>{index.calcio}</td>
                <td>{index.hierro}</td>
                <td>
-               <Button bsStyle="success">Eliminar</Button>
+               <Button bsStyle="success" onClick={index=>handleRemoveIngredient(index)}>Eliminar</Button>
                
                </td>             
              </tr>)
@@ -147,7 +127,7 @@ const getProduct=async()=>{
         <br />
       </form>
       <div className='table-products'>
-                  
+      <label>Selecciona algunos de estos Ingredientes para crea tu Receta:</label>     
         <Table striped bordered hover size="sm">
       <thead>
         <tr>
@@ -164,9 +144,6 @@ const getProduct=async()=>{
           <th>Calcio</th>
           <th>Hierro</th>
           <th>Agregar</th>
-          
-       
-          
         </tr>
       </thead>
       <tbody>
@@ -189,7 +166,7 @@ const getProduct=async()=>{
                <td>{index.calcio}</td>
                <td>{index.hierro}</td>
                <td>
-               <Button bsStyle="success">Agregar</Button>
+               <Button bsStyle="success" onClick={index=>{handleAddIngredient(index)}}>Agregar</Button>
                
                </td>             
              </tr>)
