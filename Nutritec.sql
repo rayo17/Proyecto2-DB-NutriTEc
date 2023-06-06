@@ -1,4 +1,4 @@
-CREATE DATABASE nutritec;
+--CREATE DATABASE nutritec;
 
 CREATE TABLE Administradores (
     ID SERIAL PRIMARY KEY,
@@ -7,7 +7,7 @@ CREATE TABLE Administradores (
 );
 
 CREATE TABLE Clientes (
-    ID SERIAL PRIMARY KEY,
+    CorreoElectronico VARCHAR(320) PRIMARY KEY,
     Nombre VARCHAR(40),
     Apellido1 VARCHAR(40),
     Apellido2 VARCHAR(40),
@@ -16,17 +16,39 @@ CREATE TABLE Clientes (
     Peso INTEGER,
     IMC INTEGER,
     PaisResidencia VARCHAR(50),
-    PesoActual INTEGER,
-    Cintura INTEGER,
-    PorcentajeMusculos INTEGER,
-    Cuello INTEGER,
-    Caderas INTEGER,
-    PorcentajeGrasa INTEGER,
     ConsumoDiarioCalorias INTEGER,
-    CorreoElectronico VARCHAR(100),
-    Contrasena VARCHAR(50),
-    NutricionistaID VARCHAR(12),
+    Contrasena VARCHAR(50)
 );
+
+
+
+
+
+CREATE TABLE Medidas (
+  ID SERIAL PRIMARY KEY,
+  ClienteID VARCHAR(320),
+  Fecha DATE,
+  Cintura INTEGER,
+  Cuello INTEGER,
+  Caderas INTEGER,
+  PorcentajeMusculo INTEGER,
+  PorcentajeGrasa INTEGER,
+  PesoActual INTEGER
+);
+
+
+
+
+CREATE TABLE BitacoraGeneral (
+    ID SERIAL PRIMARY KEY,
+    ClienteID VARCHAR(320),
+    Fecha TIMESTAMP
+);
+
+
+
+
+
 
 CREATE TABLE EstadoProductos (
     ID SERIAL PRIMARY KEY,
@@ -53,28 +75,14 @@ CREATE TABLE Nutricionistas (
     Contrasena VARCHAR(20)
 );
 
+
 CREATE TABLE Pacientes (
     ID SERIAL PRIMARY KEY,
-    ClienteID INTEGER,
-    Nombre VARCHAR(40),
-    Apellido1 VARCHAR(40),
-    Apellido2 VARCHAR(40),
-    Edad INTEGER,
-    FechaNacimiento DATE,
-    Peso INTEGER,
-    IMC INTEGER,
-    PaisResidencia VARCHAR(50),
-    PesoActual INTEGER,
-    Cintura INTEGER,
-    PorcentajeMusculos INTEGER,
-    Cuello INTEGER,
-    Caderas INTEGER,
-    PorcentajeGrasa INTEGER,
-    ConsumoDiarioCalorias INTEGER,
-    CorreoElectronico VARCHAR(100),
-    Contrasena VARCHAR(50),
+    ClienteID VARCHAR(320),
     NutricionistaID VARCHAR(12)
 );
+
+
 
 CREATE TABLE PlanesAlimentacion (
     ID SERIAL PRIMARY KEY,
@@ -82,6 +90,8 @@ CREATE TABLE PlanesAlimentacion (
     NutricionistaID VARCHAR(12),
     CaloriasTotalPlan INTEGER
 );
+
+
 
 CREATE TABLE Productos (
     CodigoBarra VARCHAR(40) PRIMARY KEY,
@@ -99,28 +109,35 @@ CREATE TABLE Productos (
     EstadoProducto BOOLEAN
 );
 
+
 CREATE TABLE ProductosPlan (
     ID SERIAL PRIMARY KEY,
     ProductoID VARCHAR(40),
     TiempoComidaID INTEGER
 );
 
+
 -- Crear tabla Receta
 CREATE TABLE Receta (
   ID SERIAL PRIMARY KEY,
   Nombre VARCHAR(40),
   CaloriasTotalesReceta INTEGER,
-  ProductoID VARCHAR(40),
+  ProductoID VARCHAR(40)
 );
+
 
 -- Crear tabla RegistroDiario
 CREATE TABLE RegistroDiario (
   ID SERIAL PRIMARY KEY,
-  ClienteID INTEGER,
+  ClienteID VARCHAR(320),
   TiempoComidaID INTEGER,
   Fecha DATE,
-  CantidadComsumida INTEGER
+  CantidadComsumida INTEGER,
+  ProductoID VARCHAR(40)
 );
+
+
+
 
 -- Crear tabla ReporteCobro
 CREATE TABLE ReporteCobro (
@@ -132,22 +149,27 @@ CREATE TABLE ReporteCobro (
   MontoCobrar INTEGER
 );
 
+
 -- Crear tabla Retroalimentacion
 CREATE TABLE Retroalimentacion (
   ID SERIAL PRIMARY KEY,
   NutricionistaID VARCHAR(12),
-  ClienteID INTEGER,
+  ClienteID VARCHAR(320),
   Fecha DATE,
   Comentario VARCHAR(5000)
  
 );
 
+
+
 -- Crear tabla TiempoComida
 CREATE TABLE TiempoComida (
   ID SERIAL PRIMARY KEY,
-  Nombre VARCHAR(40),
-  PlanAlimentacionID INTEGER
+  Nombre VARCHAR(40)
 );
+
+
+
 
 -- Crear tabla TipoCobro
 CREATE TABLE TipoCobro (
@@ -156,54 +178,89 @@ CREATE TABLE TipoCobro (
 );
 
 
--- Agregar clave externa a la tabla Clientes
-ALTER TABLE Clientes
-ADD FOREIGN KEY (NutricionistaID) REFERENCES Nutricionistas(Cedula);
+
 
 -- Agregar clave externa a la tabla EstadoProductos
 ALTER TABLE EstadoProductos
 ADD FOREIGN KEY (ProductoID) REFERENCES Productos(CodigoBarra)
+ON DELETE CASCADE;
 
 -- Agregar clave externa a la tabla Nutricionistas
 ALTER TABLE Nutricionistas
-ADD FOREIGN KEY (TipoCobroID) REFERENCES TiposCobro(ID);
+ADD FOREIGN KEY (TipoCobroID) REFERENCES TipoCobro(ID)
+ON DELETE CASCADE;
 
 -- Agregar clave externa a la tabla Pacientes
 ALTER TABLE Pacientes
-ADD FOREIGN KEY (ClienteID) REFERENCES Clientes(ID),
-ADD FOREIGN KEY (NutricionistaID) REFERENCES Nutricionistas(Cedula);
+ADD FOREIGN KEY (ClienteID) REFERENCES Clientes(CorreoElectronico)
+ON DELETE CASCADE;
+
+ALTER TABLE Pacientes
+ADD FOREIGN KEY (NutricionistaID) REFERENCES Nutricionistas(Cedula)
+ON DELETE CASCADE;
+
+
 
 -- Agregar clave externa a la tabla PlanesAlimentacion
 ALTER TABLE PlanesAlimentacion
-ADD FOREIGN KEY (NutricionistaID) REFERENCES Nutricionistas(Cedula);
+ADD FOREIGN KEY (NutricionistaID) REFERENCES Nutricionistas(Cedula)
+ON DELETE CASCADE;
+
+
 
 -- Agregar clave externa a la tabla ProductosPlan
 ALTER TABLE ProductosPlan
-ADD FOREIGN KEY (ProductoID) REFERENCES Productos(CodigoBarra),
-ADD FOREIGN KEY (TiempoComidaID) REFERENCES TiemposComida(ID);
+ADD FOREIGN KEY (ProductoID) REFERENCES Productos(CodigoBarra)
+ON DELETE CASCADE;
+
+ALTER TABLE ProductosPlan
+ADD FOREIGN KEY (TiempoComidaID) REFERENCES TiempoComida(ID)
+ON DELETE CASCADE;
+
 
 
 -- Agregar clave externa a la tabla Receta
 ALTER TABLE Receta
-ADD FOREIGN KEY (ProductoID) REFERENCES Productos(CodigoBarra);
+ADD FOREIGN KEY (ProductoID) REFERENCES Productos(CodigoBarra)
+ON DELETE CASCADE;
+
+
 
 -- Agregar clave externa a la tabla RegistroDiario
 ALTER TABLE RegistroDiario
-ADD FOREIGN KEY (ClienteID) REFERENCES Clientes(ID),
-ADD FOREIGN KEY (TiempoComidaID) REFERENCES TiemposComida(ID);
+ADD FOREIGN KEY (ClienteID) REFERENCES Clientes(CorreoElectronico)
+ON DELETE CASCADE;
+
+ALTER TABLE RegistroDiario
+ADD FOREIGN KEY (TiempoComidaID) REFERENCES TiempoComida(ID)
+ON DELETE CASCADE;
+
+ALTER TABLE RegistroDiario
+ADD FOREIGN KEY (ProductoID) REFERENCES Productos(CodigoBarra)
+ON DELETE CASCADE;
 
 -- Agregar clave externa a la tabla ReporteCobro
 ALTER TABLE ReporteCobro
 ADD FOREIGN KEY (NutricionistaID) REFERENCES Nutricionistas(Cedula),
-ADD FOREIGN KEY (TipoCobroID) REFERENCES TiposCobro(ID);
+ADD FOREIGN KEY (TipoCobroID) REFERENCES TipoCobro(ID)
+ON DELETE CASCADE;
 
 -- Agregar clave externa a la tabla Retroalimentacion
 ALTER TABLE Retroalimentacion
-ADD FOREIGN KEY (NutricionistaID) REFERENCES Nutricionistas(Cedula),
-ADD FOREIGN KEY (ClienteID) REFERENCES Clientes(ID);
+ADD FOREIGN KEY (NutricionistaID) REFERENCES Nutricionistas(Cedula)
+ON DELETE CASCADE;
 
--- Agregar clave externa a la tabla TiempoComida
-ALTER TABLE TiempoComida
-ADD FOREIGN KEY (PlanAlimentacionID) REFERENCES PlanesAlimentacion(ID);
+ALTER TABLE Retroalimentacion
+ADD FOREIGN KEY (ClienteID) REFERENCES Clientes(CorreoElectronico)
+ON DELETE CASCADE;
 
 
+--Agregar clave externa a la tabla Medidas
+ALTER TABLE Medidas
+ADD FOREIGN KEY (ClienteID) REFERENCES Clientes(CorreoElectronico)
+ON DELETE CASCADE;
+
+--Agregar clave externa a la tabla BitacoraGeneral
+ALTER TABLE BitacoraGeneral
+ADD FOREIGN KEY (ClienteID) REFERENCES Clientes(CorreoElectronico)
+ON DELETE CASCADE;

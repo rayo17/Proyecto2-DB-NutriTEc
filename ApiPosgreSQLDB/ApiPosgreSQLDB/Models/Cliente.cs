@@ -7,7 +7,7 @@ namespace ApiPosgreSQLDB.Models
 {
     public class Cliente
     {
-        public int id { get; set; }
+        public string correoelectronico { get; set; }
         public string nombre { get; set; }
         public string apellido1 { get; set; }
         public string apellido2 { get; set; }
@@ -17,7 +17,6 @@ namespace ApiPosgreSQLDB.Models
         public int imc { get; set; }
         public string paisresidencia { get; set; }
         public int consumodiariocalorias { get; set; }
-        public string correoelectronico { get; set; }
         public string contrasena { get; set; }
         
 

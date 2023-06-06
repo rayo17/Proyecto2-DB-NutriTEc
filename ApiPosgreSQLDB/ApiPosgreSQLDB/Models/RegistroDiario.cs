@@ -6,7 +6,7 @@ namespace ApiPosgreSQLDB.Models
     public class RegistroDiario
     {
         public int id { get; set; }
-        public int clienteid { get; set; }
+        public string clienteid { get; set; }
         public int tiempocomidaid { get; set; }
         public DateTime fecha { get; set; }
         public int cantidadconsumida { get; set; }

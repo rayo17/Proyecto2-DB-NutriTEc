@@ -8,7 +8,7 @@ namespace ApiPosgreSQLDB.Models
     {
         public int id { get; set; }
         public string nutricionistaid { get; set; }
-        public int clienteid { get; set; }
+        public string clienteid { get; set; }
         public DateTime fecha { get; set; }
         public string comentario { get; set; }
         public Nutricionista Nutricionista { get; set; }  // Propiedad de navegación

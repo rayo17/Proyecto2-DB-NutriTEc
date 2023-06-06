@@ -73,7 +73,7 @@ namespace ApiPosgreSQLDB.Data
             modelBuilder.Entity<Administrador>()
                 .HasKey(a => a.id);
             modelBuilder.Entity<Cliente>()
-                .HasKey(c => c.id);
+                .HasKey(c => c.correoelectronico);
             modelBuilder.Entity<EstadoProducto>()
                 .HasKey(e => e.id);
             modelBuilder.Entity<Nutricionista>()
