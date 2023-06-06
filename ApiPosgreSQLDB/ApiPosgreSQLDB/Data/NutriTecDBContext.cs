@@ -2,6 +2,8 @@
 using ApiPosgreSQLDB.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Npgsql;
+using NpgsqlTypes;
 
 namespace ApiPosgreSQLDB.Data
 {
@@ -50,15 +52,19 @@ namespace ApiPosgreSQLDB.Data
             return result;
         }
         [DbFunction("public", "validarlogincliente")]
-        public virtual string ValidarLoginCliente(string correo, string contrasena)
+        public virtual int ValidarLoginCliente(string correo, string contrasena)
         {
-            var result = this.Database.ExecuteSqlRaw("SELECT public.validarlogincliente({0}, {1})", correo, contrasena);
-            return result == 1 ? "true" : "false";
+            var parameters = new[]
+            {
+        new NpgsqlParameter("p_correo", NpgsqlDbType.Varchar) { Value = correo },
+        new NpgsqlParameter("p_contrasena", NpgsqlDbType.Varchar) { Value = contrasena }
+    };
+
+            var query = this.Database.ExecuteSqlInterpolated($"SELECT public.validarlogincliente({parameters[0]}, {parameters[1]})");
+            var result = Convert.ToInt32(query);
+
+            return result;
         }
-
-
-
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

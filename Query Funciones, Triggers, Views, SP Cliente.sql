@@ -58,15 +58,14 @@ END;
 $$ LANGUAGE plpgsql;
 
 --Funcion para validar el login de cliente
-CREATE OR REPLACE FUNCTION validar_login_cliente(
-    p_correo VARCHAR(100),
-    p_contrasena VARCHAR(50)
-)
-RETURNS BOOLEAN AS $$
-BEGIN
-    RETURN EXISTS (
-        SELECT 1 FROM Clientes
-        WHERE correoelectronico = p_correo AND contrasena = p_contrasena
-    );
-END;
-$$ LANGUAGE plpgsql;
+CREATE VIEW logincliente AS
+SELECT CorreoElectronico, Contrasena
+FROM Clientes;
+
+
+SELECT * FROM logincliente;
+
+DROP FUNCTION IF EXISTS validarlogincliente;
+
+SELECT validar_login_cliente('pedro.djua@example.com', 'password1');
+

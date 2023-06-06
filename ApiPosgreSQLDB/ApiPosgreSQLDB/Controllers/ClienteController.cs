@@ -18,65 +18,88 @@ namespace ApiPosgreSQLDB.Controllers
     {
         private readonly NutriTecDBContext _context;
         private readonly ILogger<ClienteController> _logger;
+        private readonly string _connectionString;
 
-        public ClienteController(NutriTecDBContext context, ILogger<ClienteController> logger)
+        public ClienteController(NutriTecDBContext context, ILogger<ClienteController> logger, IConfiguration configuration)
         {
             _context = context;
             _logger = logger;
+            _connectionString = configuration.GetConnectionString("PostgreSQLConnection");
         }
+
+
 
         [HttpGet("validarcliente")]
-        public async Task<string> ValidarCliente(string correo, string contrasena)
+        public async Task<int> ValidarCliente(string correo, string contrasena)
         {
-            var parameters = new[]
+            int resultado = 0;
+
+            using (NpgsqlConnection connection = new NpgsqlConnection(_connectionString))
             {
-                new NpgsqlParameter("@p_correo", NpgsqlDbType.Varchar) { Value = correo },
-                new NpgsqlParameter("@p_contrasena", NpgsqlDbType.Varchar) { Value = contrasena }
-            };
+                connection.Open();
 
-            var result = await _context.Set<string>().FromSqlRaw("SELECT public.validarlogincliente(@p_correo, @p_contrasena)", parameters).FirstOrDefaultAsync();
+                using (NpgsqlCommand command = new NpgsqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "SELECT validarlogincliente(@p_correo, @p_contrasena)";
+                    command.Parameters.AddWithValue("@p_correo", correo);
+                    command.Parameters.AddWithValue("@p_contrasena", contrasena);
 
-            return result;
+                    var result = command.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        resultado = Convert.ToInt32(result);
+                    }
+                }
+
+                connection.Close();
+            }
+
+            return resultado;
         }
 
+
+
+
         [HttpPost("registrarcliente")]
-        public async Task RegistrarCliente(int id, string nombre, string apellido1, string apellido2, int edad, DateTime fechaNacimiento, int peso, int imc, string paisResidencia, int pesoActual, int cintura, int porcentajeMusculos, int cuello, int caderas, int porcentajeGrasa, int consumoDiarioCalorias, string correoElectronico, string contrasena)
+        public async Task RegistrarCliente(Cliente c)
         {
             var parameters = new[]
             {
-                new NpgsqlParameter("@p_ID", NpgsqlDbType.Integer) { Value = id },
-                new NpgsqlParameter("@p_Nombre", NpgsqlDbType.Varchar) { Value = nombre },
-                new NpgsqlParameter("@p_Apellido1", NpgsqlDbType.Varchar) { Value = apellido1 },
-                new NpgsqlParameter("@p_Apellido2", NpgsqlDbType.Varchar) { Value = apellido2 },
-                new NpgsqlParameter("@p_Edad", NpgsqlDbType.Integer) { Value = edad },
-                new NpgsqlParameter("@p_FechaNacimiento", NpgsqlDbType.Date) { Value = fechaNacimiento },
-                new NpgsqlParameter("@p_Peso", NpgsqlDbType.Integer) { Value = peso },
-                new NpgsqlParameter("@p_IMC", NpgsqlDbType.Integer) { Value = imc },
-                new NpgsqlParameter("@p_PaisResidencia", NpgsqlDbType.Varchar) { Value = paisResidencia },
-                new NpgsqlParameter("@p_PesoActual", NpgsqlDbType.Integer) { Value = pesoActual },
-                new NpgsqlParameter("@p_Cintura", NpgsqlDbType.Integer) { Value = cintura },
-                new NpgsqlParameter("@p_PorcentajeMusculos", NpgsqlDbType.Integer) { Value = porcentajeMusculos },
-                new NpgsqlParameter("@p_Cuello", NpgsqlDbType.Integer) { Value = cuello },
-                new NpgsqlParameter("@p_Caderas", NpgsqlDbType.Integer) { Value = caderas },
-                new NpgsqlParameter("@p_PorcentajeGrasa", NpgsqlDbType.Integer) { Value = porcentajeGrasa },
-                new NpgsqlParameter("@p_ConsumoDiarioCalorias", NpgsqlDbType.Integer) { Value = consumoDiarioCalorias },
-                new NpgsqlParameter("@p_CorreoElectronico", NpgsqlDbType.Varchar) { Value = correoElectronico },
-                new NpgsqlParameter("@p_Contrasena", NpgsqlDbType.Varchar) { Value = contrasena }
+                new NpgsqlParameter("@p_ID", NpgsqlDbType.Integer) { Value = c.id },
+                new NpgsqlParameter("@p_Nombre", NpgsqlDbType.Varchar) { Value = c.nombre },
+                new NpgsqlParameter("@p_Apellido1", NpgsqlDbType.Varchar) { Value = c.apellido1 },
+                new NpgsqlParameter("@p_Apellido2", NpgsqlDbType.Varchar) { Value = c.apellido2 },
+                new NpgsqlParameter("@p_Edad", NpgsqlDbType.Integer) { Value = c.edad },
+                new NpgsqlParameter("@p_FechaNacimiento", NpgsqlDbType.Date) { Value = c.fechanacimiento },
+                new NpgsqlParameter("@p_Peso", NpgsqlDbType.Integer) { Value = c.peso },
+                new NpgsqlParameter("@p_IMC", NpgsqlDbType.Integer) { Value = c.imc },
+                new NpgsqlParameter("@p_PaisResidencia", NpgsqlDbType.Varchar) { Value = c.paisresidencia },
+                new NpgsqlParameter("@p_PesoActual", NpgsqlDbType.Integer) { Value = c.pesoactual },
+                new NpgsqlParameter("@p_Cintura", NpgsqlDbType.Integer) { Value = c.cintura },
+                new NpgsqlParameter("@p_PorcentajeMusculos", NpgsqlDbType.Integer) { Value = c.porcentajemusculos },
+                new NpgsqlParameter("@p_Cuello", NpgsqlDbType.Integer) { Value = c.cuello },
+                new NpgsqlParameter("@p_Caderas", NpgsqlDbType.Integer) { Value = c.caderas },
+                new NpgsqlParameter("@p_PorcentajeGrasa", NpgsqlDbType.Integer) { Value = c.porcentajegrasa },
+                new NpgsqlParameter("@p_ConsumoDiarioCalorias", NpgsqlDbType.Integer) { Value = c.consumodiariocalorias },
+                new NpgsqlParameter("@p_CorreoElectronico", NpgsqlDbType.Varchar) { Value = c.correoelectronico },
+                new NpgsqlParameter("@p_Contrasena", NpgsqlDbType.Varchar) { Value = c.contrasena }
             };
 
             await _context.Database.ExecuteSqlRawAsync("SELECT registrar_cliente(@p_ID, @p_Nombre, @p_Apellido1, @p_Apellido2, @p_Edad, @p_FechaNacimiento, @p_Peso, @p_IMC, @p_PaisResidencia, @p_PesoActual, @p_Cintura, @p_PorcentajeMusculos, @p_Cuello, @p_Caderas, @p_PorcentajeGrasa, @p_ConsumoDiarioCalorias, @p_CorreoElectronico, @p_Contrasena)", parameters);
         }
 
-        
+        [HttpDelete("eliminarcliente")]
+        public async Task EliminarCliente(string correo)
+        {
+            var parameters = new[]
+            {
+                
+                new NpgsqlParameter("@p_CorreoElectronico", NpgsqlDbType.Varchar) { Value = correo }
+            };
 
-
-
-
-
-
-
-
-
+            await _context.Database.ExecuteSqlRawAsync("SELECT eliminar_cliente(@p_CorreoElectronico)", parameters);
+        }
 
     }
 }
