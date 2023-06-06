@@ -39,6 +39,7 @@ namespace ApiPosgreSQLDB.Data
         public DbSet<Retroalimentacion> retroalimentacion { get; set; }
         public DbSet<TiempoComida> tiempocomida { get; set; }
         public DbSet<TipoCobro> tipocobro { get; set; }
+        public DbSet<Medidas> medidas { get; set; }
 
         
         
@@ -97,6 +98,8 @@ namespace ApiPosgreSQLDB.Data
                 .HasKey(t => t.id);
             modelBuilder.Entity<TipoCobro>()
                 .HasKey(t => t.id);
+            modelBuilder.Entity<Medidas>()
+                .HasKey(m => m.id);
             
         }
     }

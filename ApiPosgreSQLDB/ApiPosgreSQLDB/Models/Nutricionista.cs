@@ -23,9 +23,6 @@ namespace ApiPosgreSQLDB.Models
         public int tipocobroid { get; set; }
         public string correoelectronico { get; set; }
         public string contrasena { get; set; }
-        [JsonIgnore]
-        public TipoCobro TipoCobro { get; set; }  // Propiedad de navegación
-        [JsonIgnore]
-        public ICollection<PlanAlimentacion> PlanesAlimentacion { get; set; }  // Propiedad de navegación
+        
     }
 }

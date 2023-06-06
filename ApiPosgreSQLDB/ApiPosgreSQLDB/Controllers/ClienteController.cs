@@ -75,18 +75,32 @@ namespace ApiPosgreSQLDB.Controllers
                 new NpgsqlParameter("@p_Peso", NpgsqlDbType.Integer) { Value = c.peso },
                 new NpgsqlParameter("@p_IMC", NpgsqlDbType.Integer) { Value = c.imc },
                 new NpgsqlParameter("@p_PaisResidencia", NpgsqlDbType.Varchar) { Value = c.paisresidencia },
-                new NpgsqlParameter("@p_PesoActual", NpgsqlDbType.Integer) { Value = c.pesoactual },
-                new NpgsqlParameter("@p_Cintura", NpgsqlDbType.Integer) { Value = c.cintura },
-                new NpgsqlParameter("@p_PorcentajeMusculos", NpgsqlDbType.Integer) { Value = c.porcentajemusculos },
-                new NpgsqlParameter("@p_Cuello", NpgsqlDbType.Integer) { Value = c.cuello },
-                new NpgsqlParameter("@p_Caderas", NpgsqlDbType.Integer) { Value = c.caderas },
-                new NpgsqlParameter("@p_PorcentajeGrasa", NpgsqlDbType.Integer) { Value = c.porcentajegrasa },
                 new NpgsqlParameter("@p_ConsumoDiarioCalorias", NpgsqlDbType.Integer) { Value = c.consumodiariocalorias },
                 new NpgsqlParameter("@p_CorreoElectronico", NpgsqlDbType.Varchar) { Value = c.correoelectronico },
                 new NpgsqlParameter("@p_Contrasena", NpgsqlDbType.Varchar) { Value = c.contrasena }
             };
 
-            await _context.Database.ExecuteSqlRawAsync("SELECT registrar_cliente(@p_ID, @p_Nombre, @p_Apellido1, @p_Apellido2, @p_Edad, @p_FechaNacimiento, @p_Peso, @p_IMC, @p_PaisResidencia, @p_PesoActual, @p_Cintura, @p_PorcentajeMusculos, @p_Cuello, @p_Caderas, @p_PorcentajeGrasa, @p_ConsumoDiarioCalorias, @p_CorreoElectronico, @p_Contrasena)", parameters);
+            await _context.Database.ExecuteSqlRawAsync("SELECT registrar_cliente(@p_ID, @p_Nombre, @p_Apellido1, @p_Apellido2, @p_Edad, @p_FechaNacimiento, @p_Peso, @p_IMC, @p_PaisResidencia, @p_ConsumoDiarioCalorias, @p_CorreoElectronico, @p_Contrasena)", parameters);
+        }
+
+        [HttpPost("registrarmedidas")]
+        public async Task RegistrarMedidas(Medidas c)
+        {
+            var parameters = new[]
+            {
+                new NpgsqlParameter("@p_ID", NpgsqlDbType.Integer) { Value = c.id },
+                new NpgsqlParameter("@p_ClienteID", NpgsqlDbType.Integer) { Value = c.clienteid },
+                new NpgsqlParameter("@p_Fecha", NpgsqlDbType.Date) { Value = c.fecha },
+                new NpgsqlParameter("@p_Cintura", NpgsqlDbType.Integer) { Value = c.cintura },
+                new NpgsqlParameter("@p_Cuello", NpgsqlDbType.Integer) { Value = c.cuello },
+                new NpgsqlParameter("@p_Caderas", NpgsqlDbType.Integer) { Value = c.caderas },
+                new NpgsqlParameter("@p_PorcentajeMusculo", NpgsqlDbType.Integer) { Value = c.porcentajemusculo },
+                new NpgsqlParameter("@p_PorcentajeGrasa", NpgsqlDbType.Integer) { Value = c.porcentajegrasa },
+                new NpgsqlParameter("@p_PesoActual", NpgsqlDbType.Integer) { Value = c.pesoactual },
+                
+            };
+
+            await _context.Database.ExecuteSqlRawAsync("SELECT registrar_medidas(@p_ID, @p_ClienteID, @p_Fecha, @p_Cintura, @p_Cuello, @p_Caderas, @p_PorcentajeMusculo, @p_PorcentajeGrasa, @p_PesoActual)", parameters);
         }
 
         [HttpDelete("eliminarcliente")]

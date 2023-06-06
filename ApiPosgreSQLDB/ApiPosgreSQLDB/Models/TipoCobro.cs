@@ -8,7 +8,6 @@ namespace ApiPosgreSQLDB.Models
     {
         public int id { get; set; }
         public string nombretipocobro { get; set; }
-        public ICollection<Nutricionista> Nutricionistas { get; set; }  // Propiedad de navegación
-        public ICollection<ReporteCobro> ReporteCobros { get; set; }  // Propiedad de navegación
+        
     }
 }

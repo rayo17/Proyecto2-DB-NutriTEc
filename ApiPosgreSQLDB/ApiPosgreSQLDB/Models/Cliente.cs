@@ -16,15 +16,10 @@ namespace ApiPosgreSQLDB.Models
         public int peso { get; set; }
         public int imc { get; set; }
         public string paisresidencia { get; set; }
-        public int pesoactual { get; set; }
-        public int cintura { get; set; }
-        public int porcentajemusculos { get; set; }
-        public int cuello { get; set; }
-        public int caderas { get; set; }
-        public int porcentajegrasa { get; set; }
         public int consumodiariocalorias { get; set; }
         public string correoelectronico { get; set; }
         public string contrasena { get; set; }
         
+
     }
 }
