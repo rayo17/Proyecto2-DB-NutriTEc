@@ -1,4 +1,5 @@
-﻿using ApiPosgreSQLDB.Models;
+﻿using ApiPosgreSQLDB.Extra;
+using ApiPosgreSQLDB.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -48,6 +49,16 @@ namespace ApiPosgreSQLDB.Data
 
             return result;
         }
+        [DbFunction("public", "validarlogincliente")]
+        public virtual string ValidarLoginCliente(string correo, string contrasena)
+        {
+            var result = this.Database.ExecuteSqlRaw("SELECT public.validarlogincliente({0}, {1})", correo, contrasena);
+            return result == 1 ? "true" : "false";
+        }
+
+
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
