@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApiPosgreSQLDB.Models;
 using ApiPosgreSQLDB.Data;
+using Npgsql;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace ApiPosgreSQLDB.Controllers
 {
@@ -14,10 +17,73 @@ namespace ApiPosgreSQLDB.Controllers
     public class AdministradorController : ControllerBase
     {
         private readonly NutriTecDBContext _context;
+        private readonly ILogger<AdministradorController> _logger;
+        private readonly string _connectionString;
 
-        public AdministradorController(NutriTecDBContext context)
+        public AdministradorController(NutriTecDBContext context, ILogger<AdministradorController> logger, IConfiguration configuration)
         {
             _context = context;
+            _logger = logger;
+            _connectionString = configuration.GetConnectionString("PostgreSQLConnection");
+        }
+
+
+        [HttpGet("validaradministrador")]
+        public async Task<int> ValidarAdministrador(string correo, string contrasena)
+        {
+            int resultado = 0;
+
+            using (NpgsqlConnection connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (NpgsqlCommand command = new NpgsqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "SELECT validarloginadministrador(@p_correo, @p_contrasena)";
+                    command.Parameters.AddWithValue("@p_correo", correo);
+                    command.Parameters.AddWithValue("@p_contrasena", contrasena);
+
+                    var result = command.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        resultado = Convert.ToInt32(result);
+                    }
+                }
+
+                connection.Close();
+            }
+
+            return resultado;
+        }
+
+        [HttpGet("validarproducto")]
+        public async Task<string> ValidarProducto(string cod_barras, string validacion)
+        {
+            string resultado = "";
+
+            using (NpgsqlConnection connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (NpgsqlCommand command = new NpgsqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "SELECT validar_producto(@p_codigo_barras, @p_validacion)";
+                    command.Parameters.AddWithValue("@p_codigo_barras", cod_barras);
+                    command.Parameters.AddWithValue("@p_validacion", validacion);
+
+                    var result = command.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        resultado = result.ToString();
+                    }
+                }
+
+                connection.Close();
+            }
+
+            return resultado;
         }
 
         // GET: api/Administrador

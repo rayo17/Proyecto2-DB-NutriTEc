@@ -19,8 +19,6 @@ namespace ApiPosgreSQLDB.Models
         public int hierro { get; set; }
         public string descripcion { get; set; }
         public bool estadoproducto { get; set; }
-        public ICollection<EstadoProducto> EstadoProductos { get; set; }  // Propiedad de navegación
-        public ICollection<ProductoPlan> ProductosPlan { get; set; }  // Propiedad de navegación
-        public ICollection<Receta> Recetas { get; set; }  // Propiedad de navegación
+        
     }
 }

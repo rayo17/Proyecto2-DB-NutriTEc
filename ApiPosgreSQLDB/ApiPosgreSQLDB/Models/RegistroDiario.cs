@@ -10,7 +10,7 @@ namespace ApiPosgreSQLDB.Models
         public int tiempocomidaid { get; set; }
         public DateTime fecha { get; set; }
         public int cantidadconsumida { get; set; }
-        public Cliente Cliente { get; set; }  // Propiedad de navegación
-        public TiempoComida TiempoComida { get; set; }  // Propiedad de navegación
+        public string productoid { get; set; }
+        
     }
 }

@@ -114,5 +114,23 @@ namespace ApiPosgreSQLDB.Controllers
             await _context.Database.ExecuteSqlRawAsync("SELECT eliminar_cliente(@p_CorreoElectronico)", parameters);
         }
 
+        [HttpPost("ingresarregistrodiario")]
+        public async Task IngresarRegistroDiario(RegistroDiario rd)
+        {
+            var parameters = new[]
+            {
+                new NpgsqlParameter("@p_ID", NpgsqlDbType.Integer) { Value = rd.id },
+                new NpgsqlParameter("@p_ClienteID", NpgsqlDbType.Varchar) { Value = rd.clienteid },
+                new NpgsqlParameter("@p_TiempoComidaID", NpgsqlDbType.Integer) { Value = rd.tiempocomidaid },
+                new NpgsqlParameter("@p_Fecha", NpgsqlDbType.Date) { Value = rd.fecha },
+                new NpgsqlParameter("@p_CantidadConsumida", NpgsqlDbType.Integer) { Value = rd.cantidadconsumida },
+                new NpgsqlParameter("@p_ProductoID", NpgsqlDbType.Varchar) { Value = rd.productoid },
+                
+
+            };
+
+            await _context.Database.ExecuteSqlRawAsync("SELECT insertar_registro_diario(@p_ID, @p_ClienteID, @p_TiempoComidaID, @p_Fecha, @p_CantidadConsumida, @p_ProductoID)", parameters);
+        }
+
     }
 }

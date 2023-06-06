@@ -6,6 +6,8 @@ CREATE TABLE Administradores (
     Contrasena VARCHAR(20)
 );
 
+
+
 CREATE TABLE Clientes (
     CorreoElectronico VARCHAR(320) PRIMARY KEY,
     Nombre VARCHAR(40),
@@ -19,9 +21,6 @@ CREATE TABLE Clientes (
     ConsumoDiarioCalorias INTEGER,
     Contrasena VARCHAR(50)
 );
-
-
-
 
 
 CREATE TABLE Medidas (
@@ -264,3 +263,10 @@ ON DELETE CASCADE;
 ALTER TABLE BitacoraGeneral
 ADD FOREIGN KEY (ClienteID) REFERENCES Clientes(CorreoElectronico)
 ON DELETE CASCADE;
+
+-- Insersion de valores de los responsables administradores
+INSERT INTO Administradores(CorreoElectronico, Contrasena)
+VALUES ('irodriguezcr1@gmail.com', 'admin1234');
+
+INSERT INTO Administradores(CorreoElectronico, Contrasena)
+VALUES ('rayo@gmail.com', 'admin1234');
