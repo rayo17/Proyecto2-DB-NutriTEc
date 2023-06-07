@@ -105,7 +105,8 @@ namespace ApiPosgreSQLDB.Data
                 .HasKey(v => v.correoelectronico);
             modelBuilder.Entity<ValidarProducto>()
                 .HasKey(v => v.cod_barras);
-            
+            modelBuilder.Entity<ConsultaPeriodoMedidas>()
+                .HasNoKey();
         }
     }
 }

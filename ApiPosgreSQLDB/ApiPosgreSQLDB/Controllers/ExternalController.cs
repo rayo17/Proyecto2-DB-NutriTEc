@@ -148,6 +148,18 @@ namespace ApiPosgreSQLDB.Controllers
         }
 
 
+        [HttpPost("creartipocobro")]
+        public async Task CrearTipoCobro(TipoCobro productoData)
+        {
+            var parameters = new[]
+            {
+                new NpgsqlParameter("@p_ID", NpgsqlDbType.Integer) { Value = productoData.id },
+                new NpgsqlParameter("@p_NombreTipo", NpgsqlDbType.Varchar) { Value = productoData.nombretipocobro },
+               
+             };
+
+            await _context.Database.ExecuteSqlRawAsync("SELECT insertartipocobro(@p_ID, @p_NombreTipo)", parameters);
+        }
 
 
 

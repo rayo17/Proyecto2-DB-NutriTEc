@@ -132,7 +132,24 @@ namespace ApiPosgreSQLDB.Controllers
             await _context.Database.ExecuteSqlRawAsync("SELECT insertar_registro_diario(@p_ID, @p_ClienteID, @p_TiempoComidaID, @p_Fecha, @p_ProductoID)", parameters);
         }
 
+        [HttpPost("Consulta_por_Periodo_medidas")]
         
+        public async Task<IActionResult> Consultaperiodoregistro(ConsultaPeriodoMedidas cpm)
+        {
+            var parameters = new[]
+            {
+        new NpgsqlParameter("@p_clienteid", NpgsqlDbType.Varchar) { Value = cpm.correocliente },
+        new NpgsqlParameter("@p_fechainicio", NpgsqlDbType.Date) { Value = cpm.fechainicio },
+        new NpgsqlParameter("@p_fechafinal", NpgsqlDbType.Date) { Value = cpm.fechafinal }
+    };
+
+            var consulta = await _context.medidas
+                .FromSqlRaw("SELECT * FROM ObtenerMedidasPorClienteYPeriodo(@p_clienteid, @p_fechainicio, @p_fechafinal)", parameters)
+                .ToListAsync();
+
+            return Ok(consulta);
+        }
+
 
 
 

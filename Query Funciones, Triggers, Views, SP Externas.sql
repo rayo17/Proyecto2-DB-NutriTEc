@@ -39,3 +39,58 @@ SELECT *
 FROM Productos
 WHERE EstadoProducto = TRUE;
 
+--SP Crea una receta 
+CREATE OR REPLACE FUNCTION crearreceta(
+  pNombre VARCHAR(40),
+  pTamanPorcion INTEGER,
+  pEnergia INTEGER,
+  pGrasa INTEGER,
+  pSodio INTEGER,
+  pCarbohidratos INTEGER,
+  pProteina INTEGER,
+  pVitaminas VARCHAR(150),
+  pCalcio INTEGER,
+  pHierro INTEGER
+)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  vRecetaID VARCHAR;
+BEGIN
+  -- Verificar si la receta ya existe
+  SELECT nombre INTO vRecetaID
+  FROM Receta
+  WHERE Nombre = pNombre;
+  
+  IF vRecetaID IS NOT NULL THEN
+    -- Actualizar los valores existentes de la receta
+    UPDATE Receta
+    SET taman_porcion = taman_porcion + pTamanPorcion,
+        energia = energia + pEnergia,
+        grasa = grasa + pGrasa,
+        sodio = sodio + pSodio,
+        carbohidratos = carbohidratos + pCarbohidratos,
+        proteina = proteina + pProteina,
+        calcio = calcio + pCalcio,
+        hierro = hierro + pHierro
+    WHERE nombre = vRecetaID;
+    
+    -- Agregar las nuevas vitaminas a la receta
+    UPDATE Receta
+    SET vitaminas = CONCAT(vitaminas, ', ', pVitaminas)
+    WHERE nombre = vRecetaID
+      AND NOT EXISTS (
+        SELECT 1
+        FROM regexp_split_to_table(vitaminas, ', ') AS v
+        WHERE v = ANY (regexp_split_to_array(pVitaminas, ', '))
+      );
+  ELSE
+    -- Crear una nueva receta
+    INSERT INTO Receta (Nombre, taman_porcion, energia, grasa, sodio, carbohidratos, proteina, vitaminas, calcio, hierro)
+    VALUES (pNombre, pTamanPorcion, pEnergia, pGrasa, pSodio, pCarbohidratos, pProteina, pVitaminas, pCalcio, pHierro);
+  END IF;
+END;
+$$;
+
+
