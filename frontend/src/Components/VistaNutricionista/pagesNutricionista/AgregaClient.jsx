@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap'
 import axios from 'axios'
 
 function AgregaClient(){
-
+  //Se crean los state hook necesarios para actualizar los datos
    const[cliente,setcliente]=useState("")
    const[clientes,setClientes]=useState([])
 
@@ -30,28 +30,20 @@ function AgregaClient(){
     }
 
     // funciones
-    const addPatient=async(event)=>{
-        event.preventDefault()
-        const url=""
-        const clienttoadd=event.target.name
-       try{const response= await fetch(url,{
-        addclient:clienttoadd
-      })
-      alert(response)
-      
-    }
-      catch(error){
-        alert(error)
-      }
-       
-       
-    }
 
 
     //add patients
-    const Add=async()=>{
+    const Add=async(cliente)=>{
       const url=''
-      await axios.put({url})      
+      try{ 
+        const response=await axios.post(url,{
+          nombreNutricionista:localStorage.getItem("nutricionista"),
+          paciente:cliente
+        })
+      }
+      catch(error){
+      console.error(error)
+    }
       
     }
     return(
@@ -84,16 +76,15 @@ function AgregaClient(){
         result.map(index=>{
          
              return( <tr>
-               <td>{index.id}</td>
                <td>{index.nombre}</td>
                <td>{index.apellido1}</td>
                <td>{index.apellido2}</td>
                <td>{index.pais}</td>
                <td>{index.peso}</td>
-               <td>{index.correo}</td>
+               <td>{index.correoelectronico}</td>
                
                <td>
-                <button name={`${index.id}`} type="button" class="btn btn-warning" onClick={addPatient}>Agregar</button>
+                <button type="button" class="btn btn-warning" onClick={()=> Add(index.clienteid)}>Agregar</button>
                  </td>             
              </tr>)
         

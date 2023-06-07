@@ -1,187 +1,199 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button } from 'react-bootstrap';
-import Table from 'react-bootstrap/Table';
-const RecipeManagement = () => {
-  const [recipeName, setRecipeName] = useState('');
-  const [recipeIngredients, setRecipeIngredients] = useState([]);
-  const [product,setProducts]=useState([])
- 
-  const handleRecipeNameChange = (event) => {
-    setRecipeName(event.target.value);
+
+const Receta = () => {
+  const [productos, setProductos] = useState([]);
+  const [receta, setReceta] = useState([]);
+  const [nombreReceta, setNombreReceta] = useState('');
+  const [puedeEnviarReceta, setPuedeEnviarReceta] = useState(false);
+
+  useEffect(() => {
+    simularObtenerProductos();
+  }, []);
+
+  // Función para simular la obtención de los productos desde la API
+  const simularObtenerProductos = () => {
+    // Datos estáticos de ejemplo
+    const datosProductos = [
+      {
+        id: 1,
+        nombre: 'Producto 1',
+        codigoBarras: '1234567890',
+        descripcion: 'Descripción del producto 1',
+        tamPorcion: '100g',
+        energia: '200 Kcal',
+        grasa: '10g',
+        sodio: '100mg',
+        carbohidratos: '20g',
+        proteina: '5g',
+        vitaminas: 'Vitamina A, Vitamina C',
+        calcio: '50mg',
+        hierro: '2mg'
+      },
+      {
+        id: 2,
+        nombre: 'Producto 2',
+        codigoBarras: '0987654321',
+        descripcion: 'Descripción del producto 2',
+        tamPorcion: '50g',
+        energia: '150 Kcal',
+        grasa: '8g',
+        sodio: '80mg',
+        carbohidratos: '15g',
+        proteina: '3g',
+        vitaminas: 'Vitamina B, Vitamina D',
+        calcio: '30mg',
+        hierro: '1mg'
+      }
+    ];
+
+    setProductos(datosProductos);
   };
 
-  /*const handleIngredientChange = (event, index) => {
-    const updatedIngredients = [...recipeIngredients];
-    updatedIngredients[index] = event.target.value;
-    setRecipeIngredients(updatedIngredients);
-  };*/
-  
-  const handleAddIngredient = (product) => {
-    setRecipeIngredients(prevProductos => [...prevProductos, product]);
-
+  // Función para agregar un producto a la receta
+  const agregarProductoReceta = (producto) => {
+    setReceta([...receta, producto]);
+    setPuedeEnviarReceta(true);
   };
 
-  const handleRemoveIngredient = (product) => {
-    setRecipeIngredients(prevProductos =>
-      prevProductos.filter(p => p.id !== product.id)
-    );
+  // Función para manejar el cambio en el nombre de la receta
+  const handleNombreRecetaChange = (e) => {
+    setNombreReceta(e.target.value);
+    setPuedeEnviarReceta(false);
   };
 
+  // Función para enviar la receta a la API
+  const enviarReceta = () => {
+    if (nombreReceta !== '' && receta.length > 0) {
+      const recetaData = {
+        nombre: nombreReceta,
+        productos: receta
+      };
 
-//function request
-const getProduct=async()=>{
-    const url=''
-    const response=await axios.get(url)
-    const data=response.data
-    setProducts(data)
-}
-
-//Function request
-  const handleRecipeSubmit = async(event) => {
-    event.preventDefault();
-    const url=''
-    //send post request 
-    const response=await axios.put(url,{
-        
-    })
-    console.log(response)
-    // Aquí puedes realizar la lógica para guardar la receta en la base de datos o en algún otro lugar adecuado
-
-    // Reinicia los estados o realiza alguna otra acción necesaria después de guardar la receta
-    setRecipeName('');
-    setRecipeIngredients([]);
-  
+      axios.post('http://localhost:8000/Cliente/registrarcliente', recetaData)
+        .then((response) => {
+          // Manejar la respuesta de la API si es necesario
+          console.log(response.data);
+        })
+        .catch((error) => {
+          // Manejar el error si ocurre
+          console.error(error);
+        });
+    }
   };
 
-  
- 
-  /*useEffect(
-    ()=>{
-        getProduct()
-    },[]
-
-  )*/
   return (
-    <div>
-      <h2>Crea tu Receta</h2>
-      <form onSubmit={handleRecipeSubmit}>
-        <label>
-          colocale un nombre a tu receta
-          <input type="text" value={recipeName} onChange={handleRecipeNameChange} />
-        </label>
-        <br />
-        <label>Ingredientes Agregados:</label>
-      <Table striped bordered hover size="sm">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Codigo de Barra</th>
-          <th>Descripcion</th>
-          <th>Tamaño Porcion</th>
-          <th>Energia</th>
-          <th>Grasa</th>
-          <th>Sodio</th>
-          <th>Carbohidratos</th>
-          <th>Proteina</th>
-          <th>Vitaminas</th>
-          <th>Calcio</th>
-          <th>Hierro</th>
-          <th>Eliminar</th> 
-          
-        </tr>
-      </thead>
-      <tbody>
-        {
-  
-    
-        recipeIngredients.map(index=>{
-          
-             return( <tr>
-               <td>2</td>
-               <td>{index.codigo}</td>
-               <td>{index.des}</td>
-               <td>{index.tam}</td>
-               <td>{index.energia}</td>
-               <td>{index.grasa}</td>
-               <td>{index.sodio}</td>
-               <td>{index.carbohidratos}</td>
-               <td>{index.prote}</td>
-               <td>{index.vitaminas}</td>
-               <td>{index.calcio}</td>
-               <td>{index.hierro}</td>
-               <td>
-               <Button bsStyle="success" onClick={index=>handleRemoveIngredient(index)}>Eliminar</Button>
-               
-               </td>             
-             </tr>)
-        
+    <div className="container mt-4">
+      <h1>Receta</h1>
 
-            
-        })
-        }
-
-
-      </tbody>
-    </Table>
-        <br />
+      {/* Formulario para el nombre de la receta */}
+      <form>
+        <div className="mb-3">
+          <label htmlFor="nombreReceta" className="form-label">Nombre de la Receta:</label>
+          <input
+            type="text"
+            className="form-control"
+            id="nombreReceta"
+            value={nombreReceta}
+            onChange={handleNombreRecetaChange}
+          />
+        </div>
       </form>
-      <div className='table-products'>
-      <label>Selecciona algunos de estos Ingredientes para crea tu Receta:</label>     
-        <Table striped bordered hover size="sm">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Codigo de Barra</th>
-          <th>Descripcion</th>
-          <th>Tamaño Porcion</th>
-          <th>Energia</th>
-          <th>Grasa</th>
-          <th>Sodio</th>
-          <th>Carbohidratos</th>
-          <th>Proteina</th>
-          <th>Vitaminas</th>
-          <th>Calcio</th>
-          <th>Hierro</th>
-          <th>Agregar</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-  
-    
-        product.map(index=>{
-          
-             return( <tr>
-               <td>2</td>
-               <td>{index.codigo}</td>
-               <td>{index.des}</td>
-               <td>{index.tam}</td>
-               <td>{index.energia}</td>
-               <td>{index.grasa}</td>
-               <td>{index.sodio}</td>
-               <td>{index.carbohidratos}</td>
-               <td>{index.prote}</td>
-               <td>{index.vitaminas}</td>
-               <td>{index.calcio}</td>
-               <td>{index.hierro}</td>
-               <td>
-               <Button bsStyle="success" onClick={index=>{handleAddIngredient(index)}}>Agregar</Button>
-               
-               </td>             
-             </tr>)
-        
 
-            
-        })
-        }
+      {/* Tabla de productos */}
+      <h2>Productos:</h2>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Código de barras único</th>
+            <th>Descripción</th>
+            <th>Tamaño de la porción (g/ml)</th>
+            <th>Energía (Kcal)</th>
+            <th>Grasa (g)</th>
+            <th>Sodio (mg)</th>
+            <th>Carbohidratos (g)</th>
+            <th>Proteína (g)</th>
+            <th>Vitaminas</th>
+            <th>Calcio (mg)</th>
+            <th>Hierro (mg)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {productos.map((producto) => (
+            <tr key={producto.id}>
+              <td>{producto.nombre}</td>
+              <td>{producto.codigoBarras}</td>
+              <td>{producto.descripcion}</td>
+              <td>{producto.tamPorcion}</td>
+              <td>{producto.energia}</td>
+              <td>{producto.grasa}</td>
+              <td>{producto.sodio}</td>
+              <td>{producto.carbohidratos}</td>
+              <td>{producto.proteina}</td>
+              <td>{producto.vitaminas}</td>
+              <td>{producto.calcio}</td>
+              <td>{producto.hierro}</td>
+              <td>
+                <button className="btn btn-primary" onClick={() => agregarProductoReceta(producto)}>
+                  Agregar a la receta
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
+      {/* Tabla de la lista de receta */}
+      <h2>Lista de Receta: {nombreReceta}</h2>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Código de barras único</th>
+            <th>Descripción</th>
+            <th>Tamaño de la porción (g/ml)</th>
+            <th>Energía (Kcal)</th>
+            <th>Grasa (g)</th>
+            <th>Sodio (mg)</th>
+            <th>Carbohidratos (g)</th>
+            <th>Proteína (g)</th>
+            <th>Vitaminas</th>
+            <th>Calcio (mg)</th>
+            <th>Hierro (mg)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {receta.map((producto) => (
+            <tr key={producto.id}>
+              <td>{producto.nombre}</td>
+              <td>{producto.codigoBarras}</td>
+              <td>{producto.descripcion}</td>
+              <td>{producto.tamPorcion}</td>
+              <td>{producto.energia}</td>
+              <td>{producto.grasa}</td>
+              <td>{producto.sodio}</td>
+              <td>{producto.carbohidratos}</td>
+              <td>{producto.proteina}</td>
+              <td>{producto.vitaminas}</td>
+              <td>{producto.calcio}</td>
+              <td>{producto.hierro}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-      </tbody>
-    </Table>
-      </div>
+      {/* Botón para enviar la receta */}
+      <button
+        className="btn btn-primary"
+        onClick={enviarReceta}
+        disabled={!puedeEnviarReceta}
+      >
+        Enviar Receta
+      </button>
     </div>
   );
 };
 
-export default RecipeManagement;
+export default Receta;

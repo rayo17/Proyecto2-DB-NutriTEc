@@ -1,9 +1,12 @@
 import React from 'react';
 import Card from '../../../templates/Card';
 import '../../../../styleCss/Templates/Card.css';
-
+import '../../../../styleCss/Cliente/VistaMainCliente.css'
+import BarraNav from '../../../Barra';
 function VistaMaiAdmin() {
   return (
+    <>
+    <BarraNav/>
     <div className="container">
       <div className="row">
         <div className="col-md-6 offset-md-3">
@@ -16,6 +19,7 @@ function VistaMaiAdmin() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

@@ -1,77 +1,120 @@
-import React,{useState} from "react";
-import '../../../styleCss/LoginCliente.css'
-import login from  '../../assets/login.png'
-import BarraNav from '../../Barra';
+import React, { useState } from "react";
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import {useForm} from 'react-hook-form'
-//const  {register, formState:{errors}, handleSubmit}=useForm();
-function Login({url,img,register}){
+import '../../../styleCss/LoginCliente.css';
+import BarraNav from '../../Barra';
+import md5 from "md5";
+import AlertSucces from "./AlertSucces";
 
-    const [gmail,setgmail]=useState("")
-    const [password,setpassword]=useState("")
-    const changeGmail=(e)=>{
-        setgmail(e.target.value)
-        console.log("Gmail",gmail)
-    }
-    const changePassword=(e)=>{
-        setpassword(e.target.value)
-        console.log("Password",password)
-    }  
+function Login({ url, img, register, rutathen }) {
+  const { register: formRegister, handleSubmit, formState: { errors } } = useForm();
+  const [gmail, setGmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showAlert,setshowAlert]=useState(false)
+  const navigate = useNavigate();
 
-    function sendinfo(e){
-        e.preventDefautl()
+  const changeGmail = (e) => {
+    setGmail(e.target.value);
+  };
 
-         axios.get("",{
-            Gmail:gmail,
-            password: password
-        }
-        ).then(info=>{console.log(info)}).catch(error=>console.log(error))
-
-    }
-
+  const changePassword = (e) => {
+    setPassword(e.target.value);
+  };
+ //envio de la informacion para ser revisada
+  const sendInfo = async (data) => {
+    try {
+      const url="https://apinutritecbd.azurewebsites.net/Cliente/validarcliente"
+      const response= await axios.post(url, {
+        correoelectronico: data.gmail,   
+        contrasena: md5(data.password)
+      });
+      if(response.data!==0){
+          localStorage.setItem("cliente",data.gmail)
+          setshowAlert(true)
+          navigate( rutathen );
+    
+        
+      }
+      else{
+        alert('La contraseña o el usuario no es valido por favor registrate')
+      }
+     
 
     
-    
+    } catch (error) {
+      alert("Ha ocurrido un error");
+      setGmail("")
+      setPassword("")
+    }
+  };
 
-    return(
-        <div>
-            <BarraNav/>
-        <div className="container-login-cliente">
-            <div className="container-img">
-                <img className="img-login" src={img} alt="imagen"/>
-            </div>
-            <form className="container-form">
-                <div className="icon">
-                  <i class="fa-solid fa-user"></i>
-                </div>
-                <div className="div-gmail">
-                    <i class="fa-sharsp fa-solid fa-envelope"></i>
-                    <input type="gmail" className="input-gmail" name="gmail" onChange={changeGmail}/>
-                    <label>Gmail</label>
-                </div>
-                <div className="div-password">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password"  className="input-password" name="password" onChange={changePassword}/>
-                    <label>password</label>
-                </div>
-
-                <div className="icons-application">
-                   <i class="fa-brands fa-instagram"></i>
-                   <i class="fa-brands fa-facebook facebook"></i>
-                   <i class="fa-brands fa-twitter"></i>
-
-                </div>
-                <div className="pregunta-registro">
-                    <a className="a-pregunta" href={register}>No tiene cuenta registrada?</a>
-                </div>
-                <div className="button-login-div">
-                    <button className="button-login" onClick={sendinfo}>Login</button>
-                </div>
-                
-            </form>
+  return (
+    <div>
+      <BarraNav />
+     
+      <div className="container-login-cliente">
+      {showAlert && <AlertSucces/>}
+        <div className="container-img">
+          <img className="img-login" src={img} alt="imagen" />
         </div>
-        </div>
-    )
+        <form className="container-form" onSubmit={handleSubmit(sendInfo)}>
+          <div className="icon">
+            <i className="fa-solid fa-user"></i>
+          </div>
+          <div className="div-gmail">
+            <i className="fa-sharsp fa-solid fa-envelope"></i>
+            <input
+              
+              type="text"
+              className="input-gmail"
+              name="gmail"
+              onChange={changeGmail}
+              {...formRegister("gmail", {
+                required: "Email is required",
+                pattern: {
+                  value: /^\S+@\S+$/i,
+                  message: "Invalid email format"
+                }
+              })}
+            />
+            <label>Email</label>
+            {errors.gmail && <span>{errors.gmail.message}</span>}
+          </div>
+          <div className="div-password">
+            <i className="fa-solid fa-lock"></i>
+            <input
+            
+              type="password"
+              className="input-password"
+              name="password"
+              onChange={changePassword}
+              {...formRegister("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must have at least 6 characters"
+                }
+              })}
+            />
+            <label>Password</label>
+            {errors.password && <span>{errors.password.message}</span>}
+          </div>
+          <div className="icons-application">
+            <i className="fa-brands fa-instagram"></i>
+            <i className="fa-brands fa-facebook facebook"></i>
+            <i className="fa-brands fa-twitter"></i>
+          </div>
+          <div className="pregunta-registro">
+            <a className="a-pregunta" href={register}>Don't have an account?</a>
+          </div>
+          <div className="button-login-div">
+            <button className="button-login" type="submit">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default Login;

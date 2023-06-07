@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
+import '../../../styleCss/Cliente/RegistroDC.css'
 
 function RegistroDiarioDeConsumo() {
   const [desayuno, setDesayuno] = useState([]);
@@ -11,74 +12,38 @@ function RegistroDiarioDeConsumo() {
   const [busqueda, setBusqueda] = useState('');
   const [filtro, setFiltro] = useState('nombre');
   const [alimentosEncontrados, setAlimentosEncontrados] = useState([]);
+  const [productos,setProductos]=useState([])
   const [fechaRegistro, setFechaRegistro] = useState('');
 
   const buscarAlimento = () => {
-    const alimentos = [
-      {
-        codigo: '123456',
-        nombre: 'Manzana',
-        descripcion: 'Fruta',
-        tamanoPorcion: '1 unidad',
-        energia: 52,
-        grasa: 0.2,
-        sodio: 1,
-        carbohidratos: 14,
-        proteina: 0.3,
-        vitaminas: 'A, C',
-        calcio: 6,
-        hierro: 0.1
-      },
-      {
-        codigo: '654321',
-        nombre: 'Banana',
-        descripcion: 'Fruta',
-        tamanoPorcion: '1 unidad',
-        energia: 96,
-        grasa: 0.2,
-        sodio: 1,
-        carbohidratos: 23,
-        proteina: 1.1,
-        vitaminas: 'B6, C',
-        calcio: 5,
-        hierro: 0.3
-      },
-      {
-        codigo: '987654',
-        nombre: 'Pasta',
-        descripcion: 'Alimento base',
-        tamanoPorcion: '100g',
-        energia: 131,
-        grasa: 1.1,
-        sodio: 2,
-        carbohidratos: 26,
-        proteina: 5.5,
-        vitaminas: 'B3, B9',
-        calcio: 12,
-        hierro: 1.3
-      },
-      {
-        codigo: '987654',
-        nombre: 'Pasta',
-        descripcion: 'Alimento base',
-        tamanoPorcion: '100g',
-        energia: 131,
-        grasa: 1.1,
-        sodio: 2,
-        carbohidratos: 26,
-        proteina: 5.5,
-        vitaminas: 'B3, B9',
-        calcio: 12,
-        hierro: 1.3
-      },
-    ];
-
+    try{
     const alimentosEncontrados = filtro === 'nombre'
-      ? alimentos.filter(alimento => alimento.nombre.toLowerCase().includes(busqueda.toLowerCase()))
-      : alimentos.filter(alimento => alimento.codigo === busqueda);
-
-    setAlimentosEncontrados(alimentosEncontrados);
+      ? productos.filter(alimento => alimento.nombre.toLowerCase().includes(busqueda.toLowerCase()))
+      : productos.filter(alimento => alimento.codigo === busqueda);
+  
+    setAlimentosEncontrados(alimentosEncontrados);}
+    catch(error){
+      console.log(error)
+    }
   };
+
+   //Esta funcion trae todos los productos para poder realizar el consumo diario
+  const requestProduct=async()=>{
+     //se realiza la peticion para cargar los productos 
+    const url="https://apinutritecbd.azurewebsites.net/Externos/VisualizarProductosDisponibles"
+    try{
+      const response=await axios.get(url)
+    setProductos(response.data)
+     }
+     catch(error){
+        console.log(error)
+     }
+
+     
+  }
+  useEffect(()=>{
+    requestProduct()
+  },[])
 
   const agregarAlimento = (alimento, tiempoComida) => {
     if (fechaRegistro) {
@@ -111,7 +76,7 @@ function RegistroDiarioDeConsumo() {
   const guardarRegistro = () => {
     const registroDiario = { desayuno, meriendaManana, almuerzo, meriendaTarde, cena };
 
-    // Aquí puedes enviar el registroDiario al backend o hacer cualquier otra acción con los datos guardados
+    // Envio del registro del consumo diario al backend
      axios.post('/api/registro-diario', registroDiario)
      .then(response => {
          console.log('Registro guardado exitosamente');
@@ -403,7 +368,7 @@ function RegistroDiarioDeConsumo() {
           </div>
           {fechaRegistro && (
             <div className="mt-4">
-              <button className="btn btn-primary" onClick={guardarRegistro}>Guardar Registro</button>
+              <button className="btn btn-primary " onClick={guardarRegistro}>Guardar Registro</button>
             </div>
           )}
         </div>

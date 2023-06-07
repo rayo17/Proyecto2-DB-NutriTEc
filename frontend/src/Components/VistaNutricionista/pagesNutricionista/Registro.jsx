@@ -65,11 +65,12 @@ function VistaRegistro(){
     }
 
     return(
-        
+        <>  
+        <BarraNav/>
+       
         <div className='contenedor-registro-nutri'>
-            <BarraNav/>
-            <h2 className='titulo-registro'>Registro</h2>
             <form onSubmit={handleSubmit(envio)} className='form-registro-Nutri'>
+          
                     <label>cedula</label>
                     <input {...register('cedula',{required:true,message:"todo bien" })} type="text" name='cedula' className="cedula-input"  onChange={handlerData}/>
         
@@ -126,7 +127,8 @@ function VistaRegistro(){
                     <input type="password" name='password' className="cedula-input"  onChange={handlerData}/>
 
                 <div>
-                    <button onClick={sendRegister}>Registrar datos</button>
+                    <button className='btn btn-dark'
+                    onClick={sendRegister}>Registrar datos</button>
                 </div>
                 
         
@@ -134,6 +136,7 @@ function VistaRegistro(){
             </form>
            
         </div>
+        </>
     )
 }
 export default VistaRegistro

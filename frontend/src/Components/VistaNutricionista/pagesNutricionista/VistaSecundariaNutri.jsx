@@ -4,7 +4,7 @@ import Card from '../../templates/Card';
 
 function VistaSecundariaNutri() {
   return (
-    <div className='VistaMainCliente container'>
+    <div className='container center'>
       <div className='row'>
         <div className='col-md-7'>
           <Card
