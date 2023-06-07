@@ -17,6 +17,7 @@ C:\Users\irodr\OneDrive\Documents\GitHub\Proyecto2-DB-NutriTEc\ApiPosgreSQLDB\Ap
 C:\Users\irodr\OneDrive\Documents\GitHub\Proyecto2-DB-NutriTEc\ApiPosgreSQLDB\ApiPosgreSQLDB\obj\Release\net6.0\PubTmp\Out\Microsoft.Extensions.Options.dll
 C:\Users\irodr\OneDrive\Documents\GitHub\Proyecto2-DB-NutriTEc\ApiPosgreSQLDB\ApiPosgreSQLDB\obj\Release\net6.0\PubTmp\Out\Microsoft.Extensions.Primitives.dll
 C:\Users\irodr\OneDrive\Documents\GitHub\Proyecto2-DB-NutriTEc\ApiPosgreSQLDB\ApiPosgreSQLDB\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
+C:\Users\irodr\OneDrive\Documents\GitHub\Proyecto2-DB-NutriTEc\ApiPosgreSQLDB\ApiPosgreSQLDB\obj\Release\net6.0\PubTmp\Out\Newtonsoft.Json.dll
 C:\Users\irodr\OneDrive\Documents\GitHub\Proyecto2-DB-NutriTEc\ApiPosgreSQLDB\ApiPosgreSQLDB\obj\Release\net6.0\PubTmp\Out\Npgsql.dll
 C:\Users\irodr\OneDrive\Documents\GitHub\Proyecto2-DB-NutriTEc\ApiPosgreSQLDB\ApiPosgreSQLDB\obj\Release\net6.0\PubTmp\Out\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 C:\Users\irodr\OneDrive\Documents\GitHub\Proyecto2-DB-NutriTEc\ApiPosgreSQLDB\ApiPosgreSQLDB\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll

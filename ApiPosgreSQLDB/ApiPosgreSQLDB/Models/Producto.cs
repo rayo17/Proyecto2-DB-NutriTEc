@@ -8,7 +8,7 @@ namespace ApiPosgreSQLDB.Models
     {
         public string codigobarra { get; set; }
         public string nombre { get; set; }
-        public int tamanioporcion { get; set; }
+        public int taman_porcion { get; set; }
         public int energia { get; set; }
         public int grasa { get; set; }
         public int sodio { get; set; }

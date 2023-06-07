@@ -52,3 +52,4 @@ C:\Users\irodr\OneDrive\Documents\GitHub\Proyecto2-DB-NutriTEc\ApiPosgreSQLDB\Ap
 C:\Users\irodr\OneDrive\Documents\GitHub\Proyecto2-DB-NutriTEc\ApiPosgreSQLDB\ApiPosgreSQLDB\obj\Debug\net6.0\ApiPosgreSQLDB.pdb
 C:\Users\irodr\OneDrive\Documents\GitHub\Proyecto2-DB-NutriTEc\ApiPosgreSQLDB\ApiPosgreSQLDB\obj\Debug\net6.0\ApiPosgreSQLDB.genruntimeconfig.cache
 C:\Users\irodr\OneDrive\Documents\GitHub\Proyecto2-DB-NutriTEc\ApiPosgreSQLDB\ApiPosgreSQLDB\obj\Debug\net6.0\ref\ApiPosgreSQLDB.dll
+C:\Users\irodr\OneDrive\Documents\GitHub\Proyecto2-DB-NutriTEc\ApiPosgreSQLDB\ApiPosgreSQLDB\bin\Debug\net6.0\Newtonsoft.Json.dll

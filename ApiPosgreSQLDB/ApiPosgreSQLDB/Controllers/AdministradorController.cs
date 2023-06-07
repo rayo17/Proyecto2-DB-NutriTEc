@@ -28,8 +28,8 @@ namespace ApiPosgreSQLDB.Controllers
         }
 
 
-        [HttpGet("validaradministrador")]
-        public async Task<int> ValidarAdministrador(string correo, string contrasena)
+        [HttpPost("validaradministrador")]
+        public async Task<int> ValidarAdministrador([FromBody] ValidacionLogin v)
         {
             int resultado = 0;
 
@@ -41,8 +41,8 @@ namespace ApiPosgreSQLDB.Controllers
                 {
                     command.Connection = connection;
                     command.CommandText = "SELECT validarloginadministrador(@p_correo, @p_contrasena)";
-                    command.Parameters.AddWithValue("@p_correo", correo);
-                    command.Parameters.AddWithValue("@p_contrasena", contrasena);
+                    command.Parameters.AddWithValue("@p_correo", v.correoelectronico);
+                    command.Parameters.AddWithValue("@p_contrasena", v.contrasena);
 
                     var result = command.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
@@ -57,8 +57,8 @@ namespace ApiPosgreSQLDB.Controllers
             return resultado;
         }
 
-        [HttpGet("validarproducto")]
-        public async Task<string> ValidarProducto(string cod_barras, string validacion)
+        [HttpPost("validarproducto")]
+        public async Task<string> ValidarProducto([FromBody] ValidarProducto v)
         {
             string resultado = "";
 
@@ -70,8 +70,8 @@ namespace ApiPosgreSQLDB.Controllers
                 {
                     command.Connection = connection;
                     command.CommandText = "SELECT validar_producto(@p_codigo_barras, @p_validacion)";
-                    command.Parameters.AddWithValue("@p_codigo_barras", cod_barras);
-                    command.Parameters.AddWithValue("@p_validacion", validacion);
+                    command.Parameters.AddWithValue("@p_codigo_barras", v.cod_barras);
+                    command.Parameters.AddWithValue("@p_validacion", v.validacion);
 
                     var result = command.ExecuteScalar();
                     if (result != null && result != DBNull.Value)

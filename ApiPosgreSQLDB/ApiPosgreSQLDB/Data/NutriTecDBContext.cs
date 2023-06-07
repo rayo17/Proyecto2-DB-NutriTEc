@@ -40,6 +40,7 @@ namespace ApiPosgreSQLDB.Data
         public DbSet<TiempoComida> tiempocomida { get; set; }
         public DbSet<TipoCobro> tipocobro { get; set; }
         public DbSet<Medidas> medidas { get; set; }
+        public DbSet<ValidacionLogin> validacion { get; set; }
 
         
         
@@ -87,7 +88,7 @@ namespace ApiPosgreSQLDB.Data
             modelBuilder.Entity<ProductoPlan>()
                 .HasKey(p => p.id);
             modelBuilder.Entity<Receta>()
-                .HasKey(r => r.id);
+                .HasKey(r => r.nombre);
             modelBuilder.Entity<RegistroDiario>()
                 .HasKey(r => r.id);
             modelBuilder.Entity<ReporteCobro>()
@@ -100,6 +101,10 @@ namespace ApiPosgreSQLDB.Data
                 .HasKey(t => t.id);
             modelBuilder.Entity<Medidas>()
                 .HasKey(m => m.id);
+            modelBuilder.Entity<ValidacionLogin>()
+                .HasKey(v => v.correoelectronico);
+            modelBuilder.Entity<ValidarProducto>()
+                .HasKey(v => v.cod_barras);
             
         }
     }

@@ -29,8 +29,8 @@ namespace ApiPosgreSQLDB.Controllers
 
 
 
-        [HttpGet("validarcliente")]
-        public async Task<int> ValidarCliente(string correo, string contrasena)
+        [HttpPost("validarcliente")]
+        public async Task<int> ValidarCliente([FromBody] ValidacionLogin v)
         {
             int resultado = 0;
 
@@ -42,8 +42,8 @@ namespace ApiPosgreSQLDB.Controllers
                 {
                     command.Connection = connection;
                     command.CommandText = "SELECT validarlogincliente(@p_correo, @p_contrasena)";
-                    command.Parameters.AddWithValue("@p_correo", correo);
-                    command.Parameters.AddWithValue("@p_contrasena", contrasena);
+                    command.Parameters.AddWithValue("@p_correo", v.correoelectronico);
+                    command.Parameters.AddWithValue("@p_contrasena", v.contrasena);
 
                     var result = command.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
@@ -57,6 +57,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             return resultado;
         }
+
 
 
 
@@ -123,14 +124,17 @@ namespace ApiPosgreSQLDB.Controllers
                 new NpgsqlParameter("@p_ClienteID", NpgsqlDbType.Varchar) { Value = rd.clienteid },
                 new NpgsqlParameter("@p_TiempoComidaID", NpgsqlDbType.Integer) { Value = rd.tiempocomidaid },
                 new NpgsqlParameter("@p_Fecha", NpgsqlDbType.Date) { Value = rd.fecha },
-                new NpgsqlParameter("@p_CantidadConsumida", NpgsqlDbType.Integer) { Value = rd.cantidadconsumida },
                 new NpgsqlParameter("@p_ProductoID", NpgsqlDbType.Varchar) { Value = rd.productoid },
                 
 
             };
 
-            await _context.Database.ExecuteSqlRawAsync("SELECT insertar_registro_diario(@p_ID, @p_ClienteID, @p_TiempoComidaID, @p_Fecha, @p_CantidadConsumida, @p_ProductoID)", parameters);
+            await _context.Database.ExecuteSqlRawAsync("SELECT insertar_registro_diario(@p_ID, @p_ClienteID, @p_TiempoComidaID, @p_Fecha, @p_ProductoID)", parameters);
         }
+
+        
+
+
 
     }
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zVvI+Gz+pUO5ESO87WZU9Fw7Yv3jhF4WEe5qbLOq8DWmhtu5kSvYFEESap1ijjwLKMsnmr5yRJ0LhKC9p65NzA==",
+  "dgSpecHash": "NgKLAkUsoD8s4S+5XQJjMzx9siWCw2aepxgsg2tZ80Vtm+eIHm9n1IfbHUVQm9u09ig/LHK6+zNTuMXU4vaQpg==",
   "success": true,
   "projectFilePath": "C:\\Users\\irodr\\OneDrive\\Documents\\GitHub\\Proyecto2-DB-NutriTEc\\ApiPosgreSQLDB\\ApiPosgreSQLDB\\ApiPosgreSQLDB.csproj",
   "expectedPackageFiles": [
@@ -24,6 +24,7 @@
     "C:\\Users\\irodr\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
     "C:\\Users\\irodr\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\irodr\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\irodr\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\irodr\\.nuget\\packages\\npgsql\\7.0.4\\npgsql.7.0.4.nupkg.sha512",
     "C:\\Users\\irodr\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\7.0.4\\npgsql.entityframeworkcore.postgresql.7.0.4.nupkg.sha512",
     "C:\\Users\\irodr\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",

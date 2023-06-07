@@ -6,10 +6,15 @@ namespace ApiPosgreSQLDB.Models
 {
     public class Receta
     {
-        public int id { get; set; }
         public string nombre { get; set; }
-        public int caloriastotalesreceta { get; set; }
-        public string productoid { get; set; }
-        public Producto Producto { get; set; }  // Propiedad de navegación
+        public int taman_porcion { get; set; }
+        public  int energia { get; set; }
+        public int grasa { get; set; }
+        public int sodio { get; set; }
+        public int carbohidratos { get; set; }
+        public int proteina { get; set; }
+        public string vitaminas { get; set; }
+        public int calcio { get; set; }
+        public int hierro { get; set; }
     }
 }

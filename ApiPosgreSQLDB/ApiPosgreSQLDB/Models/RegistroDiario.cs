@@ -9,7 +9,6 @@ namespace ApiPosgreSQLDB.Models
         public string clienteid { get; set; }
         public int tiempocomidaid { get; set; }
         public DateTime fecha { get; set; }
-        public int cantidadconsumida { get; set; }
         public string productoid { get; set; }
         
     }
