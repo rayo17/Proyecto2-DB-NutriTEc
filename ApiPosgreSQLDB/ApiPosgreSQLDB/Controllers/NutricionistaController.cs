@@ -241,7 +241,35 @@ namespace ApiPosgreSQLDB.Controllers
             }
         }
 
+        [HttpPost("CrearPlanAlimentacion")]
+        public IActionResult CrearPlanAlimentacion([FromBody] PlanAlimentacionData data)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
 
+                using (var command = new NpgsqlCommand("SELECT CrearPlanAlimentacion(@nombrePlan, @nutricionistaId, @desayunoProductoIds, @desayunoRecetaIds, @meriendaMananaProductoIds, @meriendaMananaRecetaIds, @almuerzoProductoIds, @almuerzoRecetaIds, @meriendaTardeProductoIds, @meriendaTardeRecetaIds, @cenaProductoIds, @cenaRecetaIds);", connection))
+                {
+                    // Asignar valores a los parámetros del comando
+                    command.Parameters.AddWithValue("nombrePlan", data.NombrePlan);
+                    command.Parameters.AddWithValue("nutricionistaId", data.NutricionistaId);
+                    command.Parameters.AddWithValue("desayunoProductoIds", data.DesayunoProductoIds);
+                    command.Parameters.AddWithValue("desayunoRecetaIds", data.DesayunoRecetaIds);
+                    command.Parameters.AddWithValue("meriendaMananaProductoIds", data.MeriendaMananaProductoIds);
+                    command.Parameters.AddWithValue("meriendaMananaRecetaIds", data.MeriendaMananaRecetaIds);
+                    command.Parameters.AddWithValue("almuerzoProductoIds", data.AlmuerzoProductoIds);
+                    command.Parameters.AddWithValue("almuerzoRecetaIds", data.AlmuerzoRecetaIds);
+                    command.Parameters.AddWithValue("meriendaTardeProductoIds", data.MeriendaTardeProductoIds);
+                    command.Parameters.AddWithValue("meriendaTardeRecetaIds", data.MeriendaTardeRecetaIds);
+                    command.Parameters.AddWithValue("cenaProductoIds", data.CenaProductoIds);
+                    command.Parameters.AddWithValue("cenaRecetaIds", data.CenaRecetaIds);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            return Ok();
+        }
 
     }
 }

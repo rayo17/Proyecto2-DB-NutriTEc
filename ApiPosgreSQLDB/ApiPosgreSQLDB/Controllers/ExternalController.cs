@@ -125,7 +125,7 @@ namespace ApiPosgreSQLDB.Controllers
                     var parameters = new[]
                     {
                 new NpgsqlParameter("@pNombre", NpgsqlDbType.Varchar) { Value = nombreReceta },
-                new NpgsqlParameter("@pTamanPorcion", NpgsqlDbType.Integer) { Value = producto.GetProperty("tamPorcion").GetInt32() },
+                new NpgsqlParameter("@pTaman_Porcion", NpgsqlDbType.Integer) { Value = producto.GetProperty("taman_porcion").GetInt32() },
                 new NpgsqlParameter("@pEnergia", NpgsqlDbType.Integer) { Value = producto.GetProperty("energia").GetInt32() },
                 new NpgsqlParameter("@pGrasa", NpgsqlDbType.Integer) { Value = producto.GetProperty("grasa").GetInt32() },
                 new NpgsqlParameter("@pSodio", NpgsqlDbType.Integer) { Value = producto.GetProperty("sodio").GetInt32() },
@@ -136,7 +136,7 @@ namespace ApiPosgreSQLDB.Controllers
                 new NpgsqlParameter("@pHierro", NpgsqlDbType.Integer) { Value = producto.GetProperty("hierro").GetInt32() }
             };
 
-                    await _context.Database.ExecuteSqlRawAsync("SELECT crearreceta(@pNombre, @pTamanPorcion, @pEnergia, @pGrasa, @pSodio, @pCarbohidratos, @pProteina, @pVitaminas, @pCalcio, @pHierro)", parameters);
+                    await _context.Database.ExecuteSqlRawAsync("SELECT crearreceta(@pNombre, @pTaman_Porcion, @pEnergia, @pGrasa, @pSodio, @pCarbohidratos, @pProteina, @pVitaminas, @pCalcio, @pHierro)", parameters);
                 }
 
                 return Ok();
@@ -161,6 +161,51 @@ namespace ApiPosgreSQLDB.Controllers
             await _context.Database.ExecuteSqlRawAsync("SELECT insertartipocobro(@p_ID, @p_NombreTipo)", parameters);
         }
 
+        [HttpGet("RecetasDisponibles")]
+        public IActionResult GetRecetasDisponibles()
+        {
+            List<Receta> recetas = new List<Receta>();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string viewName = "recetasdisponibles";
+
+                using (var command = new NpgsqlCommand($"SELECT * FROM {viewName};", connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Crear un objeto Receta y asignar los valores de cada columna del view
+                            Receta receta = new Receta
+                            {
+                                // Asignar los valores de las columnas según su tipo de datos correspondiente
+                                // Por ejemplo:
+                                nombre = reader.GetString(0),
+                                taman_porcion = reader.GetInt32(1),
+                                energia = reader.GetInt32(2),
+                                grasa = reader.GetInt32(3),
+                                sodio = reader.GetInt32(4),
+                                carbohidratos = reader.GetInt32(5),
+                                proteina = reader.GetInt32(6),
+                                vitaminas = reader.GetString(7),
+                                calcio = reader.GetInt32(8),
+                                hierro = reader.GetInt32(9),
+                                // Asignar las demás propiedades de la Receta según corresponda
+                            };
+
+                            // Agregar la receta a la lista
+                            recetas.Add(receta);
+                        }
+                    }
+                }
+            }
+
+            // Devolver la lista de recetas como resultado de la solicitud
+            return Ok(recetas);
+        }
 
 
     }
