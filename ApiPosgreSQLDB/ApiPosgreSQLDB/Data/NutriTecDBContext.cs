@@ -114,8 +114,6 @@ namespace ApiPosgreSQLDB.Data
                 .HasNoKey();
             modelBuilder.Entity<AsignarPlanCliente>()
                 .HasNoKey();
-            modelBuilder.Entity<MedidasPorClienteYPeriodoRequest>()
-                .HasNoKey();
         }
     }
 }

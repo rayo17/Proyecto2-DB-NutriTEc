@@ -9,7 +9,6 @@ using System.Data;
 using Npgsql;
 using NpgsqlTypes;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace ApiPosgreSQLDB.Controllers
 {
@@ -132,69 +131,25 @@ namespace ApiPosgreSQLDB.Controllers
 
             await _context.Database.ExecuteSqlRawAsync("SELECT insertar_registro_diario(@p_ID, @p_ClienteID, @p_TiempoComidaID, @p_Fecha, @p_ProductoID)", parameters);
         }
-        [HttpPost("VisualizacionMedidas")]
-        public async Task<ActionResult<IEnumerable<Medidas>>> ObtenerMedidasPorClienteYPeriodo(MedidasPorClienteYPeriodoRequest m)
-        {
-            var sql = "SELECT * FROM ObtenerMedidasPorClienteYPeriodo(@clienteId, @fechaInicio, @fechaFinal)";
 
-            using (var conn = new NpgsqlConnection(_connectionString))
-            {
-                await conn.OpenAsync();
-
-                using (var cmd = new NpgsqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddWithValue("clienteId", m.ClienteID);
-                    cmd.Parameters.AddWithValue("fechaInicio", m.FechaInicio);
-                    cmd.Parameters.AddWithValue("fechaFinal", m.FechaFinal);
-
-                    using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-                        var medidasList = new List<Medidas>();
-
-                        while (await reader.ReadAsync())
-                        {
-                            var medidas = new Medidas
-                            {
-                                id = reader.GetInt32("MedidaId"),
-                                clienteid = reader.GetString("ClienteId"),
-                                fecha = reader.GetDateTime("Fecha"),
-                                cintura = reader.GetInt32("Cintura"),
-                                cuello = reader.GetInt32("Cuello"),
-                                caderas = reader.GetInt32("Caderas"),
-                                porcentajemusculo = reader.GetInt32("Porcentaje_muscular"),
-                                porcentajegrasa = reader.GetInt32("Porcentaje_Grasa"),
-                                pesoactual = reader.GetInt32("PesoActual")
-                            };
-
-                            medidasList.Add(medidas);
-                        }
-
-                        return Ok(medidasList);
-                    }
-                }
-            }
-        }
-
-
-        /*
         [HttpPost("Consulta_por_Periodo_medidas")]
-
+        
         public async Task<IActionResult> Consultaperiodoregistro(ConsultaPeriodoMedidas cpm)
         {
             var parameters = new[]
             {
-                new NpgsqlParameter("@p_clienteid", NpgsqlDbType.Varchar) { Value = cpm.correocliente },
-                new NpgsqlParameter("@p_fechainicio", NpgsqlDbType.Date) { Value = cpm.fechainicio },
-                new NpgsqlParameter("@p_fechafinal", NpgsqlDbType.Date) { Value = cpm.fechafinal }
-            };
+        new NpgsqlParameter("@p_clienteid", NpgsqlDbType.Varchar) { Value = cpm.correocliente },
+        new NpgsqlParameter("@p_fechainicio", NpgsqlDbType.Date) { Value = cpm.fechainicio },
+        new NpgsqlParameter("@p_fechafinal", NpgsqlDbType.Date) { Value = cpm.fechafinal }
+    };
 
             var consulta = await _context.medidas
                 .FromSqlRaw("SELECT * FROM ObtenerMedidasPorClienteYPeriodo(@p_clienteid, @p_fechainicio, @p_fechafinal)", parameters)
                 .ToListAsync();
 
             return Ok(consulta);
-        }*/
-        /*
+        }
+
         [HttpPost("PlanesPaciente")]
         public async Task<ActionResult<string>> Post([FromBody] datoEVPA v)
         {
@@ -232,10 +187,13 @@ namespace ApiPosgreSQLDB.Controllers
             }
 
             return result;
-        }*/
-
-
-
+        }
     }
+
+
+
+
+
+
 
 }
