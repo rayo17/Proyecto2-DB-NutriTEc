@@ -1342,11 +1342,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\irodr\\OneDrive\\Documents\\GitHub\\Proyecto2-DB-NutriTEc\\ApiPosgreSQLDB\\ApiPosgreSQLDB\\ApiPosgreSQLDB.csproj",
+      "projectUniqueName": "C:\\Users\\irodr\\OneDrive\\Documents\\GitHub2\\Proyecto2-DB-NutriTEc\\ApiPosgreSQLDB\\ApiPosgreSQLDB\\ApiPosgreSQLDB.csproj",
       "projectName": "ApiPosgreSQLDB",
-      "projectPath": "C:\\Users\\irodr\\OneDrive\\Documents\\GitHub\\Proyecto2-DB-NutriTEc\\ApiPosgreSQLDB\\ApiPosgreSQLDB\\ApiPosgreSQLDB.csproj",
+      "projectPath": "C:\\Users\\irodr\\OneDrive\\Documents\\GitHub2\\Proyecto2-DB-NutriTEc\\ApiPosgreSQLDB\\ApiPosgreSQLDB\\ApiPosgreSQLDB.csproj",
       "packagesPath": "C:\\Users\\irodr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\irodr\\OneDrive\\Documents\\GitHub\\Proyecto2-DB-NutriTEc\\ApiPosgreSQLDB\\ApiPosgreSQLDB\\obj\\",
+      "outputPath": "C:\\Users\\irodr\\OneDrive\\Documents\\GitHub2\\Proyecto2-DB-NutriTEc\\ApiPosgreSQLDB\\ApiPosgreSQLDB\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NgKLAkUsoD8s4S+5XQJjMzx9siWCw2aepxgsg2tZ80Vtm+eIHm9n1IfbHUVQm9u09ig/LHK6+zNTuMXU4vaQpg==",
+  "dgSpecHash": "20vqP1E69boeKYOH6s205UafcDV5rXuQe0Zhl/zsPX9YI1eem3bzKeM6C+lpbzJUoPdLueQyQ9AW72ILgHvLMQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\irodr\\OneDrive\\Documents\\GitHub\\Proyecto2-DB-NutriTEc\\ApiPosgreSQLDB\\ApiPosgreSQLDB\\ApiPosgreSQLDB.csproj",
+  "projectFilePath": "C:\\Users\\irodr\\OneDrive\\Documents\\GitHub2\\Proyecto2-DB-NutriTEc\\ApiPosgreSQLDB\\ApiPosgreSQLDB\\ApiPosgreSQLDB.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\irodr\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\irodr\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.5\\microsoft.entityframeworkcore.7.0.5.nupkg.sha512",

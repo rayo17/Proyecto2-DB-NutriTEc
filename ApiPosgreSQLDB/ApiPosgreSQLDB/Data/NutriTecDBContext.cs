@@ -80,7 +80,7 @@ namespace ApiPosgreSQLDB.Data
             modelBuilder.Entity<Nutricionista>()
                 .HasKey(n => n.cedula);
             modelBuilder.Entity<Paciente>()
-                .HasKey(p => p.id);
+                .HasNoKey();
             modelBuilder.Entity < PlanAlimentacion>()
                 .HasKey(p => p.id);
             modelBuilder.Entity<Producto>()
