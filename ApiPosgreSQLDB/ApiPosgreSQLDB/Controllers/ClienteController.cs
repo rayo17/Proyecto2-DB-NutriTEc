@@ -150,50 +150,8 @@ namespace ApiPosgreSQLDB.Controllers
             return Ok(consulta);
         }
 
-        [HttpPost("PlanesPaciente")]
-        public async Task<ActionResult<string>> Post([FromBody] datoEVPA v)
-        {
-            string result = "";
 
-            using (NpgsqlConnection connection = new NpgsqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
 
-                using (NpgsqlCommand command = new NpgsqlCommand())
-                {
-                    command.Connection = connection;
-                    command.CommandText = "SELECT * FROM visualizarPlanesPacientes(@p_ClienteID)";
-                    command.Parameters.AddWithValue("@p_ClienteID", v.paciente);
 
-                    using (NpgsqlDataReader reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            result += "(";
-                            for (int i = 0; i < reader.FieldCount; i++)
-                            {
-                                result += reader.IsDBNull(i) ? "NULL" : reader.GetValue(i).ToString();
-                                if (i < reader.FieldCount - 1)
-                                {
-                                    result += ",";
-                                }
-                            }
-                            result += ")\n";
-                        }
-                    }
-                }
-
-                connection.Close();
-            }
-
-            return result;
-        }
     }
-
-
-
-
-
-
-
 }

@@ -41,7 +41,6 @@ namespace ApiPosgreSQLDB.Data
         public DbSet<TipoCobro> tipocobro { get; set; }
         public DbSet<Medidas> medidas { get; set; }
         public DbSet<ValidacionLogin> validacion { get; set; }
-        public DbSet<VisualizarPlanesPacientesResult> planes_v { get; set; }
 
         
         
@@ -81,7 +80,7 @@ namespace ApiPosgreSQLDB.Data
             modelBuilder.Entity<Nutricionista>()
                 .HasKey(n => n.cedula);
             modelBuilder.Entity<Paciente>()
-                .HasNoKey();
+                .HasKey(p => p.id);
             modelBuilder.Entity < PlanAlimentacion>()
                 .HasKey(p => p.id);
             modelBuilder.Entity<Producto>()
@@ -107,12 +106,6 @@ namespace ApiPosgreSQLDB.Data
             modelBuilder.Entity<ValidarProducto>()
                 .HasKey(v => v.cod_barras);
             modelBuilder.Entity<ConsultaPeriodoMedidas>()
-                .HasNoKey();
-            modelBuilder.Entity<ObtenerCedulaNutricionista>()
-                .HasNoKey();
-            modelBuilder.Entity<ClientesDisponibles>()
-                .HasNoKey();
-            modelBuilder.Entity<AsignarPlanCliente>()
                 .HasNoKey();
         }
     }

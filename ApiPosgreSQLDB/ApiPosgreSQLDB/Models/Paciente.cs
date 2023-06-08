@@ -7,8 +7,12 @@ namespace ApiPosgreSQLDB.Models
 {
     public class Paciente
     {
+        public int id { get; set; }
         public string clienteid { get; set; }
         public string nutricionistaid { get; set; }
-       
+        [JsonIgnore]
+        public Cliente Cliente { get; set; }  // Propiedad de navegación
+        [JsonIgnore]
+        public Nutricionista Nutricionista { get; set; }  // Propiedad de navegación
     }
 }
