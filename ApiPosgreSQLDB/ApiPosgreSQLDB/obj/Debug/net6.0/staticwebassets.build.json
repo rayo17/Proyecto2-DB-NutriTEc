@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "toACD6B/eh+r/sNFYEAu8NjYxcKEfLJmN+3UepeYX5U=",
+  "Source": "ApiPosgreSQLDB",
+  "BasePath": "_content/ApiPosgreSQLDB",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
