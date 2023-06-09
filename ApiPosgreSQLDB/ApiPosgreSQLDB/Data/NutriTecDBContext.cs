@@ -1,21 +1,31 @@
-﻿using ApiPosgreSQLDB.Estrcuturas_Swagger;
-using ApiPosgreSQLDB.Extra;
-using ApiPosgreSQLDB.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Npgsql;
-using NpgsqlTypes;
+﻿using ApiPosgreSQLDB.Estrcuturas_Swagger;//Contiene las estructuras necesarias para la generación de documentación Swagger.
+using ApiPosgreSQLDB.Extra;//Contiene clases adicionales utilizadas en la aplicación.
+using ApiPosgreSQLDB.Models;//Contiene las clases de modelos utilizadas para representar entidades en la base de datos.
+using Microsoft.EntityFrameworkCore;// Contiene las clases necesarias para trabajar con Entity Framework Core.
+using Microsoft.EntityFrameworkCore.Metadata;//Contiene clases para trabajar con metadatos del modelo.
+using Npgsql;//Contiene clases para interactuar con la base de datos PostgreSQL.
+using NpgsqlTypes;//Contiene tipos de datos específicos de PostgreSQL para su uso en consultas y parámetros.
 
 namespace ApiPosgreSQLDB.Data
 {
+    /*El código proporcionado muestra la definición de la clase NutriTecDBContext que 
+     * extiende la clase DbContext de Entity Framework Core. Esta clase se utiliza para
+     * interactuar con la base de datos y mapear las entidades del modelo a tablas en la 
+     * base de datos.
+     */
     public class NutriTecDBContext : DbContext
     {
         private readonly IConfiguration _configuration;
-
+        /*La clase NutriTecDBContext tiene un constructor que acepta una instancia de
+         * IConfiguration que se utiliza para obtener la cadena de conexión a la base de datos.
+         */
         public NutriTecDBContext(IConfiguration configuration)
         {
             _configuration = configuration;
         }
+        /*El método OnConfiguring se sobrescribe para configurar la conexión a la base de
+         *datos utilizando la cadena de conexión obtenida del IConfiguration.
+         */
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connectionString = _configuration.GetConnectionString("PostgreSQLConnection");
@@ -25,7 +35,10 @@ namespace ApiPosgreSQLDB.Data
         {
             return _configuration["AppSettings:ApiBaseUrl"];
         }
-
+        /*Se definen propiedades de tipo DbSet<T> para cada una de las entidades del modelo,
+         * como administradores, clientes, estadoproductos, etc. Estas propiedades representan
+         * las tablas en la base de datos y se utilizan para realizar consultas y operaciones CRUD.
+         */
         public DbSet<Administrador> administradores { get; set; }
         public DbSet<Cliente> clientes { get; set; }
         public DbSet<EstadoProducto> estadoproductos { get; set; }
@@ -43,10 +56,13 @@ namespace ApiPosgreSQLDB.Data
         public DbSet<Medidas> medidas { get; set; }
         public DbSet<ValidacionLogin> validacion { get; set; }
         public DbSet<PlanAlimentacionverCliente> verpplancliente { get; set; }
-       
 
-        
-        
+
+
+        /*Se definen métodos con atributos DbFunction que representan llamadas a funciones 
+         * almacenadas en la base de datos. Estos métodos se utilizan para ejecutar 
+         * procedimientos almacenados o funciones en la base de datos y retornar resultados.
+         */
         [DbFunction("public", "registrar_cliente")]
         public virtual int RegistrarCliente(string nombre, string apellido1, string apellido2, int edad, DateTime fechaNacimiento, int peso, int imc, string paisResidencia, int pesoActual, int cintura, int porcentajeMusculos, int cuello, int caderas, int porcentajeGrasa, int consumoDiarioCalorias, string correoElectronico, string contrasena)
         {
@@ -70,7 +86,11 @@ namespace ApiPosgreSQLDB.Data
 
             return result;
         }
-
+        /*El método OnModelCreating se sobrescribe para configurar las relaciones y claves 
+         * primarias de las entidades del modelo utilizando Fluent API. Se definen las claves 
+         * primarias utilizando el método HasKey, y también se definen algunas entidades 
+         * sin clave primaria utilizando HasNoKey.
+         */
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configuraciones de entidades y relaciones

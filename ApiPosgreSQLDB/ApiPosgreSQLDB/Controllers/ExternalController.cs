@@ -28,7 +28,7 @@ namespace ApiPosgreSQLDB.Controllers
             _logger = logger;
             _connectionString = configuration.GetConnectionString("PostgreSQLConnection");
         }
-
+        //registra los tiempos de comida
         [HttpPost("registrartiempocomida")]
         public async Task RegistrarTiempoComida(TiempoComida tc)
         {
@@ -42,7 +42,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             await _context.Database.ExecuteSqlRawAsync("SELECT insertartiempocomida(@p_ID, @p_NombreTiempo)", parameters);
         }
-
+        //Crea el producto con las caracteristicas que se le indiquen
         [HttpPost("crearproducto")]
         public async Task CrearProducto(CrearProducto productoData)
         {
@@ -68,7 +68,7 @@ namespace ApiPosgreSQLDB.Controllers
             await _context.Database.ExecuteSqlRawAsync("SELECT crear_producto(@p_codigo_barra, @p_nombre, @p_taman_porcion, @p_energia, @p_grasa, @p_sodio, @p_carbohidratos, @p_proteina, @p_vitaminas, @p_calcio, @p_hierro, @p_descripcion, @p_estado_producto, @p_creador_producto)", parameters);
         }
 
-
+        //Se visualiza los productos aceptados por el administrador
         [HttpGet("VisualizarProductosDisponibles")]
         public async Task<List<Producto>> ObtenerProductosDisponibles()
         {
@@ -101,7 +101,7 @@ namespace ApiPosgreSQLDB.Controllers
                             producto.hierro = reader.GetInt32(10);
                             producto.descripcion = reader.GetString(11);
                             producto.estadoproducto = reader.GetBoolean(12);
-                            // Obtener los demás atributos del producto según su posición en el reader
+                            
 
                             productos.Add(producto);
                         }
@@ -113,6 +113,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             return productos;
         }
+        //Crea una receta a parir de productos
         [HttpPost("crearreceta")]
         public async Task<IActionResult> CrearReceta([FromBody] JsonDocument requestData)
         {
@@ -151,7 +152,7 @@ namespace ApiPosgreSQLDB.Controllers
             }
         }
 
-
+        //Crea el tipo de cobro
         [HttpPost("creartipocobro")]
         public async Task CrearTipoCobro(TipoCobro productoData)
         {
@@ -164,7 +165,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             await _context.Database.ExecuteSqlRawAsync("SELECT insertartipocobro(@p_ID, @p_NombreTipo)", parameters);
         }
-
+        //Muestra las recetas disponibles
         [HttpGet("RecetasDisponibles")]
         public IActionResult GetRecetasDisponibles()
         {
@@ -185,8 +186,7 @@ namespace ApiPosgreSQLDB.Controllers
                             // Crear un objeto Receta y asignar los valores de cada columna del view
                             Receta receta = new Receta
                             {
-                                // Asignar los valores de las columnas según su tipo de datos correspondiente
-                                // Por ejemplo:
+                                
                                 nombre = reader.GetString(0),
                                 taman_porcion = reader.GetInt32(1),
                                 energia = reader.GetInt32(2),
@@ -197,7 +197,7 @@ namespace ApiPosgreSQLDB.Controllers
                                 vitaminas = reader.GetString(7),
                                 calcio = reader.GetInt32(8),
                                 hierro = reader.GetInt32(9),
-                                // Asignar las demás propiedades de la Receta según corresponda
+                                
                             };
 
                             // Agregar la receta a la lista
@@ -211,7 +211,7 @@ namespace ApiPosgreSQLDB.Controllers
             return Ok(recetas);
         }
         
-
+        //Actualiza el producot que se le indica a excepcion de cod barras y nombre
         [HttpPut("actualizarproducto")]
         public async Task ActualizarProducto(ObtenerProductosCliente productoData)
         {
@@ -233,7 +233,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             await _context.Database.ExecuteSqlRawAsync("SELECT actualizar_productos(@p_CodigoBarra, @p_Nombre, @p_taman_porcion, @p_energia, @p_grasa, @p_sodio, @p_carbohidratos, @p_proteina, @p_vitaminas, @p_calcio, @p_hierro, @p_descripcion)", parameters);
         }
-
+        //Elimina la receta que se le indica
         [HttpDelete("eliminarreceta/{nombreReceta}")]
         public async Task<IActionResult> EliminarReceta(string nombreReceta)
         {
@@ -249,7 +249,7 @@ namespace ApiPosgreSQLDB.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        //Elimina los productos que se le indica
         [HttpDelete("eliminarproductos/{codigoBarra}")]
         public async Task<IActionResult> EliminarProductos(string codigoBarra)
         {
@@ -265,7 +265,7 @@ namespace ApiPosgreSQLDB.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        //Muestra los detalles del producto que le le indique
         [HttpGet("mostrarproducto/{id}")]
         public IActionResult MostrarProducto(string id)
         {

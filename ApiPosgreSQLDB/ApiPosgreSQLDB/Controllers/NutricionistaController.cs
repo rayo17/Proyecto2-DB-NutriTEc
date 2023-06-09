@@ -27,7 +27,7 @@ namespace ApiPosgreSQLDB.Controllers
             _logger = logger;
             _connectionString = configuration.GetConnectionString("PostgreSQLConnection");
         }
-
+        //Registra a una nutricionista con todos sus clientes
         [HttpPost("RegistarNutricionista")]
         public async Task RegistrarNutricionista(Nutricionista c)
         {
@@ -52,6 +52,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             await _context.Database.ExecuteSqlRawAsync("SELECT registrar_nutricionista(@p_Cedula, @p_Nombre, @p_Apellido1, @p_Apellido2, @p_CodigoBarras, @p_Edad, @p_FechaNacimiento, @p_Peso, @p_IMC, @p_Direccion, @p_Foto, @p_NumTarjetaCredito, @p_TipoCobroID, @p_CorreoElectronico, @p_Contrasena)", parameters);
         }
+        //Valida si son correctos su correo y contraseña para inisiar sesion
         [HttpPost("validarnutricionista")]
         public async Task<string> ValidarNutricionista([FromBody] ValidacionLogin v)
         {
@@ -81,7 +82,7 @@ namespace ApiPosgreSQLDB.Controllers
             return resultado;
         }
 
-        
+        //Se obtine la cedula de una nutricionista apartir de su correo
         [HttpPost("obtener_cedula_nutricionista")]
         public async Task<string> ObtenerCedulaNutricionista([FromBody] ObtenerCedulaNutricionista ocn)
         {
@@ -109,6 +110,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             return cedulaNutricionista;
         }
+        //asocia un paciente a un nutricionista
         [HttpPost("AsosiarPaciente")]
         public async Task AsosiarPaciente(Paciente p)
         {
@@ -120,6 +122,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             await _context.Database.ExecuteSqlRawAsync("SELECT CrearNuevoPaciente(@p_clienteId, @p_nutricionistaId)", parameters);
         }
+        //Muestra todos los clientes que no cuentan con una asociasion a un cliente
         [HttpGet("VisualizarClientesDisponiblesAsociacion")]
         public async Task<List<ClientesDisponibles>> ObtenerClientesDisponiblesAsociacion()
         {
@@ -156,6 +159,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             return clientes;
         }
+        //Asocia paciente a un plan
         [HttpPost("AsosiarPacienteaPlan")]
         public async Task AsosiarPacienteaPlan(AsignarPlanCliente apc)
         {
@@ -170,6 +174,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             await _context.Database.ExecuteSqlRawAsync("SELECT AsignarPlanCliente(@cliente_id, @nutricionista_id, @plan_id, @p_fechainicio, @p_fechafinal)", parameters);
         }
+        //Obtiene los pacientes asociados a una nutricionista
         [HttpGet("ObtenerPacientesPorCedula/{id}")]
         public IActionResult ObtenerPacientesPorCedula(string id)
         {
@@ -211,7 +216,7 @@ namespace ApiPosgreSQLDB.Controllers
                 return StatusCode(500, $"Error interno del servidor: {ex.Message}");
             }
         }
-
+        //Se obtiene todos los planes creados por un nutricionista
         [HttpGet("planes/{id}")]
         public IActionResult ObtenerPlanesPorNutricionista(string id)
         {
@@ -246,7 +251,7 @@ namespace ApiPosgreSQLDB.Controllers
                 return StatusCode(500, $"Error interno del servidor: {ex.Message}");
             }
         }
-
+        //CRea un plan de alimentacion con todas sus recetas o productos
         [HttpPost("CrearPlanAlimentacion")]
         public IActionResult CrearPlanAlimentacion([FromBody] PlanAlimentacionData data)
         {
@@ -272,7 +277,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             return Ok();
         }
-
+        //Obtiene los productos creados por un nutricionista, con la condicion que este en estado de espera
         [HttpGet("obtenerproductosnutricionista/{id}")]
         public IActionResult ObtenerProductosCliente(string id)
         {
@@ -324,7 +329,7 @@ namespace ApiPosgreSQLDB.Controllers
                 }
             }
         }
-
+        //Elimina un plan por medio de su nombre
         [HttpDelete("eliminarplan/{nombrePlan}")]
         public async Task<IActionResult> EliminarPlanAlimentacion(string nombrePlan)
         {

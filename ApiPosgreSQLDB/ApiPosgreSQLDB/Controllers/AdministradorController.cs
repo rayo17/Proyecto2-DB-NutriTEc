@@ -29,7 +29,7 @@ namespace ApiPosgreSQLDB.Controllers
             _connectionString = configuration.GetConnectionString("PostgreSQLConnection");
         }
 
-
+        // Endpoint para validar el administrador recibe correo electronico y contraseña de administrador y compara a la base de datos
         [HttpPost("validaradministrador")]
         public async Task<int> ValidarAdministrador([FromBody] ValidacionLogin v)
         {
@@ -58,7 +58,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             return resultado;
         }
-
+        // Endpoint para validar el producto, recibe el codigo barras y la aceptaciono negacion por parte de admin
         [HttpPost("validarproducto")]
         public async Task<string> ValidarProducto([FromBody] ValidarProducto v)
         {
@@ -87,7 +87,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             return resultado;
         }
-
+        // Endpoint para obtener el reporte de cobro, lo realiza a partir de un store procedure que contiene un select
         [HttpGet]
         public async Task<ActionResult<string>> ObtenerReporteCobro()
         {

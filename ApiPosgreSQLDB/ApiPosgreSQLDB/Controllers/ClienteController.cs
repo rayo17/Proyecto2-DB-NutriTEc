@@ -31,7 +31,7 @@ namespace ApiPosgreSQLDB.Controllers
         }
 
 
-
+        //Valida el login de un cliente con el correo y contraseña
         [HttpPost("validarcliente")]
         public async Task<int> ValidarCliente([FromBody] ValidacionLogin v)
         {
@@ -64,7 +64,7 @@ namespace ApiPosgreSQLDB.Controllers
 
 
 
-
+        //Realiza el registro de un cliente
         [HttpPost("registrarcliente")]
         public async Task RegistrarCliente(Cliente c)
         {
@@ -85,7 +85,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             await _context.Database.ExecuteSqlRawAsync("SELECT registrar_cliente(@p_CorreoElectronico, @p_Nombre, @p_Apellido1, @p_Apellido2, @p_Edad, @p_FechaNacimiento, @p_Peso, @p_IMC, @p_PaisResidencia, @p_ConsumoDiarioCalorias, @p_Contrasena)", parameters);
         }
-
+        //Realiza el registro de medidas de un cliente
         [HttpPost("registrarmedidas")]
         public async Task RegistrarMedidas(Medidas c)
         {
@@ -105,7 +105,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             await _context.Database.ExecuteSqlRawAsync("SELECT registrar_medidas(@p_ID, @p_ClienteID, @p_Fecha, @p_Cintura, @p_Cuello, @p_Caderas, @p_PorcentajeMusculo, @p_PorcentajeGrasa, @p_PesoActual)", parameters);
         }
-
+        //Elimina a un cliente
         [HttpDelete("eliminarcliente")]
         public async Task EliminarCliente(string correo)
         {
@@ -117,7 +117,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             await _context.Database.ExecuteSqlRawAsync("SELECT eliminar_cliente(@p_CorreoElectronico)", parameters);
         }
-
+        //ingresa el rgistro diario
         [HttpPost("ingresarregistrodiario")]
         public IActionResult Post([FromBody] YourModel jsonData)
         {
@@ -139,7 +139,7 @@ namespace ApiPosgreSQLDB.Controllers
                 return StatusCode(500, $"Error al insertar el registro diario: {ex.Message}");
             }
         }
-
+        //Obtiene todos los registros diarios registrados por el cliente
         [HttpGet("ObtenerRegistrosdiarios/{idCliente}")]
         public IActionResult GetRegistrosDiarios(string idCliente)
         {
@@ -166,9 +166,8 @@ namespace ApiPosgreSQLDB.Controllers
                 return BadRequest("Error: " + ex.Message);
             }
         }
-
+        //Realiza la consulta de todas las medidas registradas por el cliente en un periodo de fecha
         [HttpPost("Consulta_por_Periodo_medidas")]
-        
         public async Task<IActionResult> Consultaperiodoregistro(ConsultaPeriodoMedidas cpm)
         {
             var parameters = new[]
@@ -184,7 +183,7 @@ namespace ApiPosgreSQLDB.Controllers
 
             return Ok(consulta);
         }
-
+        //Obtiene los productos creados por el cliente en estado  de espera
         [HttpGet("obtenerproductoscliente/{id}")]
         public IActionResult ObtenerProductosCliente(string id)
         {
@@ -236,7 +235,7 @@ namespace ApiPosgreSQLDB.Controllers
                 }
             }
         }
-
+        //Obtiene el plan asignado al cliente con un valor de entrada del idcliente
         [HttpGet("ObtenerPlanCliente{clienteId}")]
         public IActionResult ObtenerPlanAlimentacion(string clienteId)
         {
@@ -264,43 +263,6 @@ namespace ApiPosgreSQLDB.Controllers
             }
         }
 
-        /*
-        public IActionResult ObtenerPlanAlimentacion(string clienteId)
-        {
-            using (NpgsqlConnection connection = new NpgsqlConnection(_connectionString))
-            {
-                connection.Open();
-
-                using (NpgsqlCommand command = new NpgsqlCommand("SELECT ObtenerPlanAlimentacion2(@p_ClienteID)", connection))
-                {
-                    command.Parameters.AddWithValue("p_ClienteID", clienteId);
-                    command.CommandType = CommandType.Text;
-
-                    object result = command.ExecuteScalar();
-
-                    if (result != null && result != DBNull.Value)
-                    {
-                        string jsonResult = result.ToString();
-                        return Ok(jsonResult);
-                    }
-                    else
-                    {
-                        return NotFound();
-                    }
-                }
-            }
-        }
-        */
-
-
-
-
-
-
-
-
-
-
-
+       
     }
 }

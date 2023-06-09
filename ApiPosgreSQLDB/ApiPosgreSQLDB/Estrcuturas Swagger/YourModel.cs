@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 namespace ApiPosgreSQLDB.Estrcuturas_Swagger
-{
+{//Estructura para el body de ingreso registro diario
     public class YourModel
     {
         public string idCliente { get; set; }
