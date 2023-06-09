@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApiPosgreSQLDB.Models;
 using ApiPosgreSQLDB.Data;
+using ApiPosgreSQLDB.Estrcuturas_Swagger;
 using System.Data;
 using Npgsql;
 using NpgsqlTypes;
@@ -144,11 +145,125 @@ namespace ApiPosgreSQLDB.Controllers
     };
 
             var consulta = await _context.medidas
-                .FromSqlRaw("SELECT * FROM ObtenerMedidasPorClienteYPeriodo(@p_clienteid, @p_fechainicio, @p_fechafinal)", parameters)
+                .FromSqlRaw("SELECT * FROM obtenremedidas(@p_clienteid, @p_fechainicio, @p_fechafinal)", parameters)
                 .ToListAsync();
 
             return Ok(consulta);
         }
+
+        [HttpGet("obtenerproductoscliente/{id}")]
+        public IActionResult ObtenerProductosCliente(string id)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (var command = new NpgsqlCommand())
+                    {
+                        command.Connection = connection;
+                        command.CommandText = @"SELECT p.CodigoBarra, p.Nombre, p.taman_porcion, p.energia, p.grasa, p.sodio, p.carbohidratos, p.proteina, p.vitaminas, p.calcio, p.hierro, p.descripcion FROM Productos p JOIN CreadorProductos cp ON p.CodigoBarra = cp.ProductosID WHERE cp.ClienteID = @id AND p.EstadoProducto = false";
+                        command.Parameters.AddWithValue("id", id);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            var productos = new List<ObtenerProductosCliente>();
+
+                            while (reader.Read())
+                            {
+                                var producto = new ObtenerProductosCliente
+                                {
+                                    CodigoBarra = reader.GetString(0),
+                                    Nombre = reader.GetString(1),
+                                    TamanPorcion = reader.GetInt32(2),
+                                    Energia = reader.GetInt32(3),
+                                    Grasa = reader.GetInt32(4),
+                                    Sodio = reader.GetInt32(5),
+                                    Carbohidratos = reader.GetInt32(6),
+                                    Proteina = reader.GetInt32(7),
+                                    Vitaminas = reader.GetString(8),
+                                    Calcio = reader.GetInt32(9),
+                                    Hierro = reader.GetInt32(10),
+                                    Descripcion = reader.GetString(11)
+                                };
+
+                                productos.Add(producto);
+                            }
+
+                            return Ok(productos);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error al obtener los productos del cliente.");
+                    return StatusCode(500);
+                }
+            }
+        }
+
+        [HttpGet("ObtenerPlanCliente{clienteId}")]
+        public IActionResult ObtenerPlanAlimentacion(string clienteId)
+        {
+            using (NpgsqlConnection connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (NpgsqlCommand command = new NpgsqlCommand("SELECT ObtenerPlanAlimentacion2(@p_ClienteID)::jsonb", connection))
+                {
+                    command.Parameters.AddWithValue("p_ClienteID", clienteId);
+                    command.CommandType = CommandType.Text;
+
+                    NpgsqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        string jsonResult = reader[0].ToString();
+                        return Ok(jsonResult);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+            }
+        }
+
+        /*
+        public IActionResult ObtenerPlanAlimentacion(string clienteId)
+        {
+            using (NpgsqlConnection connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (NpgsqlCommand command = new NpgsqlCommand("SELECT ObtenerPlanAlimentacion2(@p_ClienteID)", connection))
+                {
+                    command.Parameters.AddWithValue("p_ClienteID", clienteId);
+                    command.CommandType = CommandType.Text;
+
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        string jsonResult = result.ToString();
+                        return Ok(jsonResult);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+            }
+        }
+        */
+
+
+
+
+
+
+
 
 
 

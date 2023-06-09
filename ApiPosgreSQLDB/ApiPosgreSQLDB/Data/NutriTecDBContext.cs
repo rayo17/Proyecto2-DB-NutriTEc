@@ -1,4 +1,5 @@
-﻿using ApiPosgreSQLDB.Extra;
+﻿using ApiPosgreSQLDB.Estrcuturas_Swagger;
+using ApiPosgreSQLDB.Extra;
 using ApiPosgreSQLDB.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -41,6 +42,8 @@ namespace ApiPosgreSQLDB.Data
         public DbSet<TipoCobro> tipocobro { get; set; }
         public DbSet<Medidas> medidas { get; set; }
         public DbSet<ValidacionLogin> validacion { get; set; }
+        public DbSet<PlanAlimentacionverCliente> verpplancliente { get; set; }
+       
 
         
         
@@ -81,7 +84,7 @@ namespace ApiPosgreSQLDB.Data
                 .HasKey(n => n.cedula);
             modelBuilder.Entity<Paciente>()
                 .HasNoKey();
-            modelBuilder.Entity < PlanAlimentacion>()
+            modelBuilder.Entity<PlanAlimentacion>()
                 .HasKey(p => p.id);
             modelBuilder.Entity<Producto>()
                 .HasKey(p => p.codigobarra);
@@ -107,6 +110,9 @@ namespace ApiPosgreSQLDB.Data
                 .HasKey(v => v.cod_barras);
             modelBuilder.Entity<ConsultaPeriodoMedidas>()
                 .HasNoKey();
+            modelBuilder.Entity<PlanAlimentacionverCliente>()
+                .HasNoKey();
+            
         }
     }
 }

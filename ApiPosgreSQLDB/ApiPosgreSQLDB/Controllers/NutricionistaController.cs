@@ -271,9 +271,79 @@ namespace ApiPosgreSQLDB.Controllers
             return Ok();
         }
 
+        [HttpGet("obtenerproductosnutricionista/{id}")]
+        public IActionResult ObtenerProductosCliente(string id)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (var command = new NpgsqlCommand())
+                    {
+                        command.Connection = connection;
+                        command.CommandText = @"SELECT p.CodigoBarra, p.Nombre, p.taman_porcion, p.energia, p.grasa, p.sodio, p.carbohidratos, p.proteina, p.vitaminas, p.calcio, p.hierro, p.descripcion FROM Productos p JOIN CreadorProductos cp ON p.CodigoBarra = cp.ProductosID WHERE cp.NutricionistaID = @id AND p.EstadoProducto = false";
+                        command.Parameters.AddWithValue("id", id);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            var productos = new List<ObtenerProductosCliente>();
+
+                            while (reader.Read())
+                            {
+                                var producto = new ObtenerProductosCliente
+                                {
+                                    CodigoBarra = reader.GetString(0),
+                                    Nombre = reader.GetString(1),
+                                    TamanPorcion = reader.GetInt32(2),
+                                    Energia = reader.GetInt32(3),
+                                    Grasa = reader.GetInt32(4),
+                                    Sodio = reader.GetInt32(5),
+                                    Carbohidratos = reader.GetInt32(6),
+                                    Proteina = reader.GetInt32(7),
+                                    Vitaminas = reader.GetString(8),
+                                    Calcio = reader.GetInt32(9),
+                                    Hierro = reader.GetInt32(10),
+                                    Descripcion = reader.GetString(11)
+                                };
+
+                                productos.Add(producto);
+                            }
+
+                            return Ok(productos);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error al obtener los productos del cliente.");
+                    return StatusCode(500);
+                }
+            }
+        }
+
+        [HttpDelete("eliminarplan/{nombrePlan}")]
+        public async Task<IActionResult> EliminarPlanAlimentacion(string nombrePlan)
+        {
+            try
+            {
+                var parameters = new[]
+                {
+                    new NpgsqlParameter("@p_NombrePlan", NpgsqlDbType.Varchar) { Value = nombrePlan }
+                };
+
+                await _context.Database.ExecuteSqlRawAsync("CALL EliminarPlanAlimentacion(@p_NombrePlan)", parameters);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
     }
-
-
-
 }
 

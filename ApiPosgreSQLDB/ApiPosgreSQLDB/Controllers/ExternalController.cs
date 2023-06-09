@@ -9,6 +9,8 @@ using NpgsqlTypes;
 using System;
 using System.Text.Json.Nodes;
 using System.Text.Json;
+using ApiPosgreSQLDB.Estrcuturas_Swagger;
+using System.Data;
 
 namespace ApiPosgreSQLDB.Controllers
 {
@@ -42,7 +44,7 @@ namespace ApiPosgreSQLDB.Controllers
         }
 
         [HttpPost("crearproducto")]
-        public async Task CrearProducto(Producto productoData)
+        public async Task CrearProducto(CrearProducto productoData)
         {
             var parameters = new[]
             {
@@ -58,10 +60,12 @@ namespace ApiPosgreSQLDB.Controllers
                 new NpgsqlParameter("@p_calcio", NpgsqlDbType.Integer) { Value = productoData.calcio },
                 new NpgsqlParameter("@p_hierro", NpgsqlDbType.Integer) { Value = productoData.hierro },
                 new NpgsqlParameter("@p_descripcion", NpgsqlDbType.Varchar) { Value = productoData.descripcion },
-                new NpgsqlParameter("@p_estado_producto", NpgsqlDbType.Boolean) { Value = productoData.estadoproducto }
+                new NpgsqlParameter("@p_estado_producto", NpgsqlDbType.Boolean) { Value = productoData.estadoproducto },
+                new NpgsqlParameter("@p_creador_producto", NpgsqlDbType.Varchar) { Value = productoData.idcreador }
+
              };
 
-            await _context.Database.ExecuteSqlRawAsync("SELECT crear_producto(@p_codigo_barra, @p_nombre, @p_taman_porcion, @p_energia, @p_grasa, @p_sodio, @p_carbohidratos, @p_proteina, @p_vitaminas, @p_calcio, @p_hierro, @p_descripcion, @p_estado_producto)", parameters);
+            await _context.Database.ExecuteSqlRawAsync("SELECT crear_producto(@p_codigo_barra, @p_nombre, @p_taman_porcion, @p_energia, @p_grasa, @p_sodio, @p_carbohidratos, @p_proteina, @p_vitaminas, @p_calcio, @p_hierro, @p_descripcion, @p_estado_producto, @p_creador_producto)", parameters);
         }
 
 
@@ -206,6 +210,89 @@ namespace ApiPosgreSQLDB.Controllers
             // Devolver la lista de recetas como resultado de la solicitud
             return Ok(recetas);
         }
+        
+
+        [HttpPut("actualizarproducto")]
+        public async Task ActualizarProducto(ObtenerProductosCliente productoData)
+        {
+            var parameters = new[]
+            {
+                new NpgsqlParameter("@p_CodigoBarra", NpgsqlDbType.Varchar) { Value = productoData.CodigoBarra },
+                new NpgsqlParameter("@p_Nombre", NpgsqlDbType.Varchar) { Value = productoData.Nombre },
+                new NpgsqlParameter("@p_taman_porcion", NpgsqlDbType.Integer) { Value = productoData.TamanPorcion },
+                new NpgsqlParameter("@p_energia", NpgsqlDbType.Integer) { Value = productoData.Energia },
+                new NpgsqlParameter("@p_grasa", NpgsqlDbType.Integer) { Value = productoData.Grasa },
+                new NpgsqlParameter("@p_sodio", NpgsqlDbType.Integer) { Value = productoData.Sodio },
+                new NpgsqlParameter("@p_carbohidratos", NpgsqlDbType.Integer) { Value = productoData.Carbohidratos },
+                new NpgsqlParameter("@p_proteina", NpgsqlDbType.Integer) { Value = productoData.Proteina },
+                new NpgsqlParameter("@p_vitaminas", NpgsqlDbType.Varchar) { Value = productoData.Vitaminas },
+                new NpgsqlParameter("@p_calcio", NpgsqlDbType.Integer) { Value = productoData.Calcio },
+                new NpgsqlParameter("@p_hierro", NpgsqlDbType.Integer) { Value = productoData.Hierro },
+                new NpgsqlParameter("@p_descripcion", NpgsqlDbType.Varchar) { Value = productoData.Descripcion }
+            };
+
+            await _context.Database.ExecuteSqlRawAsync("SELECT actualizar_productos(@p_CodigoBarra, @p_Nombre, @p_taman_porcion, @p_energia, @p_grasa, @p_sodio, @p_carbohidratos, @p_proteina, @p_vitaminas, @p_calcio, @p_hierro, @p_descripcion)", parameters);
+        }
+
+        [HttpDelete("eliminarreceta/{nombreReceta}")]
+        public async Task<IActionResult> EliminarReceta(string nombreReceta)
+        {
+            try
+            {
+                var parameter = new NpgsqlParameter("@p_NombreReceta", NpgsqlDbType.Varchar) { Value = nombreReceta };
+                await _context.Database.ExecuteSqlRawAsync("SELECT eliminarreceta(@p_NombreReceta)", parameter);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("eliminarproductos/{codigoBarra}")]
+        public async Task<IActionResult> EliminarProductos(string codigoBarra)
+        {
+            try
+            {
+                var parameter = new NpgsqlParameter("@p_CodigoBarra", NpgsqlDbType.Varchar) { Value = codigoBarra };
+                await _context.Database.ExecuteSqlRawAsync("SELECT eliminar_productos_id(@p_CodigoBarra)", parameter);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("mostrarproducto/{id}")]
+        public IActionResult MostrarProducto(string id)
+        {
+            try
+            {
+                string querySelect = $"SELECT * FROM Productos WHERE CodigoBarra = '{id}'";
+                var producto = _context.productos.FromSqlRaw(querySelect).FirstOrDefault();
+
+                if (producto != null)
+                {
+                    return Ok(producto);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        
+
+
+
 
 
     }
