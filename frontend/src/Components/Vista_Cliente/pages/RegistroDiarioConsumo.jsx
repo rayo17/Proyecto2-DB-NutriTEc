@@ -108,15 +108,20 @@ function RegistroDiarioDeConsumo() {
   };
 
   const guardarRegistro = () => {
-    const registroDiario = { desayuno, meriendaManana, almuerzo, meriendaTarde, cena };
-
+    const idCliente=localStorage.getItem("cliente")
+    const registroDiario = {idCliente:idCliente , desayuno, meriendaManana, almuerzo, meriendaTarde, cena };
+    const url='http://localhost:8000/Cliente/plan'
     // Envio del registro del consumo diario al backend
-     axios.post('http://localhost:8000/Cliente/receta', registroDiario)
+     axios.post(url, registroDiario)
      .then(response => {
          console.log('Registro guardado exitosamente');
+         alert("Registro se realizo correctamente")
+       
        })
        .catch(error => {
+        alert("el registro no se puedo realizar")
          console.error('Error al guardar el registro', error);
+        
       });
     console.log(registroDiario);
   };

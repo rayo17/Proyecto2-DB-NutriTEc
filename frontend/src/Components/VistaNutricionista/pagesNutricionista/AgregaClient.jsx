@@ -6,10 +6,11 @@ function AgregaClient(){
   //Se crean los state hook necesarios para actualizar los datos
    const[cliente,setcliente]=useState("")
    const[clientes,setClientes]=useState([])
-
+  // se cargan los clientes
    useEffect(()=>{
     handlerClients()
    },[]) 
+   // funcion asincrona
     const handlerClients=async ()=>{
         const url='https://apinutritecbd.azurewebsites.net/Nutricionista/VisualizarClientesDisponiblesAsociacion'
         const response= await axios.get(url)
@@ -19,7 +20,7 @@ function AgregaClient(){
     const buscadorchange=(event)=>{
         setcliente(event.target.value)
     }
-    //filtro
+    //filtro por nombre
     let result =[]
     if(!cliente){
         result=clientes
@@ -33,16 +34,23 @@ function AgregaClient(){
 
 
     //add patients
-    const Add=async(cliente)=>{
+    const Add=async(cliente,lista,setlista)=>{
+      
       const url='https://apinutritecbd.azurewebsites.net/Nutricionista/AsosiarPaciente'
       try{ 
-        console.log(cliente)
-        const response=await axios.post(url,{
-          nutricionistaid:localStorage.getItem("usuario"),
+        const datac={
+          nutricionistaid:localStorage.getItem('cedula'),
           clienteid:cliente
-        })
+        }
+        
+        const response=await axios.post(url,datac)
         if(response.status===200){
+          
           alert("El cliente ha sido añadido a su lista de pacientes")
+          const resultado=lista.filter(index=>{
+           return index.correoelectronico===cliente
+          })
+          setlista(resultado)
         }
       }
       catch(error){
@@ -87,7 +95,7 @@ function AgregaClient(){
                <td>{index.correoelectronico}</td>
                
                <td>
-                <button type="button" class="btn btn-warning" onClick={()=> Add(index.correoelectronico)}>Agregar</button>
+                <button type="button" class="btn btn-warning" onClick={()=> Add(index.correoelectronico,result,setClientes)}>Agregar</button>
                  </td>             
              </tr>)
         

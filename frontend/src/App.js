@@ -29,6 +29,7 @@ import VistaSecundariaAdm from './Components/Vista_Admin/pages/pages/VistaSecund
 import LoginNutri from './Components/VistaNutricionista/pagesNutricionista/LoginNutri';
 import ProductosAgregados from './Components/Vista_Cliente/pages/ProductosAgregados';
 import UpdateClienteProducto from './Components/Vista_Cliente/pages/Update';
+import AfterShow from './Components/Vista_Cliente/pages/vistaAfter';
 
 function App() {
   return (
@@ -51,6 +52,8 @@ function App() {
         <Route path='/cliente/productosagregados' element={<ProductosAgregados/>}/>
         <Route path='/cliente/actualizar' element={<UpdateClienteProducto/>}/>
         <Route path='/cliente/vistasecundaria' element={<VistaSecundariaCliente/>}/>
+        <Route path='/cliente/after' element={<AfterShow/>}/>
+
         
 
 

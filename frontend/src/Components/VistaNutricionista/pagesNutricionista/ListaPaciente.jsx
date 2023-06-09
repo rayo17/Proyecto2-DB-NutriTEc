@@ -7,15 +7,16 @@ function ListaPaciente() {
    const [clientes,setclientes]=useState([])
    
    
-   
+   //carga los pacientes a la hora de visualizar la pagina
     useEffect(()=>{
-      getInfoClient()
+      getInfopatient()
    },[]) 
-   
-   const getInfoClient=async()=>{
-      const url='http://localhost:2000/clientes'
+   //obtiene los pacientes del nutricionista
+   const getInfopatient=async()=>{
+      const url=`https://apinutritecbd.azurewebsites.net/Nutricionista/ObtenerPacientesPorCedula/${localStorage.getItem('cedula')}`
         try{const response= await axios.get(url)
         const data=response.data
+        console.log(data)
         setclientes(data)}
         catch(error){
           console.log(error)
@@ -25,7 +26,7 @@ function ListaPaciente() {
     
     
     
-    const deletePatient=async(id)=>{
+    /*const deletePatient=async(id)=>{
        const url='http://localhost:2000/clientes'
       try{ await axios.delete(`${url}${id}`)
        getInfoClient()
@@ -34,29 +35,18 @@ function ListaPaciente() {
         console.log(error)
        }
 
-    }
+    }*/
 
     
     return (
-      <Table striped bordered hover size="sm">
+      <>
+      <h1 style={{textAlign:'center'}}>Pacientes </h1>
+      <Table striped bordered hover size="sm" style={{padding:'20px', margin:'50px'}}>
+        
         <thead>
           <tr>
-            <th>#</th>
+        
             <th>Nombre</th>
-            <th>Apellido1</th>
-            <th>Apellido2</th>
-            <th>Edad</th>
-            <th>Fecha Nacimiento</th>
-            <th>Peso</th>
-            <th>IMC</th>
-            <th>Pais de residencia</th>
-            <th>Peso Actual</th>
-            <th>Medida de Cintura</th>
-            <th>Medida de cuello</th>
-            <th>Medida de cadera</th>
-            <th>Medida de Musculo</th>
-            <th>Medida de grasa</th>
-            <th>Calorias</th>
             <th>Correo</th>
           
             
@@ -67,27 +57,10 @@ function ListaPaciente() {
              clientes.map(index=>{
          
               return( <tr>
-                <td>{index.id}</td>
-                <td>{index.nombre}</td>
-                <td>{index.apellido1}</td>
-                <td>{index.apellido2}</td>
-                <td>{index.pais}</td>
-                <td>{index.peso}</td>
-                <td>{index.correo}</td>
-                <td>{index.fecha}</td>
-                <td>{index.pais}</td>
-                <td>{index.pesoActual}</td>
-                <td>{index.cuello}</td>
-                <td>{index.cintura}</td>
-                <td>{index.cadera}</td>
-                <td>{index.musculo}</td>
-                <td>{index.grasa}</td>
-                <td>{index.calorias}</td>
-                <td>{index.edad}</td>
-                <td>
-                  <button onClick={()=>{deletePatient(index.id)}}>Eliminar</button>
                 
-                  </td>             
+                <td>{index.nombre}</td>
+                <td>{index.correoElectronico}</td>
+                         
               </tr>)
          
  
@@ -96,6 +69,7 @@ function ListaPaciente() {
          }
         </tbody>
       </Table>
+      </>
     );
   }
   

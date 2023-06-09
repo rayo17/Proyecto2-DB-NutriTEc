@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const GestionPlan = () => {
+  // uso de state hooks
   const [planNombre, setPlanNombre] = useState('');
-  const [nutricionista, setNutricionista] = useState('');
   const [productos, setProductos] = useState([]);
- 
+  // estados iniciales
   const [tiemposComida, setTiemposComida] = useState({
     Desayuno: [],
     MeriendaManana: [],
@@ -29,42 +29,50 @@ const GestionPlan = () => {
   useEffect(() => {
     fetchProductos();
   }, []);
-
+  //agrega los productos que se van selecionando
   const agregarProducto = (producto, tiempoComida) => {
     setTiemposComida(prevState => ({
       ...prevState,
       [tiempoComida]: [...prevState[tiempoComida], producto]
     }));
   };
-
+  // se envian los datos para poder almacenarlos en la base de datos
   const enviarDatos = () => {
-    if (!nutricionista || !planNombre) {
+    if (!planNombre) { //validaciones que los campos no queden vacios
       alert('Por favor, complete todos los campos.');
       return;
     }
   
-    const datos = {
+    const datos = { //datos a enviar
       planNombre,
       nutricionista:localStorage.getItem('cedula'),
       tiemposComida
     };
-    console.log(datos)
-
+   
+    //uso de axios para enviar los datos  por la url 
     axios
       .post('https://apinutritecbd.azurewebsites.net/Nutricionista/CrearPlanAlimentacion', datos)
       .then(response => {
-        // Aquí puedes manejar la respuesta de la API
+        // Aquí se puede manejar la respuesta de la API
         alert('Los datos han sido enviados correctamente.');
+        setTiemposComida({
+          Desayuno: [],
+          MeriendaManana: [],
+          Almuerzo: [],
+          MeriendaTarde: [],
+          Cena: []})
+          setPlanNombre("")
       })
       .catch(error => {
-        // Aquí puedes manejar los errores de la API
+        // Aquí se puede manejar los errores de la API
+        alert('Los datos no han sido enviados correctamente.');
         console.error('Error al enviar los datos:', error);
       });
   };
-
+  //estructura de html para mostrar la pagina en pantalla
   return (
     <div className="container">
-      <h2 className="my-4">Gestión de Plan de Alimentación</h2>
+      <h2 className="my-12" style={{color:'green',textAlign:'center'}}>Gestión de Plan de Alimentación</h2>
       <div className="mb-3">
         <label htmlFor="planNombre" className="form-label">
           Nombre del plan:
@@ -77,18 +85,7 @@ const GestionPlan = () => {
           onChange={e => setPlanNombre(e.target.value)}
         />
       </div>
-      <div className="mb-3">
-        <label htmlFor="nutricionista" className="form-label">
-          Nutricionista:
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="nutricionista"
-          value={nutricionista}
-          onChange={e => setNutricionista(e.target.value)}
-        />
-      </div>
+     
 
       <h3 className="my-4">Productos disponibles</h3>
       <table className="table">
@@ -175,7 +172,6 @@ const GestionPlan = () => {
 
       <h3 className="my-4">Plan de Alimentación</h3>
       <p>Nombre del plan: {planNombre}</p>
-      <p>Nutricionista: {nutricionista}</p>
       <h4>Desayuno</h4>
       <ul>
         {tiemposComida.Desayuno.map(producto => (

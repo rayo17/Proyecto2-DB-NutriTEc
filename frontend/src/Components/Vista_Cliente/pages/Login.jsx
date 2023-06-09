@@ -32,7 +32,7 @@ function Login({ url, img, register, rutathen}) {
       if(response.data!==0){
           localStorage.setItem("cliente",data.gmail)
           setshowAlert(true)
-          navigate( rutathen );
+          navigate( '/cliente/vistasecundaria' );
     
         
       }

@@ -19,9 +19,6 @@ function Reporte() {
 
   const obtenerMedidasRegistradas = async () => {
     try {
-      console.log(localStorage.getItem('cliente'))
-      console.log(fechaI)
-      console.log(fechaF)
       const url = 'https://apinutritecbd.azurewebsites.net/Cliente/Consulta_por_Periodo_medidas';
       const response = await axios.post(url, {
         correocliente: localStorage.getItem('cliente'),
@@ -86,6 +83,8 @@ function Reporte() {
             <th>Caderas</th>
             <th>% de Musculo</th>
             <th>% de Grasa</th>
+            <th>fecha</th>
+            
           </tr>
         </thead>
         <tbody>
@@ -94,9 +93,10 @@ function Reporte() {
               <tr key={index.id}>
                 <td>{index.cintura}</td>
                 <td>{index.cuello}</td>
-                <td>{index.cadera}</td>
+                <td>{index.caderas}</td>
                 <td>{index.porcentajemusculo}</td>
                 <td>{index.porcentajegrasa}</td>
+                <td>{index.fecha}</td>
               </tr>
             );
           })}

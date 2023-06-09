@@ -29,6 +29,7 @@ const RegistroMedidas = () => {
 
    })
    console.log(response.data) 
+   alert('Su registro de medida ha sido exitosamente almacenado')
    }
    catch(error){
     console.error(error)

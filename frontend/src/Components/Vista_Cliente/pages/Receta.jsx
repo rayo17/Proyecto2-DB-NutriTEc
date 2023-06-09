@@ -46,14 +46,22 @@ const Receta = () => {
       axios.post('https://apinutritecbd.azurewebsites.net/Externos/crearreceta', recetaData)
         .then((response) => {
           // Manejar la respuesta de la API si es necesario
-          console.log(response.data);
+         alert('su receta fue registrada correctamente')
         })
         .catch((error) => {
-          // Manejar el error si ocurre
+        alert('su receta no se ha podido registrar')
           console.error(error);
         });
     }
   };
+  const eliminarElemento = async (lista, elemento,setlista) => {
+  
+      alert("Se eliminó el producto exitosamente");
+      const nuevaLista = lista.filter((index) => {
+        return index.codigobarra !== elemento.codigobarra;
+      })
+        setlista(nuevaLista)
+      };
 
   return (
     <div className="container mt-4">
@@ -112,6 +120,7 @@ const Receta = () => {
                 <button className="btn btn-primary" onClick={() => agregarProductoReceta(producto)}>
                   Agregar a la receta
                 </button>
+                
               </td>
             </tr>
           ))}
@@ -152,6 +161,9 @@ const Receta = () => {
               <td>{producto.vitaminas}</td>
               <td>{producto.calcio}</td>
               <td>{producto.hierro}</td>
+              <button className="btn btn-danger" onClick={() => eliminarElemento(receta,producto,setReceta)}>
+                  Eliminar
+                </button>
             </tr>
           ))}
         </tbody>

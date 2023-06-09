@@ -38,6 +38,10 @@ function VistaRegistro() {
         if (isNaN(value)) {
           value = 0;
         }
+      
+      }
+      else if(event.target.name==='contrasena'){
+        value=md5(value)
       }
       
       setFormData({ ...formData, [event.target.name]: value });
@@ -68,9 +72,11 @@ function VistaRegistro() {
         .then((response) => {
           // Lógica para manejar la respuesta del servidor
           console.log(response.data);
+          alert("se ha registrado correctamente, inicia sesion")
         })
         .catch((error) => {
           // Lógica para manejar el error de la solicitud
+          alert("Su solicitud no fue valida")
           console.error(error);
         });
     } else {

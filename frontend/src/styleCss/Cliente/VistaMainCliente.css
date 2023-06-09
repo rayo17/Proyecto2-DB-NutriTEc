@@ -4,7 +4,13 @@
    align-items: center;
    position:relative;
    top:100px;
+   flex-direction:column
    
+}
+.container-card{
+   display: flex;
+   background:rgba(255,255,255,0.5);
+   width: 80vw;
 }
 
 

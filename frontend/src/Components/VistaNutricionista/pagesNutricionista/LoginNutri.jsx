@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
@@ -13,7 +13,7 @@ function LoginNutri({ url, img, register, rutathen,id }) {
   const [password, setPassword] = useState("");
   const [showAlert,setshowAlert]=useState(false)
   const navigate = useNavigate();
-
+  //captura el cambio del estado del
   const changeGmail = (e) => {
     setGmail(e.target.value);
   };
@@ -22,19 +22,8 @@ function LoginNutri({ url, img, register, rutathen,id }) {
     setPassword(e.target.value);
   };
 
-    //peticion de informacion del usuario loguiado para guardarlo en un localstorage
-    const cargarInfo=async()=>{
-        const url="https://apinutritecbd.azurewebsites.net/Nutricionista/obtener_cedula_nutricionista"
-       try{ const response=await axios.post(url,{
-            correo:gmail   
-        })
-        localStorage.setItem('cedula',response.data)
-        }
-        catch(error){
-            console.error(error)
-        }
-  }
-
+    
+   
 
  //envio de la informacion para ser revisada
   const sendInfo = async (data) => {
@@ -44,25 +33,24 @@ function LoginNutri({ url, img, register, rutathen,id }) {
         correoelectronico: data.gmail,   
         contrasena: md5(data.password)
       });
-      if(response.data!==0){
-          cargarInfo()
-          setshowAlert(true)
-          navigate( rutathen );
-    
-        
+      
+      if(response.data!=="NO"){
+        localStorage.setItem('cedula',response.data)
+        alert('Usuario valido ')
+        navigate('/nutricionista/vistasecundaria')
       }
       else{
         alert('La contraseña o el usuario no es valido por favor registrate')
+        setGmail("")
+        setPassword("")
       }
-     
-
-    
-    } catch (error) {
-      alert("Ha ocurrido un error");
-      setGmail("")
-      setPassword("")
-    }
-  };
+        
+      }
+        
+      catch (error) {
+        console.error(error)
+    }}
+  ;
 
   return (
     <div>
