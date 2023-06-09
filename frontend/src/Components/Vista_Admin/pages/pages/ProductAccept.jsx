@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
@@ -6,104 +6,132 @@ import Table from 'react-bootstrap/Table';
 const ProductApproval = () => {
   const [products, setProducts] = useState([]);
 
-  const handleProductApproval = (index) => {
+  const fetchProducts = async () => {
+    const url = 'https://apinutritecbd.azurewebsites.net/Administrador/inactivos';
+    try {
+      const response = await axios.get(url);
+      setProducts(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const handleProductApproval = async (index) => {
     const updatedProducts = [...products];
     updatedProducts[index].estado = true;
     setProducts(updatedProducts);
+
+    const approvedProduct = updatedProducts[index];
+    console.log(approvedProduct)
+    try {
+      // Enviar el producto aprobado a la API o a la base de datos
+      const response=await axios.post(`https://apinutritecbd.azurewebsites.net/Administrador/validarproducto`,{
+        cod_barras:approvedProduct.codigobarra,
+        validacion:"aceptar"
+     
+      });
+      alert("producto acceptado")
+    } catch (error) {
+      alert("Problemas al guardar el producto")
+      console.error(error);
+    }
   };
-  //function to aprovate a products
-  const handleProductReject = (index) => {
+
+  const handleProductReject = async (index) => {
     const updatedProducts = [...products];
     updatedProducts[index].estado = false;
     setProducts(updatedProducts);
+
+    const rejectedProduct = updatedProducts[index];
+
+    try {
+      // Eliminar el producto rechazado de la API o de la base de datos
+      await axios.delete(`https://apinutritecbd.azurewebsites.net/Administrador/${rejectedProduct.id}`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleProductSubmit = (event) => {
-    event.preventDefault();
+  const handleRemoveProduct = async (index) => {
+    const removedProduct = products[index];
 
-    
-    // Aquí puedes realizar la lógica para guardar el producto aprobado en la base de datos o en algún otro lugar adecuado
+    try {
+      // Eliminar el producto de la API o de la base de datos
+      await axios.delete(`https://apinutritecbd.azurewebsites.net/Externos/eliminarproductos/${removedProduct.codigobarra}`);
+    } catch (error) {
+      console.error(error);
+    }
 
-    // Reinicia los estados o realiza alguna otra acción necesaria después de guardar el producto
-    setProducts([]);
-  };
-
-  const handleProductChange = (event, index) => {
-    const updatedProducts = [...products];
-    updatedProducts[index].name = event.target.value;
-    setProducts(updatedProducts);
-  };
-
-  const handleAddProduct = () => {
-    setProducts([...products, { name: '', approved: false }]);
-  };
-
-  const handleRemoveProduct = (index) => {
     const updatedProducts = [...products];
     updatedProducts.splice(index, 1);
     setProducts(updatedProducts);
   };
 
-  
-
   return (
     <div>
       <div>
-
-      <Table striped bordered hover size="sm">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Codigo de Barra</th>
-          <th>Descripcion</th>
-          <th>Tamaño Porcion</th>
-          <th>Energia</th>
-          <th>Grasa</th>
-          <th>Sodio</th>
-          <th>Carbohidratos</th>
-          <th>Proteina</th>
-          <th>Vitaminas</th>
-          <th>Calcio</th>
-          <th>Hierro</th>
-          <th>Agregar</th>
-          
-       
-          
-        </tr>
-      </thead>
-      <tbody>
-        {
-  
-    
-        products.map(index=>{
-          
-             return( <tr>
-               <td>2</td>
-               <td>{index.codigo}</td>
-               <td>{index.des}</td>
-               <td>{index.tam}</td>
-               <td>{index.energia}</td>
-               <td>{index.grasa}</td>
-               <td>{index.sodio}</td>
-               <td>{index.carbohidratos}</td>
-               <td>{index.prote}</td>
-               <td>{index.vitaminas}</td>
-               <td>{index.calcio}</td>
-               <td>{index.hierro}</td>
-               <td>
-               <Button bsStyle="success">Aprobar</Button>
-               <Button bsStyle="danger" >rechazar</Button>
-               </td>             
-             </tr>)
-        
-
-            
-        })
-        }
-
-
-      </tbody>
-    </Table>
+        <Table striped bordered hover size="sm">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Codigo de Barra</th>
+              <th>Nombre</th>
+              <th>Descripcion</th>
+              <th>Tamaño Porcion</th>
+              <th>Energia</th>
+              <th>Grasa</th>
+              <th>Sodio</th>
+              <th>Carbohidratos</th>
+              <th>Proteina</th>
+              <th>Vitaminas</th>
+              <th>Calcio</th>
+              <th>Hierro</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{product.codigobarra}</td>
+                <td>{product.nombre}</td>
+                <td>{product.descripcion}</td>
+                <td>{product.taman_porcion}</td>
+                <td>{product.energia}</td>
+                <td>{product.grasa}</td>
+                <td>{product.sodio}</td>
+                <td>{product.carbohidratos}</td>
+                <td>{product.proteina}</td>
+                <td>{product.vitaminas}</td>
+                <td>{product.calcio}</td>
+                <td>{product.hierro}</td>
+                <td>
+                  {product.estado ? (
+                    <Button variant="success" disabled>Aprobado</Button>
+                  ) : (
+                    <Button variant="success" onClick={() => handleProductApproval(index)}>
+                      Aprobar
+                    </Button>
+                  )}
+                  {product.estado ? (
+                    <Button variant="danger" disabled>Rechazado</Button>
+                  ) : (
+                    <Button variant="danger" onClick={() => handleProductReject(index)}>
+                      Rechazar
+                    </Button>
+                  )}
+                  <Button variant="danger" onClick={() => handleRemoveProduct(index)}>
+                    Eliminar
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </div>
     </div>
   );

@@ -30,6 +30,8 @@ import LoginNutri from './Components/VistaNutricionista/pagesNutricionista/Login
 import ProductosAgregados from './Components/Vista_Cliente/pages/ProductosAgregados';
 import UpdateClienteProducto from './Components/Vista_Cliente/pages/Update';
 import AfterShow from './Components/Vista_Cliente/pages/vistaAfter';
+import LoginVistaAdmin from './Components/Vista_Admin/pages/pages/LoginVistaAdmin';
+import GestionNutricionistaProducto from './Components/VistaNutricionista/pagesNutricionista/GestionProducto';
 
 function App() {
   return (
@@ -61,7 +63,7 @@ function App() {
      
 
         <Route path='/administrador' element={<VistaMaiAdmin/>}/>
-        <Route path='/administrador/login' element={<Login register={'/'} rutathen={'/administrador/vistasecundaria'}/>}/>
+        <Route path='/administrador/login' element={<LoginVistaAdmin register={'/'} rutathen={'/administrador/vistasecundaria'}/>}/>
         <Route path='/administrador/productos' element={<ProductApproval/>}/>
         <Route path='/administrador/registro' element={<RegistroAdmi/>}/>
         <Route path='/administrador/reporte' element={<ReporteCobro/>}/>
@@ -71,7 +73,7 @@ function App() {
     
         <Route path='/nutricionista' element={<VistaMainNutri/>}/>
         <Route path="/nutricionista/login" element={<LoginNutri url={'/'} img={loginImg} register={"/nutricionista/registro"} rutathen={'/nutricionista/vistasecundaria'}/>}/>
-        <Route path='/nutricionista/productos' element={<GestionProducto/>}/>
+        <Route path='/nutricionista/productos' element={<GestionNutricionistaProducto/>}/>
         <Route path='/nutricionista/registro' element={<VistaRegistro/>}/>
         <Route path='/nutricionista/agregarcliente' element={<AgregaClient/>}/>
         <Route path='/nutricionista/listapaciente' element={<ListaPaciente/>}/>

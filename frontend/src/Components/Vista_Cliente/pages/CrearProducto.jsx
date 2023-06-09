@@ -107,7 +107,7 @@ function GestionClienteProducto() {
         </div>
         <div>
           <Button variant="warning">
-            <a href="/nutricionista/productos">Atras</a>
+            <a href="/cliente/productos">Atras</a>
           </Button>
         </div>
       </form>

@@ -1,146 +1,118 @@
-import React,{useEffect, useState} from 'react'
-import { Button } from 'react-bootstrap'
-import Table from 'react-bootstrap/Table'
-import axios from 'axios'
+import React, { useState } from 'react';
+import axios from 'axios';
+import '../../../styleCss/Cliente/GestionClienteProducto.css'
 
-function GestionProducto(){
+import { Button } from 'react-bootstrap';
 
-   //Declaracion de los useState para actulizar la informacion
-    const [listaProducto,setListaProducto]=useState([])
-    const [search,setSearch]=useState('')
 
-    let result =[]
-    
-    const opcion=(event)=>{
-        if(event.target.value==="nombre"){
-            if(!search){
-                result=listaProducto
-            }else{
-                result=listaProducto.filter((dato)=>
-                      dato.Nombre.toLowerCase().includes(search.toLocaleLowerCase())
-                )
-            }
-            
-        }
-        else if (event.target.value==="codigo"){
-            if(!search){
-                result=listaProducto
-            }else{
-                result=listaProducto.filter((dato)=>
-                      dato.Codigo.toLowerCase().includes(search.toLocaleLowerCase())
-                )
-            }
-            
-        }
-        }     
+function GestionNutricionistaProducto() {
+  const dataInit = {
+    codigoB: '',
+    tamano: 0,
+    energia: 0,
+    grasa: 0,
+    sodio: 0,
+    carbohidrato: 0,
+    proteina: 0,
+    vitamina: "",
+    calcio: 0,
+    descripcion: '',
+    hierro: 0,
+    nombre:""
+  };
 
-    const request=async()=>{
+  const [data, setData] = useState(dataInit);
 
-        const url="http://localhost:2000/alimento"
-        try{
-          const response=await axios.get(url)
-          const data=response.data
-          setListaProducto(data)
-        }
-        catch(error){
-          console.log(error)
-        }}
+  const handlerData = (event) => {
+    setData({ ...data, [event.target.name]: event.target.value });
+  };
 
-    const findProduct=(event)=>{
-      setSearch(event.target.value)
+  const sendInfo = async (event) => {
+    event.preventDefault();
+    const url = 'https://apinutritecbd.azurewebsites.net/Externos/crearproducto';
+    try{const response = await axios.post(url, {
+     nombre:data.nombre,
+      codigobarra: data.codigoB,
+      taman_porcion: data.tamano,
+      energia: data.energia,
+      Grasa: data.grasa,
+      Sodio: data.sodio,
+      carbohidratos: data.carbohidrato,
+      proteina: data.proteina,
+      vitaminas: data.vitamina,
+      calcio: data.calcio,
+      descripcion: data.descripcion,
+      hierro: data.hierro,
+      estadoproducto:false,
+      idcreador:localStorage.getItem('cedula')
+    });
+    alert('Producto registrado con exito')}
+    catch(error){
+        console.error(error)
     }
+  };
 
-        
-    
-    useEffect(()=>{
-        request()
-        
-    },[])//colocar listaProducto como prop en lista
-    
-    return(
-      <div>
-           
-           <div>
-            <nav class="navbar navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href='·'>Nutritec</a>
-            <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar" onChange={findProduct}/>
-             <button class="btn btn-outline-success" type="submit">Buscar</button>
-           </form>
-           </div>
-           </nav>
-           <div>
-            <select name="" id="" onChange={opcion}>
-                <label for="cars">Filtro:</label>
-                <option value="volvo">Seleccione</option>
-                <option value="nombre">Nombre</option>
-                <option value="codigo">Codigo de Barra</option>
-            </select>
-        </div>
-        </div>
-        
-
-
-
-            
-        <Table striped bordered hover size="sm">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Codigo de Barra</th>
-          <th>Descripcion</th>
-          <th>Tamaño Porcion</th>
-          <th>Energia</th>
-          <th>Grasa</th>
-          <th>Sodio</th>
-          <th>Carbohidratos</th>
-          <th>Proteina</th>
-          <th>Vitaminas</th>
-          <th>Calcio</th>
-          <th>Hierro</th>
-          <th>Agregar</th>
-          
-       
-          
-        </tr>
-      </thead>
-      <tbody>
-        {
-  
-    
-        result.map(index=>{
-          
-             return( <tr>
-               <td>2</td>
-               <td>{index.codigo}</td>
-               <td>{index.des}</td>
-               <td>{index.tam}</td>
-               <td>{index.energia}</td>
-               <td>{index.grasa}</td>
-               <td>{index.sodio}</td>
-               <td>{index.carbohidratos}</td>
-               <td>{index.prote}</td>
-               <td>{index.vitaminas}</td>
-               <td>{index.calcio}</td>
-               <td>{index.hierro}</td>
-               <td>
-               <Button bsStyle="success">Agregar</Button>
-               
-               </td>             
-             </tr>)
-        
-
-            
-        })
-        }
-
-
-      </tbody>
-    </Table>
-
-        </div>
-    )
+  /*const validateFields = () => {
+    for (const key in data) {
+      if (data[key] === '' || data[key]===0) {
+        return false;
+      }
     }
+    return true;
+  };*/
 
-export default GestionProducto
+  return (
+    <div className="productoContainer container-GestionProducto">
+      <form className="div-producto">
+        <label>Codigo de barra</label>
+        <input type="text" name="codigoB" onChange={handlerData} />
+
+        <label>Nombre del Producto</label> 
+        <input type="text" name="nombre" onChange={handlerData} />
+
+        <label>Tamaño de la Porcion</label>
+        <input type="text" name="tamano" onChange={handlerData} />
+
+        <label>Descripcion</label>
+        <input type="text" name="descripcion" onChange={handlerData} />
+
+        <label>{'Energia(Kcal)'}</label>
+        <input type="text" name="energia" onChange={handlerData} />
+
+        <label>{'Grasa(g)'}</label>
+        <input type="text" name="grasa" onChange={handlerData} />
+
+        <label>{'Sodio(mg)'}</label>
+        <input type="text" name="sodio" onChange={handlerData} />
+
+        <label>{'Carbohidratos(g)'}</label>
+        <input type="text" name="carbohidrato" onChange={handlerData} />
+
+        <label>{'Proteina(g)'}</label>
+        <input type="text" name="proteina" onChange={handlerData} />
+
+        <label>Vitaminas</label>
+        <input type="text" name="vitamina" onChange={handlerData} />
+
+        <label>{'Calcio(g)'}</label>
+        <input type="text" name="calcio" onChange={handlerData} />
+
+        <label>{"Hierro(mg)"}</label>
+        <input type="text" name="hierro" onChange={handlerData} />
+
+        <div className="boton-agregar">
+          <Button variant="success" onClick={ sendInfo }>
+            Añadir
+          </Button>
+        </div>
+        <div>
+          <Button variant="warning">
+            <a href="/nutricionista/vistasecundaria">Atras</a>
+          </Button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+export default GestionNutricionistaProducto;
