@@ -43,7 +43,7 @@ namespace ApiPosgreSQLDB.Controllers
                 new NpgsqlParameter("@p_Peso", NpgsqlDbType.Integer) { Value = c.peso },
                 new NpgsqlParameter("@p_IMC", NpgsqlDbType.Integer) { Value = c.imc },
                 new NpgsqlParameter("@p_Direccion", NpgsqlDbType.Varchar) { Value = c.direccion },
-                new NpgsqlParameter("@p_Foto", NpgsqlDbType.Bytea) { Value = c.foto },
+                new NpgsqlParameter("@p_Foto", NpgsqlDbType.Varchar) { Value = c.foto },
                 new NpgsqlParameter("@p_NumTarjetaCredito", NpgsqlDbType.Varchar) { Value = c.numtarjetacredito },
                 new NpgsqlParameter("@p_TipoCobroID", NpgsqlDbType.Integer) { Value = c.tipocobroid },
                 new NpgsqlParameter("@p_CorreoElectronico", NpgsqlDbType.Varchar) { Value = c.correoelectronico },
@@ -255,13 +255,13 @@ namespace ApiPosgreSQLDB.Controllers
                 using (var command = new NpgsqlCommand("SELECT CrearPlanAlimentacion(@nombrePlan, @nutricionistaId, @desayunoProductoIds, @meriendaMananaProductoIds, @almuerzoProductoIds, @meriendaTardeProductoIds, @cenaProductoIds);", connection))
                 {
                     // Asignar valores a los parámetros del comando
-                    command.Parameters.AddWithValue("nombrePlan", data.NombrePlan);
-                    command.Parameters.AddWithValue("nutricionistaId", data.NutricionistaId);
-                    command.Parameters.AddWithValue("desayunoProductoIds", data.DesayunoProductoIds);
-                    command.Parameters.AddWithValue("meriendaMananaProductoIds", data.MeriendaMananaProductoIds);
-                    command.Parameters.AddWithValue("almuerzoProductoIds", data.AlmuerzoProductoIds);
-                    command.Parameters.AddWithValue("meriendaTardeProductoIds", data.MeriendaTardeProductoIds);
-                    command.Parameters.AddWithValue("cenaProductoIds", data.CenaProductoIds);
+                    command.Parameters.AddWithValue("nombrePlan", data.PlanNombre);
+                    command.Parameters.AddWithValue("nutricionistaId", data.Nutricionista);
+                    command.Parameters.AddWithValue("desayunoProductoIds", data.TiemposComida.Desayuno.Select(p => p.Codigobarra).ToArray());
+                    command.Parameters.AddWithValue("meriendaMananaProductoIds", data.TiemposComida.MeriendaManana.Select(p => p.Codigobarra).ToArray());
+                    command.Parameters.AddWithValue("almuerzoProductoIds", data.TiemposComida.Almuerzo.Select(p => p.Codigobarra).ToArray());
+                    command.Parameters.AddWithValue("meriendaTardeProductoIds", data.TiemposComida.MeriendaTarde.Select(p => p.Codigobarra).ToArray());
+                    command.Parameters.AddWithValue("cenaProductoIds", data.TiemposComida.Cena.Select(p => p.Codigobarra).ToArray());
 
 
                     command.ExecuteNonQuery();
