@@ -53,9 +53,9 @@ namespace ApiPosgreSQLDB.Controllers
             await _context.Database.ExecuteSqlRawAsync("SELECT registrar_nutricionista(@p_Cedula, @p_Nombre, @p_Apellido1, @p_Apellido2, @p_CodigoBarras, @p_Edad, @p_FechaNacimiento, @p_Peso, @p_IMC, @p_Direccion, @p_Foto, @p_NumTarjetaCredito, @p_TipoCobroID, @p_CorreoElectronico, @p_Contrasena)", parameters);
         }
         [HttpPost("validarnutricionista")]
-        public async Task<int> ValidarNutricionista([FromBody] ValidacionLogin v)
+        public async Task<string> ValidarNutricionista([FromBody] ValidacionLogin v)
         {
-            int resultado = 0;
+            string resultado = "NO";
 
             using (NpgsqlConnection connection = new NpgsqlConnection(_connectionString))
             {
@@ -71,7 +71,7 @@ namespace ApiPosgreSQLDB.Controllers
                     var result = command.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
                     {
-                        resultado = Convert.ToInt32(result);
+                        resultado = result.ToString();
                     }
                 }
 
@@ -80,6 +80,8 @@ namespace ApiPosgreSQLDB.Controllers
 
             return resultado;
         }
+
+        
         [HttpPost("obtener_cedula_nutricionista")]
         public async Task<string> ObtenerCedulaNutricionista([FromBody] ObtenerCedulaNutricionista ocn)
         {

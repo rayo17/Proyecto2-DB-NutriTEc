@@ -10,6 +10,8 @@ using System.Data;
 using Npgsql;
 using NpgsqlTypes;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace ApiPosgreSQLDB.Controllers
 {
@@ -117,20 +119,52 @@ namespace ApiPosgreSQLDB.Controllers
         }
 
         [HttpPost("ingresarregistrodiario")]
-        public async Task IngresarRegistroDiario(RegistroDiario rd)
+        public IActionResult Post([FromBody] YourModel jsonData)
         {
-            var parameters = new[]
+            try
             {
-                new NpgsqlParameter("@p_ID", NpgsqlDbType.Integer) { Value = rd.id },
-                new NpgsqlParameter("@p_ClienteID", NpgsqlDbType.Varchar) { Value = rd.clienteid },
-                new NpgsqlParameter("@p_TiempoComidaID", NpgsqlDbType.Integer) { Value = rd.tiempocomidaid },
-                new NpgsqlParameter("@p_Fecha", NpgsqlDbType.Date) { Value = rd.fecha },
-                new NpgsqlParameter("@p_ProductoID", NpgsqlDbType.Varchar) { Value = rd.productoid },
-                
+                // Convertir el objeto jsonData a una cadena JSON
+                string jsonString = JsonConvert.SerializeObject(jsonData);
 
-            };
+                // Llamar a la función utilizando el contexto de base de datos
+                _context.Database.ExecuteSqlRaw("SELECT InsertarRegistroDiario({0}::json)", jsonString);
 
-            await _context.Database.ExecuteSqlRawAsync("SELECT insertar_registro_diario(@p_ID, @p_ClienteID, @p_TiempoComidaID, @p_Fecha, @p_ProductoID)", parameters);
+                // Resto de tu lógica de procesamiento
+
+                return Ok("Registro diario insertado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                // Manejo del error
+                return StatusCode(500, $"Error al insertar el registro diario: {ex.Message}");
+            }
+        }
+
+        [HttpGet("ObtenerRegistrosdiarios/{idCliente}")]
+        public IActionResult GetRegistrosDiarios(string idCliente)
+        {
+            try
+            {
+                using (var conn = new NpgsqlConnection(_connectionString))
+                {
+                    conn.Open();
+
+                    using (var cmd = new NpgsqlCommand("SELECT VisualizarRegistrosDiarios(@idCliente)", conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("idCliente", idCliente);
+
+                        var result = cmd.ExecuteScalar();
+                        string jsonResult = result.ToString();
+
+                        return Ok(jsonResult);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error: " + ex.Message);
+            }
         }
 
         [HttpPost("Consulta_por_Periodo_medidas")]
