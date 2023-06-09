@@ -9,6 +9,7 @@ using Npgsql;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Data;
 
 namespace ApiPosgreSQLDB.Controllers
 {
@@ -109,7 +110,45 @@ namespace ApiPosgreSQLDB.Controllers
             return BadRequest("No se pudo generar el reporte de cobro.");
         }
 
+        [HttpGet("inactivos")]
+        public async Task<IActionResult> ObtenerProductosInactivos()
+        {
+            
+            using (NpgsqlConnection connection = new NpgsqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
 
+                using (NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM Productos WHERE EstadoProducto = False", connection))
+                {
+                    using (NpgsqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        List<Producto> productos = new List<Producto>();
+                        while (await reader.ReadAsync())
+                        {
+                            Producto producto = new Producto
+                            {
+                                codigobarra = reader.GetString("CodigoBarra"),
+                                nombre = reader.GetString("Nombre"),
+                                taman_porcion = reader.GetInt32("taman_porcion"),
+                                energia = reader.GetInt32("energia"),
+                                grasa = reader.GetInt32("grasa"),
+                                sodio = reader.GetInt32("sodio"),
+                                carbohidratos = reader.GetInt32("carbohidratos"),
+                                proteina = reader.GetInt32("proteina"),
+                                vitaminas = reader.GetString("vitaminas"),
+                                calcio = reader.GetInt32("calcio"),
+                                hierro = reader.GetInt32("hierro"),
+                                descripcion = reader.GetString("descripcion"),
+                                estadoproducto = reader.GetBoolean("EstadoProducto")
+                            };
+                            productos.Add(producto);
+                        }
+
+                        return Ok(productos);
+                    }
+                }
+            }
+        }
 
 
 
