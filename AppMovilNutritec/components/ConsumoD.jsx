@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
-import axios from 'axios';
+import { View, Text, TextInput, Button, FlatList, StyleSheet,ScrollView } from 'react-native';
 
 const RegistroDiarioConsumo = () => {
   const [alimentos, setAlimentos] = useState([]);
@@ -12,15 +11,51 @@ const RegistroDiarioConsumo = () => {
     cena: []
   });
   const [busqueda, setBusqueda] = useState('');
+  const [filtro, setFiltro] = useState('');
 
-  const buscarAlimentos = async () => {
-    try {
-      const response = await axios.get(`https://api.example.com/buscar?query=${busqueda}`);
-      const alimentosEncontrados = response.data;
-      setAlimentos(alimentosEncontrados);
-    } catch (error) {
-      console.error(error);
+  // Simulación de la búsqueda de alimentos
+  const buscarAlimentosSimulado = () => {
+    const alimentosSimulados = [
+      {
+        nombre: 'Manzana',
+        codigoBarras: '123456789',
+        descripcion: 'Una deliciosa manzana',
+        tamanoPorcion: 100,
+        energia: 52,
+        grasa: 0.2,
+        sodio: 1,
+        carbohidratos: 14,
+        proteina: 0.3,
+        vitaminas: 'A, C',
+        calcio: 6,
+        hierro: 0.1,
+      },
+      {
+        nombre: 'Banana',
+        codigoBarras: '987654321',
+        descripcion: 'Una sabrosa banana',
+        tamanoPorcion: 120,
+        energia: 96,
+        grasa: 0.2,
+        sodio: 1,
+        carbohidratos: 23,
+        proteina: 1.1,
+        vitaminas: 'A, C',
+        calcio: 6,
+        hierro: 0.3,
+      },
+      // Agrega más alimentos simulados aquí
+    ];
+
+    // Aplicar filtros de búsqueda
+    let alimentosFiltrados = alimentosSimulados;
+    if (filtro === 'nombre' && busqueda.trim() !== '') {
+      alimentosFiltrados = alimentosFiltrados.filter(alimento => alimento.nombre.toLowerCase().includes(busqueda.toLowerCase()));
+    } else if (filtro === 'codigo' && busqueda.trim() !== '') {
+      alimentosFiltrados = alimentosFiltrados.filter(alimento => alimento.codigoBarras.toLowerCase().includes(busqueda.toLowerCase()));
     }
+
+    setAlimentos(alimentosFiltrados);
   };
 
   const agregarAlimento = (alimento, tiempoComida) => {
@@ -30,7 +65,9 @@ const RegistroDiarioConsumo = () => {
   };
 
   return (
+    
     <View style={styles.container}>
+      
       <Text style={styles.title}>Registro Diario de Consumo</Text>
 
       <View style={styles.searchContainer}>
@@ -40,17 +77,30 @@ const RegistroDiarioConsumo = () => {
             style={styles.searchInput}
             value={busqueda}
             onChangeText={(text) => setBusqueda(text)}
-            placeholder="Escribe el nombre del alimento"
+            placeholder="Escribe el nombre o código del alimento"
             placeholderTextColor="#666"
           />
           <Button
             title="Buscar"
-            onPress={buscarAlimentos}
+            onPress={buscarAlimentosSimulado}
             color="#2196F3"
           />
         </View>
 
-        {/* Renderizar los resultados de búsqueda de alimentos aquí */}
+        <View style={styles.filterContainer}>
+          <Text style={styles.filterLabel}>Filtrar por:</Text>
+          <Button
+            title="Nombre"
+            onPress={() => setFiltro('nombre')}
+            color={filtro === 'nombre' ? '#2196F3' : '#999'}
+          />
+          <Button
+            title="Código"
+            onPress={() => setFiltro('codigo')}
+            color={filtro === 'codigo' ? '#2196F3' : '#999'}
+          />
+        </View>
+        
         <FlatList
           style={styles.resultsList}
           data={alimentos}
@@ -58,9 +108,39 @@ const RegistroDiarioConsumo = () => {
           renderItem={({ item }) => (
             <View style={styles.resultItem}>
               <Text style={styles.resultText}>{item.nombre}</Text>
+              <Text style={styles.resultDescription}>{item.descripcion}</Text>
+              <Text style={styles.resultNutrition}>Tamaño porción: {item.tamanoPorcion} g/ml</Text>
+              <Text style={styles.resultNutrition}>Energía: {item.energia} Kcal</Text>
+              <Text style={styles.resultNutrition}>Grasa: {item.grasa} g</Text>
+              <Text style={styles.resultNutrition}>Sodio: {item.sodio} mg</Text>
+              <Text style={styles.resultNutrition}>Carbohidratos: {item.carbohidratos} g</Text>
+              <Text style={styles.resultNutrition}>Proteína: {item.proteina} g</Text>
+              <Text style={styles.resultNutrition}>Vitaminas: {item.vitaminas}</Text>
+              <Text style={styles.resultNutrition}>Calcio: {item.calcio} mg</Text>
+              <Text style={styles.resultNutrition}>Hierro: {item.hierro} mg</Text>
               <Button
                 title="Agregar"
                 onPress={() => agregarAlimento(item.nombre, 'desayuno')}
+                color="#2196F3"
+              />
+              <Button
+                title="Agregar"
+                onPress={() => agregarAlimento(item.nombre, 'mediaManana')}
+                color="#2196F3"
+              />
+              <Button
+                title="Agregar"
+                onPress={() => agregarAlimento(item.nombre, 'almuerzo')}
+                color="#2196F3"
+              />
+              <Button
+                title="Agregar"
+                onPress={() => agregarAlimento(item.nombre, 'merienda')}
+                color="#2196F3"
+              />
+              <Button
+                title="Agregar"
+                onPress={() => agregarAlimento(item.nombre, 'cena')}
                 color="#2196F3"
               />
             </View>
@@ -68,7 +148,6 @@ const RegistroDiarioConsumo = () => {
         />
       </View>
 
-      {/* Renderizar las secciones de tiempo de comida */}
       {Object.keys(consumoDiario).map((tiempoComida) => (
         <View style={styles.mealContainer} key={tiempoComida}>
           <Text style={styles.mealTitle}>{tiempoComida}</Text>
@@ -80,7 +159,9 @@ const RegistroDiarioConsumo = () => {
           />
         </View>
       ))}
+     
     </View>
+   
   );
 };
 
@@ -124,13 +205,20 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     color: '#333',
   },
+  filterContainer: {
+    flexDirection: 'row',
+    marginBottom: 10,
+    justifyContent: 'center',
+  },
+  filterLabel: {
+    fontSize: 16,
+    marginRight: 10,
+    color: '#333',
+  },
   resultsList: {
     marginBottom: 10,
   },
   resultItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     marginBottom: 10,
     paddingVertical: 12,
     paddingHorizontal: 16,
@@ -140,8 +228,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   resultText: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: 'bold',
     color: '#333',
+    marginBottom: 2,
+  },
+  resultDescription: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 2,
+  },
+  resultNutrition: {
+    fontSize: 12,
+    color: '#666',
+    marginBottom: 2,
   },
   mealContainer: {
     marginBottom: 20,

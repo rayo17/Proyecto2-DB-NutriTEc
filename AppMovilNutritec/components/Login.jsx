@@ -1,82 +1,69 @@
+
+
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet, TouchableOpacity, Text, Button } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { View, TextInput, Button, Text, StyleSheet } from "react-native";
+import axios from "axios";
+import md5 from "crypto-js/md5";
+import HomePage from "./HomePage";
 
-const LoginScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigation = useNavigation();
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+const LoginForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [message, setMessage] = useState("");
 
-  const handleRegister = () => {
-    navigation.navigate('register');
-  };
-
-  const validateEmail = () => {
-    // Expresión regular para validar el formato de correo electrónico
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setEmailError('Correo electrónico inválido');
-    } else {
-      setEmailError('');
+  const handleLogin = async () => {
+    if (email.trim() === "" || password.trim() === "") {
+      setMessage("Por favor, completa todos los campos");
+      return;
     }
-  };
 
-  const validatePassword = () => {
-    if (password.length < 6) {
-      setPasswordError('La contraseña debe tener al menos 6 caracteres');
-    } else {
-      setPasswordError('');
-    }
-  };
+    try {
+      const response = await axios.post(
+        "https://apinutritecbd.azurewebsites.net/Cliente/validarcliente",
+        {
+          correoelectronico: email,
+          contrasena: md5(password).toString(),
+        }
+      );
 
-  const sendInformation = async () => {
-    // Validar campos antes de enviar la información
-    validateEmail();
-    validatePassword();
-
-    if (emailError === '' && passwordError === '') {
-      // Aquí puedes realizar la lógica de enviar la información o hacer la llamada a la API
-      const url = '';
-      const response = await axios.post(url);
-      const data = response.data;
-      if (data === 'ok') {
-        alert("Se registró correctamente");
+      if (response.data !== 0) {
+        setLoggedIn(true);
+        setMessage("¡Has iniciado sesión exitosamente!");
       } else {
-        alert('Usuario no existe');
+        setMessage("Credenciales inválidas");
       }
+    } catch (error) {
+      setMessage("Hubo un error en la solicitud");
+      console.log(error);
     }
   };
+
+  if (loggedIn) {
+    return <HomePage />;
+  }
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Inicio de sesión</Text>
       <TextInput
         style={styles.input}
         placeholder="Correo electrónico"
-        onChangeText={text => setEmail(text)}
-        onBlur={validateEmail} // Validar el correo cuando el campo pierde el foco
         value={email}
+        onChangeText={(text) => setEmail(text)}
       />
-      {emailError !== '' && <Text style={styles.errorText}>{emailError}</Text>}
       <TextInput
         style={styles.input}
         placeholder="Contraseña"
-        secureTextEntry
-        onChangeText={text => setPassword(text)}
-        onBlur={validatePassword} // Validar la contraseña cuando el campo pierde el foco
+        secureTextEntry={true}
         value={password}
+        onChangeText={(text) => setPassword(text)}
       />
-      {passwordError !== '' && <Text style={styles.errorText}>{passwordError}</Text>}
-      <Button
-        title="Iniciar sesión"
-        onPress={sendInformation}
-      />
-      <TouchableOpacity onPress={handleRegister}>
-        <Text style={styles.registerText}>
-          ¿No tienes una cuenta? <Text style={styles.registerLink}>Regístrate</Text>
-        </Text>
-      </TouchableOpacity>
+      <Button title="Iniciar sesión" onPress={handleLogin} />
+      <Text style={styles.message}>{message}</Text>
+      {!loggedIn && (
+        <Text style={styles.registerMessage}>Necesitas registrarte</Text>
+      )}
     </View>
   );
 };
@@ -84,30 +71,31 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
   },
   input: {
-    width: '100%',
+    width: "100%",
     height: 40,
-    borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
   },
-  errorText: {
-    color: 'red',
-    marginBottom: 12,
+  message: {
+    marginTop: 10,
+    fontWeight: "bold",
   },
-  registerText: {
-    marginTop: 16,
-    textAlign: 'center',
+  registerMessage: {
+    marginTop: 10,
   },
-  registerLink: {
-    fontWeight: 'bold',
-    color: 'blue',
-  }
 });
 
-export default LoginScreen;
+export default LoginForm;
