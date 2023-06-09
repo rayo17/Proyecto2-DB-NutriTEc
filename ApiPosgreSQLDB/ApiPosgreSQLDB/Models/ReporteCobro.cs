@@ -6,13 +6,11 @@ namespace ApiPosgreSQLDB.Models
 {
     public class ReporteCobro
     {
-        public int id { get; set; }
-        public string nutricionistaid { get; set; }
-        public int tipocobroid { get; set; }
-        public int montototal { get; set; }
-        public int descuento { get; set; }
-        public int montocobrar { get; set; }
-        public Nutricionista Nutricionista { get; set; }  // Propiedad de navegación
-        public TipoCobro TipoCobro { get; set; }  // Propiedad de navegación
+        public string NutricionistaID { get; set; }
+        public int TipoCobroID { get; set; }
+        public decimal MontoTotal { get; set; }
+        public decimal Descuento { get; set; }
+        public decimal MontoCobrar { get; set; }
+
     }
 }

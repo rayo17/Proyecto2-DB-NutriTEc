@@ -95,7 +95,7 @@ namespace ApiPosgreSQLDB.Data
             modelBuilder.Entity<RegistroDiario>()
                 .HasKey(r => r.id);
             modelBuilder.Entity<ReporteCobro>()
-                .HasKey(r => r.id);
+                .HasKey(r => r.TipoCobroID);
             modelBuilder.Entity<Retroalimentacion>()
                 .HasKey(r => r.id);
             modelBuilder.Entity<TiempoComida>()

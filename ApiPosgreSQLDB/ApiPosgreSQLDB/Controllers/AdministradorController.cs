@@ -8,6 +8,7 @@ using ApiPosgreSQLDB.Data;
 using Npgsql;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace ApiPosgreSQLDB.Controllers
 {
@@ -86,87 +87,32 @@ namespace ApiPosgreSQLDB.Controllers
             return resultado;
         }
 
-        // GET: api/Administrador
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Administrador>>> GetAdministradores()
+        public async Task<ActionResult<string>> ObtenerReporteCobro()
         {
-            return await _context.administradores.ToListAsync();
-        }
-
-        // GET: api/Administrador/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Administrador>> GetAdministrador(int id)
-        {
-            var administrador = await _context.administradores.FindAsync(id);
-
-            if (administrador == null)
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
-                return NotFound();
-            }
+                await connection.OpenAsync();
 
-            return administrador;
-        }
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT GenerarReporteCobro()";
 
-        // POST: api/Administrador
-        [HttpPost]
-        public async Task<ActionResult<Administrador>> CreateAdministrador(Administrador administrador)
-        {
-            _context.administradores.Add(administrador);
-            await _context.SaveChangesAsync();
+                var result = await command.ExecuteScalarAsync();
 
-            return CreatedAtAction(nameof(GetAdministrador), new { id = administrador.id }, administrador);
-        }
-
-        // PUT: api/Administrador/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAdministrador(int id, Administrador administrador)
-        {
-            if (id != administrador.id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(administrador).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AdministradorExists(id))
+                // Comprueba si el resultado no es nulo y es de tipo string
+                if (result != null && result != DBNull.Value && result is string json)
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
+                    return Ok(json);
                 }
             }
 
-            return NoContent();
+            return BadRequest("No se pudo generar el reporte de cobro.");
         }
 
-        // DELETE: api/Administrador/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAdministrador(int id)
-        {
-            var administrador = await _context.administradores.FindAsync(id);
-            if (administrador == null)
-            {
-                return NotFound();
-            }
 
-            _context.administradores.Remove(administrador);
-            await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
 
-        private bool AdministradorExists(int id)
-        {
-            return _context.administradores.Any(a => a.id == id);
-        }
+
     }
 }
 
