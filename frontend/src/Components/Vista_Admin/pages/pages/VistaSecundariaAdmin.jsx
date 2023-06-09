@@ -2,7 +2,7 @@ import React from 'react';
 import Card from '../../../templates/Card';
 import '../../../../styleCss/Templates/Card.css';
 
-function VistaMaiAdmin() {
+function VistaSecundariaAdm() {
   return (
     <div className="container">
       <div className="row">
@@ -27,4 +27,4 @@ function VistaMaiAdmin() {
   );
 }
 
-export default VistaMaiAdmin;
+export default VistaSecundariaAdm;

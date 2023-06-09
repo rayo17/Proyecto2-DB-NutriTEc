@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import { Table } from 'react-bootstrap'
 import axios from 'axios'
-
+import '../../../styleCss/Cliente/AgregarClient.css'
 function AgregaClient(){
   //Se crean los state hook necesarios para actualizar los datos
    const[cliente,setcliente]=useState("")
@@ -11,7 +11,7 @@ function AgregaClient(){
     handlerClients()
    },[]) 
     const handlerClients=async ()=>{
-        const url='http://localhost:2000/clientes'
+        const url='https://apinutritecbd.azurewebsites.net/Nutricionista/VisualizarClientesDisponiblesAsociacion'
         const response= await axios.get(url)
         const data=response.data
         setClientes(data)
@@ -34,12 +34,16 @@ function AgregaClient(){
 
     //add patients
     const Add=async(cliente)=>{
-      const url=''
+      const url='https://apinutritecbd.azurewebsites.net/Nutricionista/AsosiarPaciente'
       try{ 
+        console.log(cliente)
         const response=await axios.post(url,{
-          nombreNutricionista:localStorage.getItem("nutricionista"),
-          paciente:cliente
+          nutricionistaid:localStorage.getItem("usuario"),
+          clienteid:cliente
         })
+        if(response.status===200){
+          alert("El cliente ha sido añadido a su lista de pacientes")
+        }
       }
       catch(error){
       console.error(error)
@@ -47,7 +51,7 @@ function AgregaClient(){
       
     }
     return(
-        <div>
+        <div className='container-asignar'>
            <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href='·'>Nutritec</a>
@@ -60,7 +64,6 @@ function AgregaClient(){
            <Table striped bordered hover size="sm">
       <thead>
         <tr>
-          <th>#</th>
           <th>Nombre</th>
           <th>Apellido1</th>
           <th>Apellido2</th>
@@ -84,7 +87,7 @@ function AgregaClient(){
                <td>{index.correoelectronico}</td>
                
                <td>
-                <button type="button" class="btn btn-warning" onClick={()=> Add(index.clienteid)}>Agregar</button>
+                <button type="button" class="btn btn-warning" onClick={()=> Add(index.correoelectronico)}>Agregar</button>
                  </td>             
              </tr>)
         

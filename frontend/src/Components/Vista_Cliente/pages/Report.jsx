@@ -9,32 +9,39 @@ function Reporte() {
   const [fechaI, setFechaI] = useState(null); // Initialize as null
   const [fechaF, setFechaF] = useState(null); // Initialize as null
 
-  const changeFechaI = (date, dateString) => {
-    setFechaI(date);
+  const changeFechaI = (e) => {
+    setFechaI(e.target.value);
   };
 
-  const changeFechaF = (date, dateString) => {
-    setFechaF(date);
+  const changeFechaF = (e) => {
+    setFechaF(e.target.value);
   };
 
   const obtenerMedidasRegistradas = async () => {
     try {
+      console.log(localStorage.getItem('cliente'))
+      console.log(fechaI)
+      console.log(fechaF)
       const url = 'https://apinutritecbd.azurewebsites.net/Cliente/Consulta_por_Periodo_medidas';
-      const response = await axios.get(url, {
+      const response = await axios.post(url, {
         correocliente: localStorage.getItem('cliente'),
         fechainicio: fechaI,
         fechafinal: fechaF,
       });
 
-      if (response.status === 200) {
+      /*if (response.status === 200) {
         const medidasFiltradas = response.data.filter((medida) => {
           return medida.fecha >= fechaI && medida.fecha <= fechaF;
         });
 
-        setMedidas(medidasFiltradas);
-      } else {
+       setMedidas(medidasFiltradas);
+       setMedidas(response.data)
+      }* 
+      else {
         console.error('Error al obtener las medidas registradas:', response.data.error);
-      }
+      }*/
+      setMedidas(response.data)
+      console.log("data",response.data)
     } catch (error) {
       console.error('Error al obtener las medidas registradas:', error);
     }
@@ -49,18 +56,18 @@ function Reporte() {
       <div className="row">
         <div className="col-md-6">
           <label className="form-label">Fecha Inicio:</label>
-          <DatePicker className="form-control" value={fechaI} onChange={changeFechaI} />
+          <input type='date' className="form-control"  onChange={changeFechaI} />
         </div>
 
         <div className="col-md-6">
           <label className="form-label">Fecha Final:</label>
-          <DatePicker className="form-control" value={fechaF} onChange={changeFechaF} />
+          <input type='date' className="form-control"  onChange={changeFechaF} />
         </div>
       </div>
 
       <div className="row mt-3">
         <div className="col-md-6">
-          <button className="btn btn-primary" onClick={obtenerMedidasRegistradas}>
+          <button className="btn btn-success" onClick={obtenerMedidasRegistradas}>
             Obtener Medidas Registradas
           </button>
         </div>

@@ -43,9 +43,10 @@ function GestionClienteProducto() {
       calcio: data.calcio,
       descripcion: data.descripcion,
       hierro: data.hierro,
-      estadoproducto:false
+      estadoproducto:false,
+      idcreador:localStorage.getItem('cliente')
     });
-    console.log(response);}
+    alert('Producto registrado con exito')}
     catch(error){
         console.error(error)
     }

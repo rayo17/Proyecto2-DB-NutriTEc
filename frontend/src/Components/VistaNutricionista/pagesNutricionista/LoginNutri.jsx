@@ -5,9 +5,9 @@ import axios from "axios";
 import '../../../styleCss/LoginCliente.css';
 import BarraNav from '../../Barra';
 import md5 from "md5";
-import AlertSucces from "./AlertSucces";
 
-function Login({ url, img, register, rutathen}) {
+
+function LoginNutri({ url, img, register, rutathen,id }) {
   const { register: formRegister, handleSubmit, formState: { errors } } = useForm();
   const [gmail, setGmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,16 +21,31 @@ function Login({ url, img, register, rutathen}) {
   const changePassword = (e) => {
     setPassword(e.target.value);
   };
+
+    //peticion de informacion del usuario loguiado para guardarlo en un localstorage
+    const cargarInfo=async()=>{
+        const url="https://apinutritecbd.azurewebsites.net/Nutricionista/obtener_cedula_nutricionista"
+       try{ const response=await axios.post(url,{
+            correo:gmail   
+        })
+        localStorage.setItem('cedula',response.data)
+        }
+        catch(error){
+            console.error(error)
+        }
+  }
+
+
  //envio de la informacion para ser revisada
   const sendInfo = async (data) => {
     try {
-      const url="https://apinutritecbd.azurewebsites.net/Cliente/validarcliente"
+      const url="https://apinutritecbd.azurewebsites.net/Nutricionista/validarnutricionista"
       const response= await axios.post(url, {
         correoelectronico: data.gmail,   
         contrasena: md5(data.password)
       });
       if(response.data!==0){
-          localStorage.setItem("cliente",data.gmail)
+          cargarInfo()
           setshowAlert(true)
           navigate( rutathen );
     
@@ -54,7 +69,7 @@ function Login({ url, img, register, rutathen}) {
       <BarraNav />
      
       <div className="container-login-cliente">
-      {showAlert && <AlertSucces/>}
+      
         <div className="container-img">
           <img className="img-login" src={img} alt="imagen" />
         </div>
@@ -117,4 +132,4 @@ function Login({ url, img, register, rutathen}) {
   );
 }
 
-export default Login;
+export default LoginNutri;

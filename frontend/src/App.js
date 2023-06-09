@@ -24,6 +24,11 @@ import RegistroAdmi from './Components/Vista_Admin/pages/pages/Registro';
 import GestionClienteProducto from './Components/Vista_Cliente/pages/CrearProducto';
 import Reporte from './Components/Vista_Cliente/pages/Report';
 import RegistroMedidas from './Components/Vista_Cliente/pages/RegisMedida';
+import ReporteCobro from './Components/Vista_Admin/pages/pages/ReporteCobro';
+import VistaSecundariaAdm from './Components/Vista_Admin/pages/pages/VistaSecundariaAdmin';
+import LoginNutri from './Components/VistaNutricionista/pagesNutricionista/LoginNutri';
+import ProductosAgregados from './Components/Vista_Cliente/pages/ProductosAgregados';
+import UpdateClienteProducto from './Components/Vista_Cliente/pages/Update';
 
 function App() {
   return (
@@ -43,6 +48,8 @@ function App() {
         <Route path='/cliente/productos' element={<GestionClienteProducto/>}/>
         <Route path='/cliente/reporte' element={<Reporte/>}/>
         <Route path='/cliente/medidas' element={<RegistroMedidas/>}/>
+        <Route path='/cliente/productosagregados' element={<ProductosAgregados/>}/>
+        <Route path='/cliente/actualizar' element={<UpdateClienteProducto/>}/>
         <Route path='/cliente/vistasecundaria' element={<VistaSecundariaCliente/>}/>
         
 
@@ -54,11 +61,13 @@ function App() {
         <Route path='/administrador/login' element={<Login register={'/'} rutathen={'/administrador/vistasecundaria'}/>}/>
         <Route path='/administrador/productos' element={<ProductApproval/>}/>
         <Route path='/administrador/registro' element={<RegistroAdmi/>}/>
+        <Route path='/administrador/reporte' element={<ReporteCobro/>}/>
+        <Route path='/administrador/vistasecundaria' element={<VistaSecundariaAdm/>}/>
         
         <Route path='/nutricionista/añadir' element={<Producto/>}/>
     
         <Route path='/nutricionista' element={<VistaMainNutri/>}/>
-        <Route path="/nutricionista/login" element={<Login url={'/'} img={loginImg} register={"/nutricionista/registro"} rutathen={'/nutricionista/vistasecundaria'}/>}/>
+        <Route path="/nutricionista/login" element={<LoginNutri url={'/'} img={loginImg} register={"/nutricionista/registro"} rutathen={'/nutricionista/vistasecundaria'}/>}/>
         <Route path='/nutricionista/productos' element={<GestionProducto/>}/>
         <Route path='/nutricionista/registro' element={<VistaRegistro/>}/>
         <Route path='/nutricionista/agregarcliente' element={<AgregaClient/>}/>

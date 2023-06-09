@@ -8,46 +8,18 @@ const Receta = () => {
   const [puedeEnviarReceta, setPuedeEnviarReceta] = useState(false);
 
   useEffect(() => {
-    simularObtenerProductos();
+    ObtenerProductos();
   }, []);
 
   // Función para simular la obtención de los productos desde la API
-  const simularObtenerProductos = () => {
+   const ObtenerProductos = async() => {
     // Datos estáticos de ejemplo
-    const datosProductos = [
-      {
-        id: 1,
-        nombre: 'Producto 1',
-        codigoBarras: '1234567890',
-        descripcion: 'Descripción del producto 1',
-        tamPorcion: '100g',
-        energia: '200 Kcal',
-        grasa: '10g',
-        sodio: '100mg',
-        carbohidratos: '20g',
-        proteina: '5g',
-        vitaminas: 'Vitamina A, Vitamina C',
-        calcio: '50mg',
-        hierro: '2mg'
-      },
-      {
-        id: 2,
-        nombre: 'Producto 2',
-        codigoBarras: '0987654321',
-        descripcion: 'Descripción del producto 2',
-        tamPorcion: '50g',
-        energia: '150 Kcal',
-        grasa: '8g',
-        sodio: '80mg',
-        carbohidratos: '15g',
-        proteina: '3g',
-        vitaminas: 'Vitamina B, Vitamina D',
-        calcio: '30mg',
-        hierro: '1mg'
-      }
-    ];
-
-    setProductos(datosProductos);
+   try{ const response=await axios.get("https://apinutritecbd.azurewebsites.net/Externos/VisualizarProductosDisponibles")
+    setProductos(response.data);
+  }
+    catch(error){
+      console.error(error)
+    }
   };
 
   // Función para agregar un producto a la receta
@@ -69,8 +41,9 @@ const Receta = () => {
         nombre: nombreReceta,
         productos: receta
       };
+      console.log(recetaData)
 
-      axios.post('http://localhost:8000/Cliente/registrarcliente', recetaData)
+      axios.post('https://apinutritecbd.azurewebsites.net/Externos/crearreceta', recetaData)
         .then((response) => {
           // Manejar la respuesta de la API si es necesario
           console.log(response.data);
@@ -101,7 +74,7 @@ const Receta = () => {
       </form>
 
       {/* Tabla de productos */}
-      <h2>Productos:</h2>
+      <h2 style={{color:'black'}}>Productos:</h2>
       <table className="table">
         <thead>
           <tr>
@@ -122,11 +95,11 @@ const Receta = () => {
         </thead>
         <tbody>
           {productos.map((producto) => (
-            <tr key={producto.id}>
+            <tr key={producto.codigobarra}>
               <td>{producto.nombre}</td>
-              <td>{producto.codigoBarras}</td>
+              <td>{producto.codigobarra}</td>
               <td>{producto.descripcion}</td>
-              <td>{producto.tamPorcion}</td>
+              <td>{producto.taman_porcion}</td>
               <td>{producto.energia}</td>
               <td>{producto.grasa}</td>
               <td>{producto.sodio}</td>
@@ -146,7 +119,7 @@ const Receta = () => {
       </table>
 
       {/* Tabla de la lista de receta */}
-      <h2>Lista de Receta: {nombreReceta}</h2>
+      <h2 style={{color:'black'}}>Lista de Receta:  {nombreReceta}</h2>
       <table className="table">
         <thead>
           <tr>
@@ -170,7 +143,7 @@ const Receta = () => {
               <td>{producto.nombre}</td>
               <td>{producto.codigoBarras}</td>
               <td>{producto.descripcion}</td>
-              <td>{producto.tamPorcion}</td>
+              <td>{producto.taman_porcion}</td>
               <td>{producto.energia}</td>
               <td>{producto.grasa}</td>
               <td>{producto.sodio}</td>
@@ -197,3 +170,4 @@ const Receta = () => {
 };
 
 export default Receta;
+

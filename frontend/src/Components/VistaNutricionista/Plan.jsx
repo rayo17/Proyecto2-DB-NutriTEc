@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const GestionPlan = () => {
   const [planNombre, setPlanNombre] = useState('');
   const [nutricionista, setNutricionista] = useState('');
   const [productos, setProductos] = useState([]);
+ 
   const [tiemposComida, setTiemposComida] = useState({
     Desayuno: [],
     MeriendaManana: [],
@@ -11,31 +13,16 @@ const GestionPlan = () => {
     MeriendaTarde: [],
     Cena: []
   });
-
+   
   // Simulación de llamada a la API para obtener los productos
   const fetchProductos = async () => {
-    // Simulación de tiempo de espera para obtener los productos
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const url='https://apinutritecbd.azurewebsites.net/Externos/VisualizarProductosDisponibles'
+    try{const response= await axios.get(url)
 
-    const productosData = [
-      {
-        codigoBarras: '123456789',
-        nombre: 'Producto 1',
-        descripcion: 'Descripción del producto 1',
-        tamanoPorcion: '100g',
-        energia: 200,
-        grasa: 10,
-        sodio: 100,
-        carbohidratos: 20,
-        proteina: 5,
-        vitaminas: 'Vitamina A, Vitamina C',
-        calcio: 50,
-        hierro: 2
-      },
-      // ... Otros productos
-    ];
-
-    setProductos(productosData);
+    setProductos(response.data);}
+    catch(error){
+      console.error(error)
+    }
   };
 
   // Realizar la petición a la API para obtener los productos
@@ -55,10 +42,24 @@ const GestionPlan = () => {
       alert('Por favor, complete todos los campos.');
       return;
     }
+  
+    const datos = {
+      planNombre,
+      nutricionista:localStorage.getItem('cedula'),
+      tiemposComida
+    };
+    console.log(datos)
 
-    // Aquí iría la lógica para enviar los datos al backend
-    // ...
-    alert('Los datos han sido enviados correctamente.');
+    axios
+      .post('https://apinutritecbd.azurewebsites.net/Nutricionista/CrearPlanAlimentacion', datos)
+      .then(response => {
+        // Aquí puedes manejar la respuesta de la API
+        alert('Los datos han sido enviados correctamente.');
+      })
+      .catch(error => {
+        // Aquí puedes manejar los errores de la API
+        console.error('Error al enviar los datos:', error);
+      });
   };
 
   return (
@@ -114,11 +115,11 @@ const GestionPlan = () => {
         </thead>
         <tbody>
           {productos.map(producto => (
-            <tr key={producto.codigoBarras}>
+            <tr key={producto.codigobarra}>
               <td>{producto.nombre}</td>
               <td>{producto.codigoBarras}</td>
               <td>{producto.descripcion}</td>
-              <td>{producto.tamanoPorcion}</td>
+              <td>{producto.taman_porcion}</td>
               <td>{producto.energia}</td>
               <td>{producto.grasa}</td>
               <td>{producto.sodio}</td>
@@ -178,31 +179,31 @@ const GestionPlan = () => {
       <h4>Desayuno</h4>
       <ul>
         {tiemposComida.Desayuno.map(producto => (
-          <li key={producto.codigoBarras}>{producto.nombre}</li>
+          <li key={producto.codigobarra}>{producto.nombre}</li>
         ))}
       </ul>
       <h4>Merienda Mañana</h4>
       <ul>
         {tiemposComida.MeriendaManana.map(producto => (
-          <li key={producto.codigoBarras}>{producto.nombre}</li>
+          <li key={producto.codigobarra}>{producto.nombre}</li>
         ))}
       </ul>
       <h4>Almuerzo</h4>
       <ul>
         {tiemposComida.Almuerzo.map(producto => (
-          <li key={producto.codigoBarras}>{producto.nombre}</li>
+          <li key={producto.codigobarra}>{producto.nombre}</li>
         ))}
       </ul>
       <h4>Merienda Tarde</h4>
       <ul>
         {tiemposComida.MeriendaTarde.map(producto => (
-          <li key={producto.codigoBarras}>{producto.nombre}</li>
+          <li key={producto.codigobarra}>{producto.nombre}</li>
         ))}
       </ul>
       <h4>Cena</h4>
       <ul>
         {tiemposComida.Cena.map(producto => (
-          <li key={producto.codigoBarras}>{producto.nombre}</li>
+          <li key={producto.codigobarra}>{producto.nombre}</li>
         ))}
       </ul>
 

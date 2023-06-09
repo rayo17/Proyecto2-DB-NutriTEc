@@ -14,7 +14,7 @@ function RegistroDiarioDeConsumo() {
   const [alimentosEncontrados, setAlimentosEncontrados] = useState([]);
   const [productos,setProductos]=useState([])
   const [fechaRegistro, setFechaRegistro] = useState('');
-
+ 
   const buscarAlimento = () => {
     try{
     const alimentosEncontrados = filtro === 'nombre'
@@ -26,7 +26,13 @@ function RegistroDiarioDeConsumo() {
       console.log(error)
     }
   };
-
+  //funcionalidad para eliminar productos de un tiempo de comida
+ const eliminarElemento = (lista, elemento) => {
+    const nuevaLista = lista.filter(index => {
+      return index.alimento.codigobarra !== elemento.alimento.codigobarra;
+    });
+    return nuevaLista;
+  };
    //Esta funcion trae todos los productos para poder realizar el consumo diario
   const requestProduct=async()=>{
      //se realiza la peticion para cargar los productos 
@@ -73,11 +79,39 @@ function RegistroDiarioDeConsumo() {
     }
   };
 
+  const eliminarAlimento = (alimento, tiempoComida) => {
+    let listaActual = [];
+    switch (tiempoComida) {
+      case 'desayuno':
+        listaActual = eliminarElemento(desayuno, alimento);
+        setDesayuno(listaActual);
+        break;
+      case 'meriendaManana':
+        listaActual = eliminarElemento(meriendaManana, alimento);
+        setMeriendaManana(listaActual);
+        break;
+      case 'almuerzo':
+        listaActual = eliminarElemento(almuerzo, alimento);
+        setAlmuerzo(listaActual);
+        break;
+      case 'meriendaTarde':
+        listaActual = eliminarElemento(meriendaTarde, alimento);
+        setMeriendaTarde(listaActual);
+        break;
+      case 'cena':
+        listaActual = eliminarElemento(cena, alimento);
+        setCena(listaActual);
+        break;
+      default:
+        break;
+    }
+  };
+
   const guardarRegistro = () => {
     const registroDiario = { desayuno, meriendaManana, almuerzo, meriendaTarde, cena };
 
     // Envio del registro del consumo diario al backend
-     axios.post('/api/registro-diario', registroDiario)
+     axios.post('http://localhost:8000/Cliente/receta', registroDiario)
      .then(response => {
          console.log('Registro guardado exitosamente');
        })
@@ -134,9 +168,9 @@ function RegistroDiarioDeConsumo() {
                   {alimentosEncontrados.map((alimento, index) => (
                     <tr key={index}>
                       <td>{alimento.nombre}</td>
-                      <td>{alimento.codigo}</td>
+                      <td>{alimento.codigobarra}</td>
                       <td>{alimento.descripcion}</td>
-                      <td>{alimento.tamanoPorcion}</td>
+                      <td>{alimento.taman_porcion}</td>
                       <td>{alimento.energia}</td>
                       <td>{alimento.grasa}</td>
                       <td>{alimento.sodio}</td>
@@ -184,9 +218,9 @@ function RegistroDiarioDeConsumo() {
                     {desayuno.map((alimento, index) => (
                       <tr key={index}>
                         <td>{alimento.alimento.nombre}</td>
-                        <td>{alimento.alimento.codigo}</td>
+                        <td>{alimento.alimento.codigobarra}</td>
                         <td>{alimento.alimento.descripcion}</td>
-                        <td>{alimento.alimento.tamanoPorcion}</td>
+                        <td>{alimento.alimento.taman_porcion}</td>
                         <td>{alimento.alimento.energia}</td>
                         <td>{alimento.alimento.grasa}</td>
                         <td>{alimento.alimento.sodio}</td>
@@ -195,6 +229,7 @@ function RegistroDiarioDeConsumo() {
                         <td>{alimento.alimento.vitaminas}</td>
                         <td>{alimento.alimento.calcio}</td>
                         <td>{alimento.alimento.hierro}</td>
+                        <button className="btn btn-danger" onClick={() => eliminarAlimento(alimento, 'desayuno')}>Eliminar</button>
                       </tr>
                     ))}
                   </tbody>
@@ -225,9 +260,9 @@ function RegistroDiarioDeConsumo() {
                     {meriendaManana.map((alimento, index) => (
                       <tr key={index}>
                         <td>{alimento.alimento.nombre}</td>
-                        <td>{alimento.alimento.codigo}</td>
+                        <td>{alimento.alimento.codigobarra}</td>
                         <td>{alimento.alimento.descripcion}</td>
-                        <td>{alimento.alimento.tamanoPorcion}</td>
+                        <td>{alimento.alimento.taman_porcion}</td>
                         <td>{alimento.alimento.energia}</td>
                         <td>{alimento.alimento.grasa}</td>
                         <td>{alimento.alimento.sodio}</td>
@@ -236,6 +271,7 @@ function RegistroDiarioDeConsumo() {
                         <td>{alimento.alimento.vitaminas}</td>
                         <td>{alimento.alimento.calcio}</td>
                         <td>{alimento.alimento.hierro}</td>
+                        <button className="btn btn-danger" onClick={() => eliminarAlimento(alimento, 'meriendaManana')}>Eliminar</button>
                       </tr>
                     ))}
                   </tbody>
@@ -260,15 +296,16 @@ function RegistroDiarioDeConsumo() {
                       <th>Vitaminas</th>
                       <th>Calcio</th>
                       <th>Hierro</th>
+                      
                     </tr>
                   </thead>
                   <tbody>
                     {almuerzo.map((alimento, index) => (
                       <tr key={index}>
                         <td>{alimento.alimento.nombre}</td>
-                        <td>{alimento.alimento.codigo}</td>
+                        <td>{alimento.alimento.codigobarra}</td>
                         <td>{alimento.alimento.descripcion}</td>
-                        <td>{alimento.alimento.tamanoPorcion}</td>
+                        <td>{alimento.alimento.taman_porcion}</td>
                         <td>{alimento.alimento.energia}</td>
                         <td>{alimento.alimento.grasa}</td>
                         <td>{alimento.alimento.sodio}</td>
@@ -277,6 +314,7 @@ function RegistroDiarioDeConsumo() {
                         <td>{alimento.alimento.vitaminas}</td>
                         <td>{alimento.alimento.calcio}</td>
                         <td>{alimento.alimento.hierro}</td>
+                        <button className="btn btn-danger" onClick={() => eliminarAlimento(alimento, 'almuerzo')}>Eliminar</button>
                       </tr>
                     ))}
                   </tbody>
@@ -307,9 +345,9 @@ function RegistroDiarioDeConsumo() {
                     {meriendaTarde.map((alimento, index) => (
                       <tr key={index}>
                         <td>{alimento.alimento.nombre}</td>
-                        <td>{alimento.alimento.codigo}</td>
+                        <td>{alimento.alimento.codigobarra}</td>
                         <td>{alimento.alimento.descripcion}</td>
-                        <td>{alimento.alimento.tamanoPorcion}</td>
+                        <td>{alimento.alimento.taman_porcion}</td>
                         <td>{alimento.alimento.energia}</td>
                         <td>{alimento.alimento.grasa}</td>
                         <td>{alimento.alimento.sodio}</td>
@@ -318,6 +356,7 @@ function RegistroDiarioDeConsumo() {
                         <td>{alimento.alimento.vitaminas}</td>
                         <td>{alimento.alimento.calcio}</td>
                         <td>{alimento.alimento.hierro}</td>
+                        <button className="btn btn-danger" onClick={() => eliminarAlimento(alimento, 'meriendaTarde')}>Eliminar</button>
                       </tr>
                     ))}
                   </tbody>
@@ -348,9 +387,9 @@ function RegistroDiarioDeConsumo() {
                     {cena.map((alimento, index) => (
                       <tr key={index}>
                         <td>{alimento.alimento.nombre}</td>
-                        <td>{alimento.alimento.codigo}</td>
+                        <td>{alimento.alimento.codigobarra}</td>
                         <td>{alimento.alimento.descripcion}</td>
-                        <td>{alimento.alimento.tamanoPorcion}</td>
+                        <td>{alimento.alimento.taman_porcion}</td>
                         <td>{alimento.alimento.energia}</td>
                         <td>{alimento.alimento.grasa}</td>
                         <td>{alimento.alimento.sodio}</td>
@@ -359,6 +398,7 @@ function RegistroDiarioDeConsumo() {
                         <td>{alimento.alimento.vitaminas}</td>
                         <td>{alimento.alimento.calcio}</td>
                         <td>{alimento.alimento.hierro}</td>
+                        <button className="btn btn-danger" onClick={() => eliminarAlimento(alimento, 'cena')}>Eliminar</button>
                       </tr>
                     ))}
                   </tbody>
@@ -378,3 +418,220 @@ function RegistroDiarioDeConsumo() {
 }
 
 export default RegistroDiarioDeConsumo;
+/*
+
+
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+import '../../../styleCss/Cliente/RegistroDC.css';
+
+function RegistroDiarioDeConsumo() {
+  const [desayuno, setDesayuno] = useState([]);
+  const [meriendaManana, setMeriendaManana] = useState([]);
+  const [almuerzo, setAlmuerzo] = useState([]);
+  const [meriendaTarde, setMeriendaTarde] = useState([]);
+  const [cena, setCena] = useState([]);
+  const [busqueda, setBusqueda] = useState('');
+  const [filtro, setFiltro] = useState('nombre');
+  const [alimentosEncontrados, setAlimentosEncontrados] = useState([]);
+  const [productos, setProductos] = useState([]);
+  const [fechaRegistro, setFechaRegistro] = useState('');
+
+  const buscarAlimento = () => {
+    try {
+      const alimentosEncontrados = filtro === 'nombre'
+        ? productos.filter(alimento => alimento.nombre.toLowerCase().includes(busqueda.toLowerCase()))
+        : productos.filter(alimento => alimento.codigo === busqueda);
+
+      setAlimentosEncontrados(alimentosEncontrados);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const requestProduct = async () => {
+    const url = 'https://apinutritecbd.azurewebsites.net/Externos/VisualizarProductosDisponibles';
+    try {
+      const response = await axios.get(url);
+      setProductos(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    requestProduct();
+  }, []);
+
+  const agregarAlimento = (alimento, tiempoComida) => {
+    if (fechaRegistro) {
+      const registro = { alimento, tiempoComida, fecha: fechaRegistro };
+
+      switch (tiempoComida) {
+        case 'desayuno':
+          setDesayuno([...desayuno, registro]);
+          break;
+        case 'meriendaManana':
+          setMeriendaManana([...meriendaManana, registro]);
+          break;
+        case 'almuerzo':
+          setAlmuerzo([...almuerzo, registro]);
+          break;
+        case 'meriendaTarde':
+          setMeriendaTarde([...meriendaTarde, registro]);
+          break;
+        case 'cena':
+          setCena([...cena, registro]);
+          break;
+        default:
+          break;
+      }
+    } else {
+      alert('Selecciona una fecha para agregar alimentos.');
+    }
+  };
+
+ 
+
+  const eliminarAlimento = (alimento, tiempoComida) => {
+    let listaActual = [];
+    switch (tiempoComida) {
+      case 'desayuno':
+        listaActual = eliminarElemento(desayuno, alimento);
+        setDesayuno(listaActual);
+        break;
+      case 'meriendaManana':
+        listaActual = eliminarElemento(meriendaManana, alimento);
+        setMeriendaManana(listaActual);
+        break;
+      case 'almuerzo':
+        listaActual = eliminarElemento(almuerzo, alimento);
+        setAlmuerzo(listaActual);
+        break;
+      case 'meriendaTarde':
+        listaActual = eliminarElemento(meriendaTarde, alimento);
+        setMeriendaTarde(listaActual);
+        break;
+      case 'cena':
+        listaActual = eliminarElemento(cena, alimento);
+        setCena(listaActual);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleFechaRegistro = (event) => {
+    setFechaRegistro(event.target.value);
+  };
+
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-md-12">
+          <h1>Registro Diario de Consumo</h1>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-12">
+          <label htmlFor="fechaRegistro">Fecha de Registro:</label>
+          <input type="date" id="fechaRegistro" className="form-control" value={fechaRegistro} onChange={handleFechaRegistro} />
+        </div>
+      </div>
+      <div className="row mt-3">
+        <div className="col-md-6">
+          <label htmlFor="busqueda">Búsqueda:</label>
+          <div className="input-group">
+            <input type="text" id="busqueda" className="form-control" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} />
+            <div className="input-group-append">
+              <button className="btn btn-primary" onClick={buscarAlimento}>Buscar</button>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <label htmlFor="filtro">Filtrar por:</label>
+          <select id="filtro" className="form-control" value={filtro} onChange={(e) => setFiltro(e.target.value)}>
+            <option value="nombre">Nombre</option>
+            <option value="codigo">Código</option>
+          </select>
+        </div>
+      </div>
+      <div className="row mt-3">
+        <div className="col-md-6">
+          <h2>Alimentos Encontrados:</h2>
+          <ul className="list-group">
+            {alimentosEncontrados.map((alimento) => (
+              <li className="list-group-item d-flex justify-content-between align-items-center" key={alimento.codigo}>
+                {alimento.nombre} - Código: {alimento.codigo}
+                <button className="btn btn-success" onClick={() => agregarAlimento(alimento)}>Agregar</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className="row mt-5">
+        <div className="col-md-12">
+          <div className="tiempo-comida">
+            <h3>Desayuno</h3>
+            <ul className="list-group">
+              {desayuno.map((item) => (
+                <li className="list-group-item d-flex justify-content-between align-items-center" key={item.alimento.codigo}>
+                  {item.alimento.nombre} - Código: {item.alimento.codigo}
+                  <button className="btn btn-danger" onClick={() => eliminarAlimento(item, 'desayuno')}>Eliminar</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="tiempo-comida">
+            <h3>Merienda Mañana</h3>
+            <ul className="list-group">
+              {meriendaManana.map((item) => (
+                <li className="list-group-item d-flex justify-content-between align-items-center" key={item.alimento.codigo}>
+                  {item.alimento.nombre} - Código: {item.alimento.codigo}
+                  <button className="btn btn-danger" onClick={() => eliminarAlimento(item, 'meriendaManana')}>Eliminar</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="tiempo-comida">
+            <h3>Almuerzo</h3>
+            <ul className="list-group">
+              {almuerzo.map((item) => (
+                <li className="list-group-item d-flex justify-content-between align-items-center" key={item.alimento.codigo}>
+                  {item.alimento.nombre} - Código: {item.alimento.codigo}
+                  <button className="btn btn-danger" onClick={() => eliminarAlimento(item, 'almuerzo')}>Eliminar</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="tiempo-comida">
+            <h3>Merienda Tarde</h3>
+            <ul className="list-group">
+              {meriendaTarde.map((item) => (
+                <li className="list-group-item d-flex justify-content-between align-items-center" key={item.alimento.codigo}>
+                  {item.alimento.nombre} - Código: {item.alimento.codigo}
+                  <button className="btn btn-danger" onClick={() => eliminarAlimento(item, 'meriendaTarde')}>Eliminar</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="tiempo-comida">
+            <h3>Cena</h3>
+            <ul className="list-group">
+              {cena.map((item) => (
+                <li className="list-group-item d-flex justify-content-between align-items-center" key={item.alimento.codigo}>
+                  {item.alimento.nombre} - Código: {item.alimento.codigo}
+                  <button className="btn btn-danger" onClick={() => eliminarAlimento(item, 'cena')}>Eliminar</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default RegistroDiarioDeConsumo;
+*/

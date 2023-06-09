@@ -10,7 +10,7 @@ function VistaSecundariaCliente(){
             <Card title='Gestion receta' url={'/cliente/receta'} imageUrl={'https://img.freepik.com/vector-gratis/concepto-culinario-ilustracion-restaurante-negocios_81522-1043.jpg?size=626&ext=jpg&ga=GA1.1.1762212929.1685554050&semt=robertav1_2_sidr'}/>
             <Card title='Reporte de Avance' url={'/cliente/reporte'} imageUrl={'https://img.freepik.com/vector-gratis/hombre-negocios-documento_23-2147519967.jpg?size=626&ext=jpg&ga=GA1.1.1762212929.1685554050&semt=robertav1_2_sidr'}/>
             <Card title='Registro de medidas' url={'/cliente/medidas'} imageUrl={'https://img.freepik.com/iconos-gratis/gobernante_318-476945.jpg?size=626&ext=jpg&ga=GA1.2.1762212929.1685554050&semt=robertav1_2_sidr'}/>
-        
+            <Card title='Productos Agregados' url={'/cliente/productosagregados'}  imageUrl={'https://img.freepik.com/foto-gratis/divertida-ilustracion-dibujos-animados-3d-hombre-negocios-indio_183364-114494.jpg?size=626&ext=jpg&ga=GA1.1.1762212929.1685554050&semt=ais'}/>
         </div>
         )
 }
